@@ -1,0 +1,24 @@
+/* Create two equal columns that floats next to each other */
+.row {
+    display: flex;
+}
+
+.centerRow{
+    width: 100%;
+    margin-left: 10%;
+    margin-right: 10%
+}
+
+.column {
+    float: left;
+    padding: 15px;
+    flex: 50%;
+}
+
+.border{
+    margin:0;
+    padding:0;
+    width: 100%;
+    height: 100%;
+}
+

@@ -1,0 +1,153 @@
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+
+const styles = theme => ({
+  root: {
+    width: "90%"
+  },
+  button: {
+    marginRight: theme.spacing.unit
+  },
+  instructions: {
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit
+  }
+});
+
+function getSteps() {
+  return [
+    "Select your cities",
+    "Meeting information",
+    "Restriction and details"
+  ];
+}
+
+function getStepContent(step) {
+  switch (step) {
+    case 0:
+      return "Select the cities of your trip...";
+    case 1:
+      return "Select a date and trip terms...";
+    case 2:
+      return "Specify your conditions...";
+    default:
+      return "Unknown step";
+  }
+}
+
+class TripSaver extends React.Component {
+  static propTypes = {
+    classes: PropTypes.object
+  };
+
+  state = {
+    activeStep: 0,
+    error:true
+  };
+
+  isStepFailed = step => {
+    return step === 4;
+  };
+
+  handleNext = (event) => {
+    const { activeStep } = this.state;
+
+    this.setState({
+      activeStep: activeStep + 1
+      });
+    if (activeStep == 2)
+      this.props.callback(event);
+  };
+
+  handleBack = () => {
+    const { activeStep } = this.state;
+    this.setState({
+      activeStep: activeStep - 1
+    });
+  };
+
+  handleReset = () => {
+    this.setState({
+      activeStep: 0
+    });
+  };
+
+  getSection(){
+    return this.props.getSection(this.state.activeStep);
+
+  }
+
+  render() {
+    const { classes } = this.props;
+    const steps = getSteps();
+    const { activeStep } = this.state;
+
+
+    return (
+      <div className={classes.root}>
+        <Stepper activeStep={activeStep}>
+          {steps.map((label, index) => {
+            const props = {};
+            const labelProps = {};
+
+            if (this.isStepFailed(index)) {
+              labelProps.error = true;
+            }
+            return (
+              <Step key={label} {...props}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+        
+        {this.getSection()}
+
+        <div>
+          {activeStep === steps.length ? (
+            <div>
+              <Typography className={classes.instructions}>
+                All steps completed - you have published a new trip
+              </Typography>
+              <Button onClick={this.handleReset} className={classes.button}>
+                Reset
+              </Button>
+            </div>
+          ) : (
+            <div>
+              <Typography className={classes.instructions}>
+                {getStepContent(activeStep)}
+              </Typography>
+              <div>
+                <Button
+                  disabled={activeStep === 0 }
+                  onClick={this.handleBack}
+                  className={classes.button}
+                >
+                  Back
+                </Button>
+                <Button
+                  disabled={this.props.validateStep(activeStep) }   
+                  variant="raised"
+                  color="primary"
+                  onClick={this.handleNext}
+                  className={classes.button}
+                >
+                  {activeStep === steps.length - 1 ? "Save Trip" : "Next"}
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+}
+
+export default withStyles(styles)(TripSaver);
