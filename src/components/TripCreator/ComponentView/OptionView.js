@@ -22,7 +22,6 @@ const styles = theme => ({
 
 function getSteps() {
   return [
-    "Select your cities",
     "Meeting information",
     "Restriction and details"
   ];
@@ -33,9 +32,7 @@ function getStepContent(step) {
     case 0:
       return "Select the cities of your trip...";
     case 1:
-      return "Select a date and trip terms...";
-    case 2:
-      return "Specify your conditions...";
+    return "Specify your conditions...";
     default:
       return "Unknown step";
   }

@@ -18,6 +18,8 @@ import FormGroup from '@material-ui/core/FormGroup';
 import DetailedStepPanel from './StepCreator.js'
 import Button from "@material-ui/core/Button";
 import { Grid } from '@material-ui/core';
+import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
+
 
 export default class OfferARide extends React.Component {
 	constructor(props, context) {
@@ -65,6 +67,11 @@ export default class OfferARide extends React.Component {
 		//init default value easily
 		this.getStepEmpty= this.getStepEmpty.bind(this);
 	}
+
+	handleDateChange = date => {
+		this.setState({ selectedDate: date });
+	  };
+
 	//Returns a new step with default values
 	getStepEmpty(){
 		return ( {
@@ -211,24 +218,16 @@ export default class OfferARide extends React.Component {
 		return(
 			<div>
 				<div class='row centerRow' fullWidth>
+				<Grid container spacing={24}>
+				<Grid item xs={12}>
 					<MySearchPlaceComponent callback={this.updateFrom} name={this.state.steps[0].name} steps={this.state.steps}/>
 					<Button onClick={this.changeOrder}>swap</Button>
 					<MySearchPlaceComponent callback={this.updateTo} name={this.state.steps[this.state.steps.length-1].name} steps={this.state.steps}/>
-				</div>
-				<DetailedStepPanel steps={this.state.steps} newStep={this.getStepEmpty} callback={this.addStep}/> <br/> <br/>
-				<TravelSteps steps={this.state.steps} newStep={this.getStepEmpty} addStep={this.updateStep} deleteStep={this.deleteStep}/>
-			</div>
-			);					
-	}
-		
-	//Returns View for select date, seats and price of trip
-	getSecondStepView(){
-		return(
-			<div> <hr/>
-				<FormControl fullWidth class="inline fields">
-					<DateSelector label='Trip date' callback={this.updateDate} date={this.state.date}/>
-					<FormControl>
-						<TextField
+					<hr/>
+				</Grid> 				
+				<br/>
+				<Grid item xs={12} sm={6}>
+				<TextField
 							name='seats'
 							label='Seats'
 							type="number"
@@ -243,10 +242,93 @@ export default class OfferARide extends React.Component {
 							required
 							helperText={this.state.errors['seats']}				
 						/>
-					</FormControl> <br/>
+				</Grid>
+				<Grid item xs={12} sm={6}>
+				<DateSelector label='Trip date' callback={this.updateDate} date={this.state.date}/>
+				</Grid>
+				<Grid item xs={12} sm={6}>
+					<TextField id="time" label="Trip Time" type="time" defaultValue="07:30"
+						inputProps={{ step: 300 }} // 5 min 
+					/>
+				</Grid>
 
+				</Grid>
+
+
+				</div>
+
+			</div>
+			);					
+	}
+		
+	//Returns View for select date, seats and price of trip
+	getSecondStepView(){
+		return(
+			<div> <hr/>
+				<FormControl component="fieldset">
+					<FormLabel component="legend">Driver's Preferences</FormLabel>
+					<FormGroup>
+					<FormControlLabel
+						control={
+						<Switch
+							name='reservation'
+							checked={this.state.reservation}
+							onChange={this.handleUserCheck}
+						/>
+						}
+						label="Automatic Reservation"
+					/>
+					<FormControlLabel
+						control={
+						<Switch
+							name='food'	
+							checked={this.state.food}
+							onChange={this.handleUserCheck}
+						/>
+						}
+						label="Food Allowed"
+					/>
+					<FormControlLabel
+						control={
+						<Switch
+							name='mate'
+							checked={this.state.mate}
+							onChange={this.handleUserCheck}
+						/>
+						}
+						label="Mate allowed"
+					/>
+					</FormGroup>
 				</FormControl> <br/>
-				<StepListView steps={this.state.steps} updateStep={this.updateStep}/>
+				<FormControl>
+					<TextField
+						name='car'
+						label='Car'
+						type="text"
+						placeholder='Example: Ford Focus'
+						id="inputCar"
+						defaultValue={this.state.car}
+						onChange={this.handleUserInput}
+						error={this.state.errors['car']}
+						required
+						helperText={this.state.errors['car']}				
+					/>
+				</FormControl> <br/>
+
+						
+				<TextField  
+					id="inputDetails"
+					name='details' 
+					value={this.state.details}
+					onChange={this.handleDetails}
+					label="Details"
+					multiline
+					rows={4}
+					rowsMax="4"
+					margin="normal"		  
+					fullWidth
+					placeholder="Details..." />
+
 		</div>
 		);
 
