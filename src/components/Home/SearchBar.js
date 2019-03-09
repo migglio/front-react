@@ -34,7 +34,7 @@ class SearchBar extends React.Component{
         this.state={
             from:'',
             to:'',
-            date:new Date(),
+            date:"",
             redirect:false,
             res:null
         }
