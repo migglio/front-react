@@ -6,6 +6,7 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Auth from './Auth/Auth.js'
+import Avatar from '@material-ui/core/Avatar';
 
 const styles = {
   root: {
@@ -27,7 +28,7 @@ class Header extends React.Component{
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-      <AppBar position="fixed" >
+      <AppBar position="static" >
         <Toolbar style={{ marginLeft:'15%',marginRight:'15%' }}>
         <Button color="inherit" href="/" >Car APP</Button>
           <Typography variant="title" color="inherit" className={classes.flex} >
@@ -35,7 +36,8 @@ class Header extends React.Component{
           </Typography>
           
           {Auth.isUserAuthenticated() ?
-          (<div><Button color="inherit" onClick={Auth.deauthenticateUser} href="/" >LogOut</Button>
+          (<div style={{display:"flex"}}><Button color="inherit" onClick={Auth.deauthenticateUser} href="/" >LogOut</Button>
+          <Avatar alt="Remy Sharp" src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10217208501150893&height=50&width=50&ext=1554739566&hash=AeQKw7zkyBkC5RI9" />
           <Button color="inherit">{Auth.getNickname()}</Button>
           </div>
           ):(

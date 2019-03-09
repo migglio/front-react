@@ -216,7 +216,7 @@ export default class OfferARide extends React.Component {
 	//Returns View for select each city of the one trip
 	getFirstStepView(){
 		return(
-			<div>
+			<div >
 				<div class='row centerRow' fullWidth>
 				<Grid container spacing={24}>
 				<Grid item xs={12}>
@@ -448,7 +448,7 @@ export default class OfferARide extends React.Component {
 
 	render(){
 		return(
-			<div >
+			<div style={{paddingLeft:"15%",paddingRight:"15%"}} >
 				<h1>Offer a ride</h1>
 				<div class='row'>
 					<div class='column'>

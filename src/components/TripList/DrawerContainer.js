@@ -41,7 +41,7 @@ class DrawerContainer extends React.Component {
   render(){
     const { classes } = this.props
     return (
-      <div style={{"margin-top":"6%"}}>
+      <div >
       <SearchBar/>
       <Paper  style={{"margin":"1%"}} elevation={4}>
             <Typography variant="title" gutterBottom style={{ color:'#054752',fontWeight: 700, padding: '1%'}} >

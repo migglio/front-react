@@ -13,7 +13,7 @@ import DetailsView from './components/TripDetails/DetailsView.js';
 
 render((
   <BrowserRouter>
-    <div className='rootDiv'>
+    <div style={{backgroundColor:"#efefef",minHeight: "100vh"}}>
         <Header />
         <Switch>
           <Route exact path='/' component={Body}/>
