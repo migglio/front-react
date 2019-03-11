@@ -41,11 +41,7 @@ class TripList extends React.Component {
     //Render
     render() {
       return (
-      <div style={{"textAlign":"center",'marginLeft':  '15%','marginRight':  '15%'}}>
-          
-          <div style={{'marginLeft':  '5%',}}>
-              
-           </div>
+      <div style={{"textAlign":"center",'paddingLeft':  '15%','paddingRight':  '15%','background-color':'#efefef','paddingTop':  '1%'}}>
            {this.state.loaded?(<DrawerContainer trips={this.state.trips} data={this.state.data}/>):(<CircularProgress />)}
         </div>
       )

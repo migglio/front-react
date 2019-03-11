@@ -13,6 +13,12 @@ const styles = theme => ({
       padding: theme.spacing.unit ,
       textAlign: 'center',
       color: theme.palette.text.secondary,
+      borderRadius: 11,
+      minHeight:80,
+      display: 'flex',
+      minWidth:200,
+    alignItems: 'center',
+    justifyContent: 'center',
     },button: {
         margin: theme.spacing.unit,
       },
@@ -34,7 +40,7 @@ class SearchBar extends React.Component{
         this.state={
             from:'',
             to:'',
-            date:new Date(),
+            date:"",
             redirect:false,
             res:null
         }

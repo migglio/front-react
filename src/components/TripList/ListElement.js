@@ -120,7 +120,7 @@ class ListElement extends React.Component {
               <ExpansionPanelSummary  >
               <div className={classNames(classes.separator,classes.columnFlex1,classes.paddingTrip)}>
                   <Badge badgeContent={this.state.userLoaded?(this.state.userData.reviews.length):(<CircularProgress />)} color="secondary">
-                  <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/uxceo-128.jpg" className={classes.bigAvatar}/>
+                  <Avatar alt="Remy Sharp" src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10217208501150893&height=50&width=50&ext=1554739566&hash=AeQKw7zkyBkC5RI9" className={classes.bigAvatar}/>
                   </Badge>
                   <Typography className={classes.heading}>
                     {this.state.userLoaded?(this.state.userData.firstname):(<CircularProgress />)}

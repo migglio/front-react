@@ -246,12 +246,9 @@ class OfferARide extends React.Component {
 		const { classes } = this.props;
 
 		return(
-		<div>
-			<Grid container spacing={40}>
-				<Grid class ='centerRow' item xs={10}>
-					<FormLabel component="legend">Route</FormLabel>
-				</Grid>
-				<Grid class ='centerRow' item xs={10}>
+			<div >
+				<Grid container spacing={24}>
+				<Grid item xs={12}>
 					<MySearchPlaceComponent callback={this.updateFrom} name={this.state.steps[0].name} steps={this.state.steps}/>
 					<Button onClick={this.changeOrder}>
 						<SwapVerticalCircle className={classes.icon} style={{ color:blue[900]}}/>
@@ -464,7 +461,7 @@ class OfferARide extends React.Component {
 
 	render(){
 		return(
-			<div >
+			<div style={{paddingLeft:"15%",paddingRight:"15%"}} >
 				<h1>Offer a ride</h1>
 				<Grid container spacing={40} class ='row rowCenter'>
 					<Grid item xs={12} >
