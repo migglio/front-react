@@ -19,9 +19,26 @@ import DetailedStepPanel from './StepCreator.js'
 import Button from "@material-ui/core/Button";
 import { Grid } from '@material-ui/core';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
+import ResumeTrip from './ComponentView/ResumeTrip.js';
+import SwapVerticalCircle from '@material-ui/icons/SwapVerticalCircle';
+import { withStyles } from '@material-ui/core/styles';
+import blue from '@material-ui/core/colors/blue';
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import classNames from 'classnames';
+import Restaurant from '@material-ui/icons/Restaurant';
+import Security from '@material-ui/icons/Security';
+import green from '@material-ui/core/colors/green';
 
 
-export default class OfferARide extends React.Component {
+const styles2 = theme => ({
+	icon: {
+	  height: 25,
+	  width: 25,
+	},
+  });
+  
+class OfferARide extends React.Component {
 	constructor(props, context) {
 		super(props, context)
 		
@@ -39,7 +56,7 @@ export default class OfferARide extends React.Component {
 			food: false,
 			mate: false,
 			car: '',
-			details: undefined,
+			details: '',
 			errors:{
 				seats:'',
 				car:''
@@ -68,17 +85,13 @@ export default class OfferARide extends React.Component {
 		this.getStepEmpty= this.getStepEmpty.bind(this);
 	}
 
-	handleDateChange = date => {
-		this.setState({ selectedDate: date });
-	  };
-
 	//Returns a new step with default values
 	getStepEmpty(){
 		return ( {
 			location:{lat:undefined, lng:undefined},
 			name:undefined, 
 			price:undefined, 
-			time:undefined,
+			time:'',
 			date:false, 
 			passengers: {total:1, users:[] }
 			});
@@ -111,6 +124,10 @@ export default class OfferARide extends React.Component {
 		this.setState({[name]: value})
 	}
 
+	handleDetails = (e) => {
+		this.setState({details: e.target.value})
+	}
+
 	//Callbacks functions
 	updateDate(date){
 		this.setState({date:date});
@@ -127,6 +144,13 @@ export default class OfferARide extends React.Component {
 		const list = this.state.steps;
 		list[list.length-1].name = toUpdated.name;
 		list[list.length-1].location = toUpdated.location;
+		this.setState({steps:list});
+	}
+
+	updateTime = (e) => {
+		const list = this.state.steps;
+		//update just the time from the first step
+		list[0].time = e.target.value;
 		this.setState({steps:list});
 	}
 
@@ -165,12 +189,16 @@ export default class OfferARide extends React.Component {
 
 	//Validation methods
 	validateFistStep(){
-		if (this.state.steps[0].location.lat==undefined || this.state.steps[this.state.steps.length-1].location.lat==undefined)
+		return false;
+		if (this.state.steps[0].location.lat===undefined || this.state.steps[this.state.steps.length-1].location.lat===undefined)
+			return true;
+		if (this.state.steps[0].time==='')
 			return true;
 		return false;
 	}
 
 	validateSecondStep(){
+		return false; //borrar linea desp de terminar
 		if (this.state.seats == undefined  || this.getError(this.state.seats) )
 			return true;
 
@@ -215,18 +243,115 @@ export default class OfferARide extends React.Component {
 
 	//Returns View for select each city of the one trip
 	getFirstStepView(){
+		const { classes } = this.props;
+
 		return(
-			<div>
-				<div class='row centerRow' fullWidth>
-				<Grid container spacing={24}>
-				<Grid item xs={12}>
+		<div>
+			<Grid container spacing={40}>
+				<Grid class ='centerRow' item xs={10}>
+					<FormLabel component="legend">Route</FormLabel>
+				</Grid>
+				<Grid class ='centerRow' item xs={10}>
 					<MySearchPlaceComponent callback={this.updateFrom} name={this.state.steps[0].name} steps={this.state.steps}/>
-					<Button onClick={this.changeOrder}>swap</Button>
+					<Button onClick={this.changeOrder}>
+						<SwapVerticalCircle className={classes.icon} style={{ color:blue[900]}}/>
+					</Button>
 					<MySearchPlaceComponent callback={this.updateTo} name={this.state.steps[this.state.steps.length-1].name} steps={this.state.steps}/>
 					<hr/>
 				</Grid> 				
-				<br/>
-				<Grid item xs={12} sm={6}>
+				<Grid class ='centerRow' item xs={12} >
+					<FormLabel component="legend">Date and time</FormLabel>
+				</Grid>
+				<Grid class='centerRow' item xs={10} sm={6}>
+					<DateSelector label='Trip date' callback={this.updateDate} date={this.state.date}/>
+					<TextField id="time" label="Trip Time" type="time" onChange={this.updateTime} value={this.state.steps[0].time}
+						inputProps={{ step: 300 }} // 5 min 
+					/>
+			</Grid>
+
+			</Grid>
+			<br/>
+		</div>
+		);					
+	}
+		
+	//Returns View for select date, seats and price of trip
+	getSecondStepView(){
+		const { classes } = this.props;
+
+		return(
+		<div>
+			<div>
+			<Grid container spacing={40}>
+				<Grid class ='centerRow' item xs={10}>
+					<FormLabel component="legend">Driver's Preferences</FormLabel>
+
+				<FormControl component="fieldset">
+					<FormGroup>
+						<div class='row'>
+							<FormControlLabel
+								control={
+								<Switch
+									name='reservation'
+									checked={this.state.reservation}
+									onChange={this.handleUserCheck}
+								/>
+							} 
+							/>
+							<Tooltip title="Automatic Reservation" placement="top">
+								<div style={{ display: 'flex'}}>
+									<Security className={classes.icon} style={{ color:green[900]}}/>
+								</div>  
+							</Tooltip>
+						</div>
+						<div class='row'>
+							<FormControlLabel
+								control={ <Switch name='food' checked={this.state.food} onChange={this.handleUserCheck}/> }>
+							</FormControlLabel>
+							<Tooltip title="Food allowed" placement="top">
+								<div style={{ display: 'flex'}}>
+									<Restaurant className={classes.icon} style={{ color:green[900]}}/>
+								</div>  
+							</Tooltip>
+
+						</div>
+						
+					<FormControlLabel
+						control={
+						<Switch
+							name='mate'
+							checked={this.state.mate}
+							onChange={this.handleUserCheck}
+						/>
+						}
+						label="Mate allowed"
+					/>
+					</FormGroup>
+				</FormControl> 	
+				</Grid>
+				<Grid class ='centerRow' item xs={10}>
+
+				<hr/>
+				<FormControl>
+				<FormLabel component="legend">Car specifications</FormLabel>		
+
+				<Grid class='centerRow' item xs={12} sm={6}>
+				<TextField
+							name='price'
+							label='Price'
+							type="number"
+							placeholder='Example: $200'
+							min="1"
+							id="inputPrice"
+							defaultValue={this.state.price}
+							onChange={this.handleUserInput}
+							inputProps={{ min: "1" }}
+							endAdornment={<InputAdornment position="end">Precio por pasajero</InputAdornment>}
+							error={this.state.errors['price']}
+							required
+							helperText={this.state.errors['price']}				
+						/>
+
 				<TextField
 							name='seats'
 							label='Seats'
@@ -242,66 +367,7 @@ export default class OfferARide extends React.Component {
 							required
 							helperText={this.state.errors['seats']}				
 						/>
-				</Grid>
-				<Grid item xs={12} sm={6}>
-				<DateSelector label='Trip date' callback={this.updateDate} date={this.state.date}/>
-				</Grid>
-				<Grid item xs={12} sm={6}>
-					<TextField id="time" label="Trip Time" type="time" defaultValue="07:30"
-						inputProps={{ step: 300 }} // 5 min 
-					/>
-				</Grid>
-
-				</Grid>
-
-
-				</div>
-
-			</div>
-			);					
-	}
-		
-	//Returns View for select date, seats and price of trip
-	getSecondStepView(){
-		return(
-			<div> <hr/>
-				<FormControl component="fieldset">
-					<FormLabel component="legend">Driver's Preferences</FormLabel>
-					<FormGroup>
-					<FormControlLabel
-						control={
-						<Switch
-							name='reservation'
-							checked={this.state.reservation}
-							onChange={this.handleUserCheck}
-						/>
-						}
-						label="Automatic Reservation"
-					/>
-					<FormControlLabel
-						control={
-						<Switch
-							name='food'	
-							checked={this.state.food}
-							onChange={this.handleUserCheck}
-						/>
-						}
-						label="Food Allowed"
-					/>
-					<FormControlLabel
-						control={
-						<Switch
-							name='mate'
-							checked={this.state.mate}
-							onChange={this.handleUserCheck}
-						/>
-						}
-						label="Mate allowed"
-					/>
-					</FormGroup>
-				</FormControl> <br/>
-				<FormControl>
-					<TextField
+				<TextField
 						name='car'
 						label='Car'
 						type="text"
@@ -313,21 +379,33 @@ export default class OfferARide extends React.Component {
 						required
 						helperText={this.state.errors['car']}				
 					/>
-				</FormControl> <br/>
+	
+				</Grid>
 
-						
-				<TextField  
-					id="inputDetails"
-					name='details' 
-					value={this.state.details}
-					onChange={this.handleDetails}
-					label="Details"
-					multiline
-					rows={4}
-					rowsMax="4"
-					margin="normal"		  
-					fullWidth
-					placeholder="Details..." />
+				</FormControl> 
+				</Grid> 				
+				<Grid class ='centerRow' item xs={12} >
+				<hr/>
+
+					<TextField  
+						id="inputDetails"
+						name='details' 
+						value={this.state.details}
+						onChange={this.handleDetails}
+						label="Details"
+						multiline
+						rows={4}
+						rowsMax="4"
+						margin="normal"		  
+						fullWidth
+						placeholder="Details..." />
+				</Grid>
+
+			</Grid>
+			<br/>
+
+			</div>
+
 
 		</div>
 		);
@@ -337,69 +415,7 @@ export default class OfferARide extends React.Component {
 	getThirdStepView(){
 		return(
 			<div>
-				<FormControl component="fieldset">
-					<FormLabel component="legend">Driver's Preferences</FormLabel>
-					<FormGroup>
-					<FormControlLabel
-						control={
-						<Switch
-							name='reservation'
-							checked={this.state.reservation}
-							onChange={this.handleUserCheck}
-						/>
-						}
-						label="Automatic Reservation"
-					/>
-					<FormControlLabel
-						control={
-						<Switch
-							name='food'	
-							checked={this.state.food}
-							onChange={this.handleUserCheck}
-						/>
-						}
-						label="Food Allowed"
-					/>
-					<FormControlLabel
-						control={
-						<Switch
-							name='mate'
-							checked={this.state.mate}
-							onChange={this.handleUserCheck}
-						/>
-						}
-						label="Mate allowed"
-					/>
-					</FormGroup>
-				</FormControl> <br/>
-				<FormControl>
-					<TextField
-						name='car'
-						label='Car'
-						type="text"
-						placeholder='Example: Ford Focus'
-						id="inputCar"
-						defaultValue={this.state.car}
-						onChange={this.handleUserInput}
-						error={this.state.errors['car']}
-						required
-						helperText={this.state.errors['car']}				
-					/>
-				</FormControl> <br/>
-
-						
-				<TextField  
-					id="inputDetails"
-					name='details' 
-					value={this.state.details}
-					onChange={this.handleDetails}
-					label="Details"
-					multiline
-					rows={4}
-					rowsMax="4"
-					margin="normal"		  
-					fullWidth
-					placeholder="Details..." />
+				<ResumeTrip tripData={this.state}></ResumeTrip>
 			</div>
 			
 		);
@@ -450,22 +466,19 @@ export default class OfferARide extends React.Component {
 		return(
 			<div >
 				<h1>Offer a ride</h1>
-				<div class='row'>
-					<div class='column'>
-						<Grid>
+				<Grid container spacing={40} class ='row rowCenter'>
+					<Grid item xs={12} >
 						<TripSaver getSection={this.getSection} validateStep={this.validateStep} callback={this.processForm}/>
-						</Grid>
-					</div>
-
-					<div class='column'>
-						<h3>View of our travel</h3>
-						<MyMapComponent steps={this.state.steps}/>
-					</div>
-				</div>
+					</Grid>
+						<Grid item xs={12} >
+							<h3>View of our travel</h3>
+							<MyMapComponent steps={this.state.steps}/>
+					</Grid>
+				</Grid>
 			</div>
-
 			);
 	}
 
 }
 
+export default withStyles(styles2)(OfferARide);

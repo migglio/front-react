@@ -9,10 +9,21 @@ import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   root: {
-    width: "90%"
+    backgroundColor: '#fafafa',
+    width: "100%"
   },
   button: {
-    marginRight: theme.spacing.unit
+    textAlign: 'center',
+    margin: theme.spacing.unit,
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
+  iconSmall: {
+    fontSize: 20,
   },
   instructions: {
     marginTop: theme.spacing.unit,
@@ -23,7 +34,8 @@ const styles = theme => ({
 function getSteps() {
   return [
     "Meeting information",
-    "Restriction and details"
+    "Restriction and details",
+    "Resume"
   ];
 }
 
@@ -32,7 +44,9 @@ function getStepContent(step) {
     case 0:
       return "Select the cities of your trip...";
     case 1:
-    return "Specify your conditions...";
+      return "Specify your conditions...";
+    case 2:
+      return "Resume...";
     default:
       return "Unknown step";
   }
