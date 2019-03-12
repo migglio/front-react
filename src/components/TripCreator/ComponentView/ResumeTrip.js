@@ -17,6 +17,11 @@ import yellow from '@material-ui/core/colors/yellow';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { Grid } from '@material-ui/core';
 import FormLabel from '@material-ui/core/FormLabel';
+import Restaurant from '@material-ui/icons/Restaurant';
+import Security from '@material-ui/icons/Security';
+import LocalCafe from '@material-ui/icons/LocalCafe';
+import red from '@material-ui/core/colors/red';
+import AccessTime from '@material-ui/icons/AccessTime';
 
 const styles2 = theme => ({
   root: {
@@ -98,10 +103,21 @@ class resumeTrip extends React.Component {
       <div className={classes.root}>
 
 			<Grid container spacing={40}>
-        <Grid class ='row centerRow' item xs={10}>
+        <Grid class ='centerRow' item xs={10}>  
+          <br/>
           <FormLabel component="legend">Schedule</FormLabel>
         </Grid>
+        <br/>       
         <br/>
+        <br/>
+				<Grid container spacing={40} direction="row" alignItems="center" justify="center" item xs={10}>
+          <div style={{ display: 'flex'}}>
+            <AccessTime color="primary"/>
+            <Typography variant="title" gutterBottom style={{ fontWeight: 500}}>
+            {moment(this.props.tripData.date).format('LLLL')}
+            </Typography>
+          </div>
+        </Grid>
 				<Grid container spacing={40} direction="row" alignItems="center" justify="center" item xs={10}>
           <div style={{ display: 'flex'}}>
             <Tooltip title="Salida" placement="top">
@@ -158,22 +174,35 @@ class resumeTrip extends React.Component {
 					<FormLabel component="legend">Driver's Preferences</FormLabel>
           <br/>
         </Grid>
-        <Grid class='centerRow' item xs={10} sm={6}>
-          <div style={{ display: 'block',padding: '2%'}}>
-            {this.props.tripData.automaticReservation?(<Tooltip title="Reserva Automatica" placement="top"><FlashOnIcon color="action" className={classes.icon} style={{ color:yellow[900]}}/></Tooltip>):('')}
-            <LocalCafeIcon color="action" className={classes.icon} style={{ color:blue[900]}}/>
-            <AcUnitIcon color="action" className={classes.icon} style={{ color:blue[900]}}/>
-          </div> 
+				<Grid container spacing={40} direction="row" alignItems="center" justify="center" item xs={10}>
+            <Tooltip title={this.props.tripData.reservation ? "Automatic Reservation": "Secure Reservation"} placement="top">
+							<div style={{ display: 'flex'}}>
+								<Security className={classes.icon} style={{ color: this.props.tripData.reservation ? green[900] : red[900]}}/>
+							</div>  
+						</Tooltip>
+						<Tooltip title={this.props.tripData.reservation ? "Food Allowed": "Food not Allowed"} placement="top">
+							<div style={{ display: 'flex'}}>
+								<Restaurant className={classes.icon} style={{ color: this.props.tripData.food ? green[900] : red[900]}}/>
+							</div>  
+						</Tooltip>
+						<Tooltip title={this.props.tripData.mate ? "Mate Allowed": "Mate not Allowed"} placement="top">
+							<div style={{ display: 'flex'}}>
+								<LocalCafe className={classes.icon} style={{ color: this.props.tripData.mate ? green[900] : red[900]}}/>
+							</div>  
+						</Tooltip>
 
-          <div style={{ width:'80%',    display: 'flex' ,alignItems: 'center'}}>
+        </Grid>
+        <Grid class='centerRow' item xs={10} sm={6}>
+        <br/>
+          <div style={{ width:'80%', display: 'flex' ,alignItems: 'center'}}>
             <Tooltip title="Descripción" placement="top">
               <AssignmentIcon/>
             </Tooltip>
             <Typography variant="caption"  >
-                {(this.props.tripData.details === '') ? "Sin comentarios":  this.props.tripData.details}
+                {(this.props.tripData.details === '') ? "El conductor no ha añadido comentarios":  this.props.tripData.details}
             </Typography>
           </div >
-
+        <br/>
         </Grid>
 
 			</Grid>

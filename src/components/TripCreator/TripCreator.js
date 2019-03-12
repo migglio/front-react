@@ -8,9 +8,7 @@ import './index.css'
 import DateSelector from '../DateSelector'
 import axios from 'axios'
 import url from '../../config.js'
-import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InputAdornment from "@material-ui/core/InputAdornment";
 import TravelSteps from './TravelSteps.js'
 import Switch from '@material-ui/core/Switch';
@@ -28,13 +26,15 @@ import Tooltip from '@material-ui/core/Tooltip';
 import classNames from 'classnames';
 import Restaurant from '@material-ui/icons/Restaurant';
 import Security from '@material-ui/icons/Security';
+import LocalCafe from '@material-ui/icons/LocalCafe';
 import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
 
 
 const styles2 = theme => ({
 	icon: {
-	  height: 25,
-	  width: 25,
+	  height: 30,
+	  width: 30,
 	},
   });
   
@@ -117,11 +117,17 @@ class OfferARide extends React.Component {
 		const list = this.state.steps;
 		this.setState({[name]: value, errors:errs, steps:list})
 	}
-	
-	handleUserCheck = (e) => {
-        const name = e.target.name
-		const value = e.target.checked
-		this.setState({[name]: value})
+
+	handleReservation = (e) => {
+		this.setState({reservation: !this.state.reservation})
+	}
+
+	handleFood = (e) => {
+		this.setState({food: !this.state.food})
+	}
+
+	handleMate = (e) => {
+		this.setState({mate: !this.state.mate})
 	}
 
 	handleDetails = (e) => {
@@ -248,7 +254,11 @@ class OfferARide extends React.Component {
 		return(
 			<div >
 				<Grid container spacing={24}>
-				<Grid item xs={12}>
+					<Grid class ='centerRow' item xs={10}>  
+						<br/>
+						<FormLabel component="legend">Schedule</FormLabel>
+					</Grid>
+				<Grid class ='centerRow' item xs={12} >
 					<MySearchPlaceComponent callback={this.updateFrom} name={this.state.steps[0].name} steps={this.state.steps}/>
 					<Button onClick={this.changeOrder}>
 						<SwapVerticalCircle className={classes.icon} style={{ color:blue[900]}}/>
@@ -281,106 +291,89 @@ class OfferARide extends React.Component {
 			<div>
 			<Grid container spacing={40}>
 				<Grid class ='centerRow' item xs={10}>
-					<FormLabel component="legend">Driver's Preferences</FormLabel>
-
-				<FormControl component="fieldset">
-					<FormGroup>
-						<div class='row'>
-							<FormControlLabel
-								control={
-								<Switch
-									name='reservation'
-									checked={this.state.reservation}
-									onChange={this.handleUserCheck}
-								/>
-							} 
+					<br/><br/>
+					<FormLabel component="legend">Car specifications</FormLabel>		
+				</Grid>
+				<Grid container spacing={40} direction="row" alignItems="center" justify="center" item xs={10}>
+					<TextField
+								name='price'
+								label='Price'
+								type="number"
+								placeholder='Example: $200'
+								min="1"
+								id="inputPrice"
+								defaultValue={this.state.price}
+								onChange={this.handleUserInput}
+								inputProps={{ min: "1" }}
+								endAdornment={<InputAdornment position="end">Precio por pasajero</InputAdornment>}
+								error={this.state.errors['price']}
+								required
+								helperText={this.state.errors['price']}				
 							/>
-							<Tooltip title="Automatic Reservation" placement="top">
-								<div style={{ display: 'flex'}}>
-									<Security className={classes.icon} style={{ color:green[900]}}/>
-								</div>  
-							</Tooltip>
-						</div>
-						<div class='row'>
-							<FormControlLabel
-								control={ <Switch name='food' checked={this.state.food} onChange={this.handleUserCheck}/> }>
-							</FormControlLabel>
-							<Tooltip title="Food allowed" placement="top">
-								<div style={{ display: 'flex'}}>
-									<Restaurant className={classes.icon} style={{ color:green[900]}}/>
-								</div>  
-							</Tooltip>
 
-						</div>
-						
-					<FormControlLabel
-						control={
-						<Switch
-							name='mate'
-							checked={this.state.mate}
-							onChange={this.handleUserCheck}
-						/>
-						}
-						label="Mate allowed"
-					/>
-					</FormGroup>
-				</FormControl> 	
+					<TextField
+								name='seats'
+								label='Seats'
+								type="number"
+								placeholder='Example: 3'
+								min="1"
+								id="inputSeats"
+								defaultValue={this.state.seats}
+								onChange={this.handleUserInput}
+								inputProps={{ min: "1" }}
+								endAdornment={<InputAdornment position="end">Passengers</InputAdornment>}
+								error={this.state.errors['seats']}
+								required
+								helperText={this.state.errors['seats']}				
+							/>
+					<TextField
+							name='car'
+							label='Car'
+							type="text"
+							placeholder='Example: Ford Focus'
+							id="inputCar"
+							defaultValue={this.state.car}
+							onChange={this.handleUserInput}
+							error={this.state.errors['car']}
+							required
+							helperText={this.state.errors['car']}				
+						/>	
 				</Grid>
+				<br/>
+
 				<Grid class ='centerRow' item xs={10}>
-
-				<hr/>
-				<FormControl>
-				<FormLabel component="legend">Car specifications</FormLabel>		
-
-				<Grid class='centerRow' item xs={12} sm={6}>
-				<TextField
-							name='price'
-							label='Price'
-							type="number"
-							placeholder='Example: $200'
-							min="1"
-							id="inputPrice"
-							defaultValue={this.state.price}
-							onChange={this.handleUserInput}
-							inputProps={{ min: "1" }}
-							endAdornment={<InputAdornment position="end">Precio por pasajero</InputAdornment>}
-							error={this.state.errors['price']}
-							required
-							helperText={this.state.errors['price']}				
-						/>
-
-				<TextField
-							name='seats'
-							label='Seats'
-							type="number"
-							placeholder='Example: 3'
-							min="1"
-							id="inputSeats"
-							defaultValue={this.state.seats}
-							onChange={this.handleUserInput}
-							inputProps={{ min: "1" }}
-							endAdornment={<InputAdornment position="end">Passengers</InputAdornment>}
-							error={this.state.errors['seats']}
-							required
-							helperText={this.state.errors['seats']}				
-						/>
-				<TextField
-						name='car'
-						label='Car'
-						type="text"
-						placeholder='Example: Ford Focus'
-						id="inputCar"
-						defaultValue={this.state.car}
-						onChange={this.handleUserInput}
-						error={this.state.errors['car']}
-						required
-						helperText={this.state.errors['car']}				
-					/>
-	
+					<hr/>
+					<FormLabel component="legend">Driver's Preferences</FormLabel>
 				</Grid>
+				<br/>
+				<Grid container spacing={40} direction="row" alignItems="center" justify="center" item xs={10}>
 
-				</FormControl> 
-				</Grid> 				
+					<Button name='reservation'  onClick={this.handleReservation}>
+						<Tooltip title={this.state.reservation ? "Automatic Reservation": "Secure Reservation"} placement="top">
+							<div style={{ display: 'flex'}}>
+								<Security className={classes.icon} style={{ color: this.state.reservation ? green[900] : red[900]}}/>
+							</div>  
+						</Tooltip>
+					</Button>
+
+					<Button name='food'  onClick={this.handleFood}>
+						<Tooltip title={this.state.reservation ? "Food Allowed": "Food not Allowed"} placement="top">
+							<div style={{ display: 'flex'}}>
+								<Restaurant className={classes.icon} style={{ color: this.state.food ? green[900] : red[900]}}/>
+							</div>  
+						</Tooltip>
+					</Button>
+
+					<Button name='mate'  onClick={this.handleMate}>
+						<Tooltip title={this.state.mate ? "Mate Allowed": "Mate not Allowed"} placement="top">
+							<div style={{ display: 'flex'}}>
+								<LocalCafe className={classes.icon} style={{ color: this.state.mate ? green[900] : red[900]}}/>
+							</div>  
+						</Tooltip>
+					</Button>
+				</Grid>
+				
+
 				<Grid class ='centerRow' item xs={12} >
 				<hr/>
 
@@ -461,15 +454,15 @@ class OfferARide extends React.Component {
 
 	render(){
 		return(
-			<div style={{paddingLeft:"15%",paddingRight:"15%"}} >
+			<div style={{paddingLeft:"10%", paddingRight:"10%"}} >
 				<h1>Offer a ride</h1>
 				<Grid container spacing={40} class ='row rowCenter'>
 					<Grid item xs={12} >
 						<TripSaver getSection={this.getSection} validateStep={this.validateStep} callback={this.processForm}/>
 					</Grid>
-						<Grid item xs={12} >
-							<h3>View of our travel</h3>
-							<MyMapComponent steps={this.state.steps}/>
+					<Grid item xs={12} >
+						<h3>View of our travel</h3>
+						<MyMapComponent steps={this.state.steps}/>
 					</Grid>
 				</Grid>
 			</div>

@@ -8,6 +8,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import PersonAdd from '@material-ui/icons/PersonAdd';
+import blue from '@material-ui/core/colors/blue';
+import green from '@material-ui/core/colors/green';
+import { Button } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
@@ -64,7 +69,9 @@ function SimpleTable(props) {
             <TableCell numeric>Driver</TableCell>
             {seats.map( n => {
                 return (
-                    <TableCell numeric>Seat</TableCell>
+                    <TableCell numeric>              
+                      <PermIdentityIcon className={classes.icon} style={{ color:blue[500]}}/>
+                    </TableCell>
                 );
           })}
           </TableRow>
@@ -86,7 +93,7 @@ function SimpleTable(props) {
                   if (i>=list[index].from.passengers.users.length)
                     return (
                       <TableCell component="th" scope="row">
-                        {'free'}
+                          <PersonAdd className={classes.icon} style={{ color:green[800]}}/>
                       </TableCell>
                     );              
                   else

@@ -9,7 +9,6 @@ import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   root: {
-    backgroundColor: '#fafafa',
     width: "100%"
   },
   button: {
@@ -39,18 +38,6 @@ function getSteps() {
   ];
 }
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return "Select the cities of your trip...";
-    case 1:
-      return "Specify your conditions...";
-    case 2:
-      return "Resume...";
-    default:
-      return "Unknown step";
-  }
-}
 
 class TripSaver extends React.Component {
   static propTypes = {
@@ -132,10 +119,6 @@ class TripSaver extends React.Component {
             </div>
           ) : (
             <div>
-              <Typography className={classes.instructions}>
-                {getStepContent(activeStep)}
-              </Typography>
-              <div>
                 <Button
                   disabled={activeStep === 0 }
                   onClick={this.handleBack}
@@ -152,7 +135,6 @@ class TripSaver extends React.Component {
                 >
                   {activeStep === steps.length - 1 ? "Save Trip" : "Next"}
                 </Button>
-              </div>
             </div>
           )}
         </div>
