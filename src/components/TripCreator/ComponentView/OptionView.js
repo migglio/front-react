@@ -6,6 +6,7 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import TripSaver from '../../TripSaver/TripSaver';
 
 const styles = theme => ({
   root: {
@@ -39,14 +40,15 @@ function getSteps() {
 }
 
 
-class TripSaver extends React.Component {
+class OptionView extends React.Component {
   static propTypes = {
     classes: PropTypes.object
   };
 
   state = {
     activeStep: 0,
-    error:true
+    error:true,
+    save:false
   };
 
   isStepFailed = step => {
@@ -60,7 +62,7 @@ class TripSaver extends React.Component {
       activeStep: activeStep + 1
       });
     if (activeStep == 2)
-      this.props.callback(event);
+      this.setState({save:true});
   };
 
   handleBack = () => {
@@ -116,6 +118,7 @@ class TripSaver extends React.Component {
               <Button onClick={this.handleReset} className={classes.button}>
                 Reset
               </Button>
+              <TripSaver tripData={this.props.tripData} save={this.state.save}></TripSaver>
             </div>
           ) : (
             <div>
@@ -143,4 +146,4 @@ class TripSaver extends React.Component {
   }
 }
 
-export default withStyles(styles)(TripSaver);
+export default withStyles(styles)(OptionView);

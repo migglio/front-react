@@ -220,7 +220,8 @@ class Login extends React.Component{
                     nicknameValid: false
                 })
             }
-            this.addNotification('error', message)
+            this.addNotification('error', message);
+            this.addNotification('error', message);
 
             this.setState({
                 error: true,

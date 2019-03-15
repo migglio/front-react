@@ -1,19 +1,12 @@
 import React from 'react';
 import MySearchPlaceComponent from './GoogleMapAPI/CitySearcher.js'
 import MyMapComponent from "./GoogleMapAPI/Map.js"
-import StepListView from './ComponentView/StepListView.js';
-import TripSaver from './ComponentView/OptionView.js';
+import OptionView from './ComponentView/OptionView.js';
 import TextField from '@material-ui/core/TextField';
 import './index.css'
 import DateSelector from '../DateSelector'
-import axios from 'axios'
-import url from '../../config.js'
 import FormLabel from '@material-ui/core/FormLabel';
 import InputAdornment from "@material-ui/core/InputAdornment";
-import TravelSteps from './TravelSteps.js'
-import Switch from '@material-ui/core/Switch';
-import FormGroup from '@material-ui/core/FormGroup';
-import DetailedStepPanel from './StepCreator.js'
 import Button from "@material-ui/core/Button";
 import { Grid } from '@material-ui/core';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
@@ -21,15 +14,13 @@ import ResumeTrip from './ComponentView/ResumeTrip.js';
 import SwapVerticalCircle from '@material-ui/icons/SwapVerticalCircle';
 import { withStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
-import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
-import classNames from 'classnames';
 import Restaurant from '@material-ui/icons/Restaurant';
 import Security from '@material-ui/icons/Security';
 import LocalCafe from '@material-ui/icons/LocalCafe';
 import green from '@material-ui/core/colors/green';
 import red from '@material-ui/core/colors/red';
-
+import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
 
 const styles2 = theme => ({
 	icon: {
@@ -37,6 +28,10 @@ const styles2 = theme => ({
 	  width: 30,
 	},
   });
+
+  const moment = require('moment');
+  var NotificationSystem = require('react-notification-system')
+
   
 class OfferARide extends React.Component {
 	constructor(props, context) {
@@ -49,9 +44,9 @@ class OfferARide extends React.Component {
 			//each step should have a name, location, price and time
 			steps:[ origin, destination], 
 			//attributes in common both main and step trip but specially after a reservation 
-			seats: undefined,
+			seats: '',
 			//attributes in common both main and step trip 
-			date: undefined,
+			date: '',
 			reservation: false,
 			food: false,
 			mate: false,
@@ -75,36 +70,25 @@ class OfferARide extends React.Component {
 		//Validation Methods
 		this.validateStep = this.validateStep.bind(this);
 		
-		//db methods
-		this.processForm = this.processForm.bind(this);
-
 		//UI function
 		this.getSection = this.getSection.bind(this);
 		
 		//init default value easily
 		this.getStepEmpty= this.getStepEmpty.bind(this);
+
 	}
+
 
 	//Returns a new step with default values
 	getStepEmpty(){
 		return ( {
 			location:{lat:undefined, lng:undefined},
 			name:undefined, 
-			price:undefined, 
+			price:'', 
 			time:'',
-			date:false, 
+			date:'', 
 			passengers: {total:1, users:[] }
 			});
-	}
-
-	//update Value for each step
-	updateStepsInfo(){
-		let list = this.state.steps;
-		for (let index = 0; index < list.length; index++){
-			list[index].passengers.total = this.state.seats;
-			list[index].date = this.state.date;
-		}
-		this.setState({steps:list}) 
 	}
 
 	//Get value entered by user
@@ -115,7 +99,13 @@ class OfferARide extends React.Component {
 		errs[name]= this.getError(value);
 
 		const list = this.state.steps;
-		this.setState({[name]: value, errors:errs, steps:list})
+
+		if (name === 'price'){
+			list[0].price = value;
+			this.setState({ errors:errs, steps:list});
+		}
+		else
+			this.setState({[name]: value, errors:errs, steps:list})
 	}
 
 	handleReservation = (e) => {
@@ -195,26 +185,27 @@ class OfferARide extends React.Component {
 
 	//Validation methods
 	validateFistStep(){
-		return false;
+//		return false; //borrar linea desp de terminar
 		if (this.state.steps[0].location.lat===undefined || this.state.steps[this.state.steps.length-1].location.lat===undefined)
 			return true;
 		if (this.state.steps[0].time==='')
+			return true;
+		if (this.state.date==='')
 			return true;
 		return false;
 	}
 
 	validateSecondStep(){
-		return false; //borrar linea desp de terminar
-		if (this.state.seats == undefined  || this.getError(this.state.seats) )
+//		return false; //borrar linea desp de terminar
+		if (this.state.seats == ''  || this.getError(this.state.seats) )
 			return true;
 
-		if ( (this.state.date == undefined) )
-			return true
+		if (this.state.car == '' )
+			return true;
+
 
 		for (let index = 0; index < this.state.steps.length-1; index++) {
-			if ( (this.state.steps[index].price == undefined) || this.getError(this.state.steps[index].price) )
-				return true
-			if ( (this.state.steps[index].time == undefined) )
+			if ( (this.state.steps[index].price === '') || this.getError(this.state.steps[index].price) )
 				return true
 			
 		}
@@ -230,7 +221,7 @@ class OfferARide extends React.Component {
 				return this.validateSecondStep();
 				break
 			case 2: 
-				return (this.state.car == '')
+				return false;
 				break
 			default:
 				break
@@ -264,16 +255,20 @@ class OfferARide extends React.Component {
 						<SwapVerticalCircle className={classes.icon} style={{ color:blue[900]}}/>
 					</Button>
 					<MySearchPlaceComponent callback={this.updateTo} name={this.state.steps[this.state.steps.length-1].name} steps={this.state.steps}/>
-					<hr/>
 				</Grid> 				
 				<Grid class ='centerRow' item xs={12} >
+					<br/>
+					<hr/>
 					<FormLabel component="legend">Date and time</FormLabel>
+					<br/>
 				</Grid>
-				<Grid class='centerRow' item xs={10} sm={6}>
+				<Grid container spacing={40} direction="column" alignItems="center" justify="center" item xs={12}>
 					<DateSelector label='Trip date' callback={this.updateDate} date={this.state.date}/>
-					<TextField id="time" label="Trip Time" type="time" onChange={this.updateTime} value={this.state.steps[0].time}
-						inputProps={{ step: 300 }} // 5 min 
-					/>
+					<MuiPickersUtilsProvider utils={DateFnsUtils}>
+						<TextField id="time" label="Trip Time" type="time" onChange={this.updateTime} value={this.state.steps[0].time}
+							inputProps={{ step: 300 }} // 5 min 
+						/>
+					</MuiPickersUtilsProvider>
 			</Grid>
 
 			</Grid>
@@ -302,15 +297,14 @@ class OfferARide extends React.Component {
 								placeholder='Example: $200'
 								min="1"
 								id="inputPrice"
-								defaultValue={this.state.price}
+								defaultValue={this.state.steps[0].price}
 								onChange={this.handleUserInput}
 								inputProps={{ min: "1" }}
 								endAdornment={<InputAdornment position="end">Precio por pasajero</InputAdornment>}
 								error={this.state.errors['price']}
 								required
-								helperText={this.state.errors['price']}				
+								helperText={this.state.errors['price']}		
 							/>
-
 					<TextField
 								name='seats'
 								label='Seats'
@@ -357,7 +351,7 @@ class OfferARide extends React.Component {
 					</Button>
 
 					<Button name='food'  onClick={this.handleFood}>
-						<Tooltip title={this.state.reservation ? "Food Allowed": "Food not Allowed"} placement="top">
+						<Tooltip title={this.state.food ? "Food Allowed": "Food not Allowed"} placement="top">
 							<div style={{ display: 'flex'}}>
 								<Restaurant className={classes.icon} style={{ color: this.state.food ? green[900] : red[900]}}/>
 							</div>  
@@ -429,36 +423,14 @@ class OfferARide extends React.Component {
 		}
 	}
 
-	//Save a new trip into db 
-	processForm(event) {
-		//Copy number of passengers and date before saving the trip
-		this.updateStepsInfo();
-		// prevent default action. in this case, action is the form submission event
-		event.preventDefault()
-
-		const userData = {
-			steps: this.state.steps,
-			description: this.state.details,
-			vehiculo: this.state.car,
-			automaticReservation: this.state.reservation,
-		}
-
-		axios.post(url.socket + 'api/trips', userData, url.config)
-		.then((response) => {
-			this.addNotification('success', 'You successfully added')
-		})
-		.catch((error) => {
-			console.log(error)}
-		)
-	}
 
 	render(){
 		return(
 			<div style={{paddingLeft:"10%", paddingRight:"10%"}} >
 				<h1>Offer a ride</h1>
-				<Grid container spacing={40} class ='row rowCenter'>
+				<Grid container spacing={24} class ='row'>
 					<Grid item xs={12} >
-						<TripSaver getSection={this.getSection} validateStep={this.validateStep} callback={this.processForm}/>
+						<OptionView tripData={this.state} getSection={this.getSection} validateStep={this.validateStep} callback={this.processForm}/>
 					</Grid>
 					<Grid item xs={12} >
 						<h3>View of our travel</h3>

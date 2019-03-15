@@ -114,7 +114,7 @@ class resumeTrip extends React.Component {
           <div style={{ display: 'flex'}}>
             <AccessTime color="primary"/>
             <Typography variant="title" gutterBottom style={{ fontWeight: 500}}>
-            {moment(this.props.tripData.date).format('LLLL')}
+            {moment(this.props.tripData.date).format('LL')}, {this.props.tripData.steps[0].time} hs
             </Typography>
           </div>
         </Grid>
@@ -160,7 +160,7 @@ class resumeTrip extends React.Component {
           <div className={classNames(classes.columnFlex1,classes.paddingTrip)}>
             <div>
               <Typography variant="headline"  style={{ color:blue[800]}}>
-                ${this.props.tripData.price}
+                ${this.props.tripData.steps[0].price}
               </Typography>
             </div>
             <Typography variant="caption"  >
@@ -180,7 +180,7 @@ class resumeTrip extends React.Component {
 								<Security className={classes.icon} style={{ color: this.props.tripData.reservation ? green[900] : red[900]}}/>
 							</div>  
 						</Tooltip>
-						<Tooltip title={this.props.tripData.reservation ? "Food Allowed": "Food not Allowed"} placement="top">
+						<Tooltip title={this.props.tripData.food ? "Food Allowed": "Food not Allowed"} placement="top">
 							<div style={{ display: 'flex'}}>
 								<Restaurant className={classes.icon} style={{ color: this.props.tripData.food ? green[900] : red[900]}}/>
 							</div>  

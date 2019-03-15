@@ -8,7 +8,6 @@ const {
 } = require("react-google-maps");
 const { StandaloneSearchBox } = require("react-google-maps/lib/components/places/StandaloneSearchBox");
 
-
 const PlacesWithStandaloneSearchBox = compose(
   withProps({
     googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDw6XjBV9dEHkRt_T4ChYB5Nklc2-YiN9M&v=3.exp&libraries=geometry,drawing,places",
@@ -27,13 +26,16 @@ const PlacesWithStandaloneSearchBox = compose(
         onPlacesChanged: () => {
           //Get the list of places from the searchbox 
           const places = refs.searchBox.getPlaces();
+          
           this.setState({
             places:places,
           });
           //select the unique element of the list(city selected by user)
-          const lat = this.state.places[0].geometry.location.lat();
-          const lng = this.state.places[0].geometry.location.lng();
-          this.props.changeLoc( {lat: lat, lng: lng}, places[0].name );
+          if (places.length>0){
+            const lat = this.state.places[0].geometry.location.lat();
+            const lng = this.state.places[0].geometry.location.lng();
+            this.props.changeLoc( {lat: lat, lng: lng}, places[0].formatted_address );  
+          };
         },
       })
     },
@@ -47,23 +49,21 @@ const PlacesWithStandaloneSearchBox = compose(
       onPlacesChanged={props.onPlacesChanged}
     >
     <FormControl fullWidth>
-    <TextField
-        id="searcher"
-        type="searchBox"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        label="City field"
-        errorText="This field is required"
-        placeholder="Insert your city.."
-        margin="normal"
-
-        defaultValue= {props.name}
-        error={props.error}
-        required
-        helperText={props.error}
-      />
-    </FormControl>
+        <TextField
+            id="searcher"
+            type="search"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            errorText="This field is required"
+            placeholder="Insert your city.."
+            value= {props.name}
+            error={props.error}
+            required
+            helperText={props.error}
+            onChange={props.changeName}
+          />
+      </FormControl>
     </StandaloneSearchBox>
   </div>
 );
@@ -78,6 +78,7 @@ export default class MySearchPlaceComponent extends React.Component{
       error:false
     }
     this.updateLocation = this.updateLocation.bind(this);
+    this.changeName = this.changeName.bind(this);
     this.isCity = this.isCity.bind(this);
   }
 
@@ -92,6 +93,17 @@ export default class MySearchPlaceComponent extends React.Component{
       this.setState({error:false})
     return false
   }
+
+  changeName = (e) => {
+    this.updateLocation({ lat: undefined, lng: undefined }, e.target.value);
+    this.setState({name:e.target.value});
+    if (this.state.name === '')
+      this.setState({error:true});
+    else
+      this.setState({error:false});
+    this.getError();
+  }
+
 
   updateLocation(loc_par, name){
     if (!this.isCity(name, this.props.steps)){
@@ -108,7 +120,7 @@ export default class MySearchPlaceComponent extends React.Component{
     if (this.state.error)
       return 'That city is already defined'
     else
-      if (this.state.name==undefined)
+      if (this.state.name=='')
         return 'Field required'
     return ''
   }
@@ -120,7 +132,9 @@ export default class MySearchPlaceComponent extends React.Component{
           <PlacesWithStandaloneSearchBox
             changeLoc={this.updateLocation}
             name = {this.props.name}
+            steps = {this.props.steps}
             error ={error}
+            changeName={this.changeName}
           />
         </div>
     )
