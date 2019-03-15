@@ -115,7 +115,7 @@ class ListElement extends React.Component {
     
     return (
             <div className={classes.root}>
-            <ExpansionPanel disabled={this.props.tripData.passangers.total - this.props.tripData.passangers.users.length<1} >
+            <ExpansionPanel disabled={this.props.tripData.steps[0].passengers.total - this.props.tripData.steps[0].passengers.users.length<1} >
 
               <ExpansionPanelSummary  >
               <div className={classNames(classes.separator,classes.columnFlex1,classes.paddingTrip)}>
@@ -151,14 +151,14 @@ class ListElement extends React.Component {
                   <Tooltip title="Salida" placement="top">
                   <LocationOnIcon color="secondary"/>
                   </Tooltip>
-                  <Typography className={classes.secondaryHeading} gutterBottom>{this.props.tripData.from}</Typography>
+                  <Typography className={classes.secondaryHeading} gutterBottom>{this.props.tripData.steps[0].name}</Typography>
                 </div>
                 
                 <div style={{ display: 'flex'}}>
                   <Tooltip title="Desitino" placement="top">
                   <LocationOnIcon style={{ color:green[400]}}/>
                   </Tooltip>
-                  <Typography className={classes.secondaryHeading} gutterBottom>{this.props.tripData.to}</Typography>
+                  <Typography className={classes.secondaryHeading} gutterBottom>{this.props.tripData.steps[1].name}</Typography>
                 </div>
 
                 <div style={{ display: 'flex'}}>
@@ -170,7 +170,7 @@ class ListElement extends React.Component {
                 <div className={classNames(classes.columnFlex1,classes.paddingTrip)}>
                   <div>
                     <Typography variant="headline"  style={{ color:blue[800]}}>
-                      ${this.props.tripData.price}
+                      ${this.props.tripData.steps[0].price}
                     </Typography>
                   </div>
                   <Typography variant="caption"  >
@@ -180,7 +180,7 @@ class ListElement extends React.Component {
                     <div style={{ display: 'inline-flex',padding: '5%'}}>
                       <PermIdentityIcon className={classes.icon} style={{ color:blue[500]}}/>
                       <Typography variant="subheading" style={{ color:green[800],fontWeight: 600 }}>
-                      {this.props.tripData.passangers.total - this.props.tripData.passangers.users.length}
+                      {this.props.tripData.steps[0].passengers.total - this.props.tripData.steps[0].passengers.users.length}
                       </Typography>
                     </div>
                   </Tooltip>

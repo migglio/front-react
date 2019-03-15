@@ -7,6 +7,7 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Auth from './Auth/Auth.js'
 import Avatar from '@material-ui/core/Avatar';
+import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
 
 const styles = {
   root: {
@@ -42,8 +43,9 @@ class Header extends React.Component{
           </div>
           ):(
             <div>
-              <Button color="inherit"href="/TripDetails">Trip details</Button>
-              <Button color="inherit"href="/TripCreator">Offer a Ride</Button>
+              <Button color="inherit"href="/TripCreator">
+                <AddCircleOutline></AddCircleOutline>Offer a Ride
+              </Button>
               <Button color="inherit" href="/login" >Login</Button>
               <Button color="inherit"href="/register">Register</Button>
           </div>)}
