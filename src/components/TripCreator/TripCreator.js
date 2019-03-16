@@ -3,10 +3,7 @@ import MyMapComponent from "./GoogleMapAPI/Map.js"
 import OptionView from './ComponentView/OptionView.js';
 import './index.css'
 import { Grid } from '@material-ui/core';
-import ResumeTrip from './ComponentView/ResumeTrip.js';
 import { withStyles } from '@material-ui/core/styles';
-import MeetingDataView from './ComponentView/MeetingDataView'
-import PreferencesView from './ComponentView/PreferencesView'
 
 const styles2 = theme => ({
 	icon: {
@@ -52,7 +49,6 @@ class OfferARide extends React.Component {
 		this.updateTime = this.updateTime.bind(this);
 		this.changeOrder = this.changeOrder.bind(this);
 
-
 		//Callback functions from PreferencesView
 		this.handleUserInput = this.handleUserInput.bind(this);
 		this.handleReservation = this.handleReservation.bind(this);
@@ -64,21 +60,12 @@ class OfferARide extends React.Component {
 		this.addStep = this.addStep.bind(this);
 		this.updateStep = this.updateStep.bind(this);
 		this.deleteStep = this.deleteStep.bind(this);	
-		
-		//Validation Methods
-		this.validateStep = this.validateStep.bind(this);
-		
-		//UI function
-		this.getSection = this.getSection.bind(this);
-		
-		//init default value easily
-		this.getStepEmpty= this.getStepEmpty.bind(this);
-
 	}
 
 
 	//Returns a new step with default values
 	getStepEmpty(){
+		//init default value easily
 		return ( {
 			location:{lat:undefined, lng:undefined},
 			name:undefined, 
@@ -179,99 +166,17 @@ class OfferARide extends React.Component {
 
 	}
 
-	//Validation methods
-	validateFistStep(){
-//		return false; //borrar linea desp de terminar
-		if (this.state.steps[0].location.lat===undefined || this.state.steps[this.state.steps.length-1].location.lat===undefined)
-			return true;
-		if (this.state.steps[0].time==='')
-			return true;
-		if (this.state.date==='')
-			return true;
-		return false;
-	}
-
-	validateSecondStep(){
-//		return false; //borrar linea desp de terminar
-		if (this.state.seats == ''  || this.getError(this.state.seats) )
-			return true;
-
-		if (this.state.car == '' )
-			return true;
-
-
-		for (let index = 0; index < this.state.steps.length-1; index++) {
-			if ( (this.state.steps[index].price === '') || this.getError(this.state.steps[index].price) )
-				return true
-			
-		}
-		return false;
-	}
-
-	validateStep(step){
-		switch(step){
-			case 0: 
-				return this.validateFistStep();
-				break
-			case 1: 
-				return this.validateSecondStep();
-				break
-			case 2: 
-				return false;
-				break
-			default:
-				break
-		}
-	}
-
+	//VER SI VA ACA
 	getError(value){
-		if (!value)
-			return 'Field required'	
-		else
-		if (value<1)
-			return 'It must be a positive number'
-		else
-			return ''
-	}
+        if (!value)
+          return 'Field required'	
+        else
+        if (value<1)
+          return 'It must be a positive number'
+        else
+          return ''
+      }
 
-	
-	//Returns View for select each city of the one trip
-	getFirstStepView(){
-		return (
-			<MeetingDataView tripData={this.state} updateDate={this.updateDate} updateFrom={this.updateFrom} updateTo={this.updateTo} updateTime={this.updateTime} changeOrder={this.changeOrder}></MeetingDataView>
-		);
-	}
-
-	//Returns View for select date, seats and price of trip
-	getSecondStepView(){
-		return(
-			<PreferencesView tripData={this.state} handleUserInput={this.handleUserInput} handleReservation={this.handleReservation} handleMate={this.handleMate} handleFood={this.handleFood} handleDetails={this.handleDetails}></PreferencesView>
-		);
-	}
-
-	getThirdStepView(){
-		return(
-			<ResumeTrip tripData={this.state}></ResumeTrip>			
-		);
-	}	
-	
-
-	//Return a view for each step. UI method
-	getSection(step){
-		switch(step) {
-			case 0:
-				return this.getFirstStepView();
-				break;
-			case 1:
-				return this.getSecondStepView();
-				break;
-			case 2:
-				return this.getThirdStepView();
-				break;
-			default:
-				break;
-		}
-	}
 
 
 	render(){
@@ -280,7 +185,10 @@ class OfferARide extends React.Component {
 				<h1>Offer a ride</h1>
 				<Grid container spacing={24} class ='row'>
 					<Grid item xs={12} >
-						<OptionView tripData={this.state} getSection={this.getSection} validateStep={this.validateStep} callback={this.processForm}/>
+						<OptionView 
+							tripData={this.state} tripData={this.state} updateDate={this.updateDate} updateFrom={this.updateFrom} updateTo={this.updateTo} updateTime={this.updateTime} changeOrder={this.changeOrder}
+							 handleUserInput={this.handleUserInput} handleReservation={this.handleReservation} handleMate={this.handleMate} handleFood={this.handleFood} handleDetails={this.handleDetails}
+							/>
 					</Grid>
 					<Grid item xs={12} >
 						<h3>View of our travel</h3>

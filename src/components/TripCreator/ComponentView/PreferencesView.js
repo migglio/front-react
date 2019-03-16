@@ -27,7 +27,7 @@ class MeetingDataView extends React.Component {
         super(props);
     }
 
-    	//Get value entered by user
+	//Get value entered by user
 	handleUserInput = (e) => {
         const name = e.target.name
         const value = e.target.value
