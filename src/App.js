@@ -14,7 +14,7 @@ class App extends Component {
             <Header/>
           </header >
           <p className="App-intro">
-            <Body style={{bakcground:"#efefef"}}/>
+            <Body style={{background:"#efefef"}}/>
           </p>
         </div>
     );

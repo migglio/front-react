@@ -10,10 +10,16 @@ import TripSaver from '../../TripSaver/TripSaver';
 import ResumeTrip from './ResumeTrip.js';
 import MeetingDataView from './MeetingDataView'
 import PreferencesView from './PreferencesView'
+import Paper from '@material-ui/core/Paper';
+import red from '@material-ui/core/colors/red';
+import green from '@material-ui/core/colors/green';
+import Info from '@material-ui/icons/Info';
 
 const styles = theme => ({
   root: {
-    width: "100%"
+    background: {color:red},
+    width: "90%",
+    textAlign: "center"
   },
   button: {
     textAlign: 'center',
@@ -28,6 +34,10 @@ const styles = theme => ({
   iconSmall: {
     fontSize: 20,
   },
+  icon: {
+	  height: 30,
+	  width: 30,
+	},
   instructions: {
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit
@@ -47,12 +57,19 @@ class OptionView extends React.Component {
   static propTypes = {
     classes: PropTypes.object
   };
+  constructor(props){
+    super(props);
 
-  state = {
-    activeStep: 0,
-    error:true,
-    save:false
-  };
+    this.state = {
+      activeStep: 0,
+      error:true,
+      save:false,
+      success: false
+    };
+
+    this.updateSavedState = this.updateSavedState.bind(this);
+  
+  }
 
   isStepFailed = step => {
     return step === 4;
@@ -88,7 +105,7 @@ class OptionView extends React.Component {
 
   	//Validation methods
 	validateFistStep(){
-    //		return false; //borrar linea desp de terminar
+    		return false; //borrar linea desp de terminar
         if (this.props.tripData.steps[0].location.lat===undefined || this.props.tripData.steps[this.props.tripData.steps.length-1].location.lat===undefined)
           return true;
         if (this.props.tripData.steps[0].time==='')
@@ -99,8 +116,8 @@ class OptionView extends React.Component {
       }
     
       validateSecondStep(){
-    //		return false; //borrar linea desp de terminar
-        if (this.props.tripData.seats == ''  || this.getError(this.props.tripData.seats) )
+//    		return false; //borrar linea desp de terminar
+        if (this.props.tripData.steps[0].passengers.total == ''  || this.getError(this.props.tripData.steps[0].passengers.total) )
           return true;
     
         if (this.props.tripData.car == '' )
@@ -136,6 +153,10 @@ class OptionView extends React.Component {
       this.props.handleUserInput(name, value);
     }
 
+    updateSavedState = (value) =>{
+      this.setState({success:value});
+    }
+
     getError(value){
       if (!value)
         return 'Field required'	
@@ -163,7 +184,7 @@ class OptionView extends React.Component {
     
       getThirdStepView(){
         return(
-          <ResumeTrip tripData={this.props.tripData}></ResumeTrip>			
+          <ResumeTrip tripData={this.props.tripData} success={this.state.success}></ResumeTrip>			
         );
       }	
       
@@ -192,7 +213,9 @@ class OptionView extends React.Component {
 
 
     return (
-      <div className={classes.root}>
+      <div style={{background:"#fafafa"}} className={classes.root}>
+
+      <Paper>
         <Stepper activeStep={activeStep}>
           {steps.map((label, index) => {
             const props = {};
@@ -208,19 +231,40 @@ class OptionView extends React.Component {
             );
           })}
         </Stepper>
-        
+        <hr/>
         {this.getSection(this.state.activeStep)}
 
         <div>
           {activeStep === steps.length ? (
             <div>
-              <Typography className={classes.instructions}>
-                All steps completed - you have published a new trip
-              </Typography>
-              <Button onClick={this.handleReset} className={classes.button}>
+                {this.state.success? 
+                <Paper className={classes.root} elevation={1}>
+                  <Typography variant="title" gutterBottom style={{ color:green[900],fontWeight: 700, padding: '1%'}} >
+                  <Info className={classes.icon} style={{ color: green[900]}}/>
+                    Success
+                  </Typography>
+                  <Typography variant="subheading" gutterBottom style={{ fontWeight: 700, padding: '1%'}} >
+                    {this.state.success? 'You successfully added' : 'Sorry, Your trip was not successfully added'}
+                  </Typography>
+                </Paper>
+              : 
+                <Paper className={classes.root} elevation={1}>
+                  <Typography variant="title" gutterBottom style={{ color:red[900],fontWeight: 700, padding: '1%'}} >
+                  <Info className={classes.icon} style={{ color: red[900]}}/>
+                  Failed
+                </Typography>
+                <Typography variant="subheading" gutterBottom style={{ color:'#054752',fontWeight: 700, padding: '1%'}} >
+                  {this.state.success? 'You successfully added' : 'Sorry, Your trip was not successfully added'}
+                </Typography>
+              </Paper>
+            }
+             <Button onClick={this.handleReset} className={classes.button}>
                 Reset
               </Button>
-              <TripSaver tripData={this.props.tripData} save={this.state.save}></TripSaver>
+              <Button href="/" onClick={this.handleReset} className={classes.button} variant="raised" color="primary">
+                Back to home
+              </Button>
+              <TripSaver tripData={this.props.tripData} save={this.state.save} updateSavedState={this.updateSavedState}></TripSaver>
             </div>
           ) : (
             <div>
@@ -228,6 +272,8 @@ class OptionView extends React.Component {
                   disabled={activeStep === 0 }
                   onClick={this.handleBack}
                   className={classes.button}
+                  variant="raised"
+                  color="primary"
                 >
                   Back
                 </Button>
@@ -243,6 +289,7 @@ class OptionView extends React.Component {
             </div>
           )}
         </div>
+        </Paper>
       </div>
     );
   }

@@ -35,6 +35,8 @@ const GoogleMapsWrapper = compose(
   withScriptjs,
   withGoogleMap,
   lifecycle({
+
+    //este se necesita para la vista de tripCreator
     componentDidUpdate() {
       if (fromLat != undefined && toLat != undefined){     
           const google = window.google;
@@ -56,7 +58,29 @@ const GoogleMapsWrapper = compose(
         })
     }
 
+  },
+  //componentDidUpdate no es llamado la primera vez cuando es montado. Por esto se usa este -tripDetails-
+  componentDidMount() {
+    if (fromLat != undefined && toLat != undefined){     
+        const google = window.google;
+
+
+        const DirectionsService = new google.maps.DirectionsService();
+
+        DirectionsService.route({
+          origin: new google.maps.LatLng( fromLat, fromLng),
+          destination: new google.maps.LatLng(toLat ,toLng),
+        travelMode: google.maps.TravelMode.DRIVING,
+        waypoints: waypoints,
+        }, (result, status) => {
+          if (status === google.maps.DirectionsStatus.OK) {
+            this.setState({
+              directions: result,
+            });
+          }
+      })
   }
+}
 })
 )(props =>
   <div>

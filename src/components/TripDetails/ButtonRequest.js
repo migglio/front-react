@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import Icon from "@material-ui/core/Icon";
+import PersonAdd from '@material-ui/icons/PersonAdd';
 
 const styles = theme => ({
   button: {
@@ -25,14 +25,18 @@ function getType(automatic){
     return 'Send Request'
 }
 
+
+
 function ButtonRequest(props) {
   const { classes } = props;
-  //TODO: VER PORQUE NO MUESTRA EL ICONO USANDO "send" 
   return (
-      <Button variant="contained" color="primary" className={classes.button}>
+    <div>
+      <Button disabled={props.completed} variant="contained" color="primary" className={classes.button} onClick={props.joinToTheTrip}>
+        <PersonAdd />
         {getType(props.automatic)}
-        <Icon className={classes.rightIcon}></Icon>
-    </Button>
+     </Button>
+
+    </div>
     
   );
 }

@@ -21,6 +21,9 @@ class Chat extends Component {
           handleNewUserMessage={this.handleNewUserMessage}
           title="Chat"
           subtitle="Parece un chat copado para lo que necesitamos"
+          senderPlaceHolder="Escribe un mensaje"
+          badge={3}
+          autofocus={true}
         />
       </div>
     );

@@ -35,7 +35,7 @@ export default class MyMapComponent extends React.Component {
 	render() {
 		const markers = this.createMarkersList();
 		const waypoints = this.createWaypointsList();
-
+		console.log(markers);
 		return (
 			<GoogleMapsWrapper
 				googleMapURL= "https://maps.googleapis.com/maps/api/js?key=AIzaSyDw6XjBV9dEHkRt_T4ChYB5Nklc2-YiN9M&v=3.exp&libraries=geometry,drawing,places"

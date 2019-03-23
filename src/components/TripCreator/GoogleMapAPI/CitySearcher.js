@@ -1,6 +1,8 @@
 import React from "react";
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
+import AddLocation from '@material-ui/icons/AddLocation';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const { compose, withProps, lifecycle } = require("recompose");
 const {
@@ -26,7 +28,7 @@ const PlacesWithStandaloneSearchBox = compose(
         onPlacesChanged: () => {
           //Get the list of places from the searchbox 
           const places = refs.searchBox.getPlaces();
-          
+
           this.setState({
             places:places,
           });
@@ -62,6 +64,13 @@ const PlacesWithStandaloneSearchBox = compose(
             required
             helperText={props.error}
             onChange={props.changeName}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AddLocation />
+                </InputAdornment>
+              ),
+            }}
           />
       </FormControl>
     </StandaloneSearchBox>
@@ -83,6 +92,8 @@ export default class MySearchPlaceComponent extends React.Component{
   }
 
   isCity(name, list){
+    if (name === '')
+      return false;
     for (let index = 0; index < list.length; index++) {
       if (list[index].name == name){
         this.setState({error:true})

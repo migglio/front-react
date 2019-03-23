@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@livechat/ui-kit": "^0.2.15",
     "@material-ui/core": "^1.0.0",
     "@material-ui/icons": "^1.1.0",
     "@material/textfield": "^1.0.1",
@@ -27,6 +28,7 @@
     "react-list": "^0.8.8",
     "react-notification-system": "^0.2.17",
     "react-number-format": "^3.3.4",
+    "react-places-autocomplete": "^7.2.1",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4",
     "validate-field-react": "0.0.9"

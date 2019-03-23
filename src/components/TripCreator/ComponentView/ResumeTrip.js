@@ -7,13 +7,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
 import ArrowForward from '@material-ui/icons/ArrowForward';
-import AcUnitIcon from '@material-ui/icons/AcUnit';
-import LocalCafeIcon from '@material-ui/icons/LocalCafe'
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-import FlashOnIcon from '@material-ui/icons/FlashOn'
 import blue from '@material-ui/core/colors/blue';
 import green from '@material-ui/core/colors/green';
-import yellow from '@material-ui/core/colors/yellow';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { Grid } from '@material-ui/core';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -26,7 +22,8 @@ import AccessTime from '@material-ui/icons/AccessTime';
 const styles2 = theme => ({
   root: {
     padding: '1%',
-   
+    textAlign: "center",
+    
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -114,7 +111,7 @@ class resumeTrip extends React.Component {
           <div style={{ display: 'flex'}}>
             <AccessTime color="primary"/>
             <Typography variant="title" gutterBottom style={{ fontWeight: 500}}>
-            {moment(this.props.tripData.date).format('LL')}, {this.props.tripData.steps[0].time} hs
+            {moment(this.props.tripData.steps[0].date).format('LLLL')}, {this.props.tripData.steps[0].time} hs
             </Typography>
           </div>
         </Grid>
@@ -151,7 +148,7 @@ class resumeTrip extends React.Component {
             <div style={{ display: 'flex'}}>
               <PermIdentityIcon className={classes.icon} style={{ color:blue[500]}}/>
               <Typography variant="subheading" style={{ color:green[800],fontWeight: 600 }}>
-              {this.props.tripData.seats }
+              {this.props.tripData.steps[0].passengers.total - this.props.tripData.steps[0].passengers.users.length }
               </Typography>
             </div>
           </Tooltip>

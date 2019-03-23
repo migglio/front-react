@@ -13,6 +13,10 @@ import Security from '@material-ui/icons/Security';
 import LocalCafe from '@material-ui/icons/LocalCafe';
 import green from '@material-ui/core/colors/green';
 import red from '@material-ui/core/colors/red';
+import AttachMoney from '@material-ui/icons/AttachMoney';
+import PersonOutline from '@material-ui/icons/PersonOutline';
+import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 const styles2 = theme => ({
 	icon: {
@@ -72,7 +76,14 @@ render(){
 								id="inputPrice"
 								defaultValue={this.props.tripData.steps[0].price}
 								onChange={this.handleUserInput}
-								inputProps={{ min: "1" }}
+								InputProps={{
+									min: "1",
+									startAdornment: (
+										<InputAdornment position="start">
+											<AttachMoney />
+										</InputAdornment>
+									),
+								}}			
 								endAdornment={<InputAdornment position="end">Precio por pasajero</InputAdornment>}
 								error={this.props.tripData.errors['price']}
 								required
@@ -85,9 +96,16 @@ render(){
 								placeholder='Example: 3'
 								min="1"
 								id="inputSeats"
-								defaultValue={this.props.tripData.seats}
+								defaultValue={this.props.tripData.steps[0].passengers.total}
 								onChange={this.handleUserInput}
-								inputProps={{ min: "1" }}
+								InputProps={{
+									min: "1",
+									startAdornment: (
+										<InputAdornment position="start">
+											<PersonOutline />
+										</InputAdornment>
+									),
+								}}
 								endAdornment={<InputAdornment position="end">Passengers</InputAdornment>}
 								error={this.props.tripData.errors['seats']}
 								required
@@ -99,6 +117,13 @@ render(){
 							type="text"
 							placeholder='Example: Ford Focus'
 							id="inputCar"
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<DirectionsCarIcon />
+									</InputAdornment>
+								),
+							}}
 							defaultValue={this.props.tripData.car}
 							onChange={this.handleUserInput}
 							error={this.props.tripData.errors['car']}
@@ -153,7 +178,14 @@ render(){
 						multiline
 						rows={4}
 						rowsMax="4"
-						margin="normal"		  
+						margin="normal"
+						InputProps={{
+							startAdornment: (
+								<InputAdornment position="start">
+									<AssignmentIcon />
+								</InputAdornment>
+							),
+						}}		
 						fullWidth
 						placeholder="Details..." />
 				</Grid>

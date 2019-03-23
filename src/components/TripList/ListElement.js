@@ -143,7 +143,7 @@ class ListElement extends React.Component {
                 <div style={{ display: 'flex'}}>
                   <AccessTime color="primary"/>
                   <Typography variant="title" gutterBottom style={{ fontWeight: 500}}>
-                  {moment(this.props.tripData.date).format('LLLL')}
+                  {moment(this.props.tripData.steps[0].date).format('LLLL')}
                   </Typography>
                 </div>
                 

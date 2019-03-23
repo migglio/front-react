@@ -11,6 +11,8 @@ import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pic
 import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
+import AccessTime from '@material-ui/icons/AccessTime';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const styles2 = theme => ({
 	icon: {
@@ -19,6 +21,7 @@ const styles2 = theme => ({
 	},
   });
 
+const moment = require('moment');
 
 class MeetingDataView extends React.Component {
 	constructor(props) {
@@ -82,7 +85,15 @@ class MeetingDataView extends React.Component {
                     <DateSelector label='Trip date' callback={this.updateDate} date={this.props.tripData.date}/>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <TextField id="time" label="Trip Time" type="time" onChange={this.updateTime} value={this.props.tripData.steps[0].time}
-                            inputProps={{ step: 300 }} // 5 min 
+                            InputProps={{
+                                step: 300, // 5 min
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    <AccessTime />
+                                  </InputAdornment>
+                                ),
+                              }}
+                  
                         />
                     </MuiPickersUtilsProvider>
             </Grid>

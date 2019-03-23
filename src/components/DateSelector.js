@@ -3,6 +3,8 @@ import DatePicker from 'material-ui-pickers/DatePicker';
 import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
 import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
 import TextField from '@material-ui/core/TextField';
+import DateRange from '@material-ui/icons/DateRange';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const moment = require('moment');
 
@@ -29,6 +31,13 @@ class DateSelector extends React.Component{
           label="Trip date"
           value={this.state.selectedDate}
           onChange={this.handleDateChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <DateRange />
+              </InputAdornment>
+            ),
+          }}
         />
       </MuiPickersUtilsProvider>
 

@@ -4,6 +4,9 @@ import OptionView from './ComponentView/OptionView.js';
 import './index.css'
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import Typography from "@material-ui/core/Typography";
+import blue from '@material-ui/core/colors/blue';
+import Auth from '../Auth/Auth.js';
 
 const styles2 = theme => ({
 	icon: {
@@ -24,10 +27,11 @@ class OfferARide extends React.Component {
 		const destination = this.getStepEmpty();
 
 		this.state = {
+			//TODO: owner harcoded CHANGEEE!!!!!
+			owner: Auth.getUserID(), 
 			//each step should have a name, location, price and time
 			steps:[ origin, destination], 
 			//attributes in common both main and step trip but specially after a reservation 
-			seats: '',
 			//attributes in common both main and step trip 
 			date: '',
 			reservation: false,
@@ -72,7 +76,7 @@ class OfferARide extends React.Component {
 			price:'', 
 			time:'',
 			date:'', 
-			passengers: {total:1, users:[] }
+			passengers: {total:'', users:[] }
 			});
 	}
 
@@ -83,12 +87,17 @@ class OfferARide extends React.Component {
 
 		const list = this.state.steps;
 
-		if (name === 'price'){
-			list[0].price = value;
+		if (name === 'seats'){
+			list[0].passengers.total = value;
 			this.setState({ errors:errs, steps:list});
 		}
 		else
-			this.setState({[name]: value, errors:errs, steps:list})
+			if (name === 'price'){
+				list[0].price = value;
+				this.setState({ errors:errs, steps:list});
+			}
+			else
+				this.setState({[name]: value, errors:errs, steps:list})
 	}
 
 	handleReservation = () => {
@@ -182,7 +191,10 @@ class OfferARide extends React.Component {
 	render(){
 		return(
 			<div style={{paddingLeft:"10%", paddingRight:"10%"}} >
-				<h1>Offer a ride</h1>
+				<Typography variant="title" gutterBottom style={{  color:'#616161', fontWeight: 700, padding: '1%'}} >
+						Offer a ride	
+				</Typography>
+
 				<Grid container spacing={24} class ='row'>
 					<Grid item xs={12} >
 						<OptionView 
@@ -191,7 +203,10 @@ class OfferARide extends React.Component {
 							/>
 					</Grid>
 					<Grid item xs={12} >
-						<h3>View of our travel</h3>
+						<Typography variant="title" gutterBottom style={{  color:'#616161', fontWeight: 700, padding: '1%'}} >
+							View of my trip
+						</Typography>
+
 						<MyMapComponent steps={this.state.steps}/>
 					</Grid>
 				</Grid>

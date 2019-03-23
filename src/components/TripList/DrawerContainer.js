@@ -31,8 +31,8 @@ class DrawerContainer extends React.Component {
       this.state={
         trips:this.props.trips,
         value:{
-              min:Math.min.apply(null, this.props.trips.map(item => item.price)),
-              max:Math.max.apply(null, this.props.trips.map(item => item.price))
+              min:Math.min.apply(null, this.props.trips.map(item => item.steps[0].price)),
+              max:Math.max.apply(null, this.props.trips.map(item => item.steps[0].price))
         }   
       }
       this.filterTrips = this.filterTrips.bind(this)
@@ -51,7 +51,7 @@ class DrawerContainer extends React.Component {
           </Paper>
       <div className={classes.root} >
           
-          <Filters trips={this.state.trips} max={Math.max.apply(null, this.props.trips.map(item => item.price))} min={Math.min.apply(null, this.props.trips.map(item => item.price))} value={this.state.value} filterTrips={this.filterTrips}/>
+          <Filters trips={this.state.trips} max={Math.max.apply(null, this.props.trips.map(item => item.steps[0].price))} min={Math.min.apply(null, this.props.trips.map(item => item.steps[0].price))} value={this.state.value} filterTrips={this.filterTrips}/>
         
         <div className={classes.tripsContainer}>
             {this.renderTrips(this.state.trips)}
@@ -70,11 +70,11 @@ class DrawerContainer extends React.Component {
     console.log(plazasDisp)
     var newTrips=this.props.trips
     if(plazasDisp)
-       newTrips=newTrips.filter(trip=>(trip.passangers.total-trip.passangers.users.length)>0) 
+       newTrips=newTrips.filter(trip=>(trip.steps[0].passengers.total-trip.steps[0].passengers.users.length)>0) 
     if(autRes)
-      this.setState({trips:newTrips.filter(trip=>trip.price>=value.min && trip.price<=value.max && trip.automaticReservation===autRes)})
+      this.setState({trips:newTrips.filter(trip=>trip.steps[0].price>=value.min && trip.price<=value.max && trip.automaticReservation===autRes)})
     else  
-      this.setState({trips:newTrips.filter(trip=>trip.price>=value.min &&trip.price<=value.max)})
+      this.setState({trips:newTrips.filter(trip=>trip.steps[0].price>=value.min &&trip.steps[0].price<=value.max)})
     }
   
   }
