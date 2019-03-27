@@ -10,7 +10,7 @@ import OfferARide from './components/TripCreator/TripCreator'
 import TripsList from './components/TripList/TripList.js'
 import DetailsView from './components/TripDetails/DetailsView.js';
 import Profile from './components/Profile/Profile';
-
+import TripOffered from './components/TripOffers/TripOffered'
 
 render((
   <BrowserRouter>
@@ -24,6 +24,8 @@ render((
           <Route path='/TripDetails' component={DetailsView}/>
           <Route path='/tripsList' component={TripsList}/>
           <Route path='/Profile' component={Profile}/>
+          <Route path='/TripOffers' component={TripOffered}/>
+
         </Switch>
     </div>
   </BrowserRouter>

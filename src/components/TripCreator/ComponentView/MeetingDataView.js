@@ -37,6 +37,7 @@ class MeetingDataView extends React.Component {
 
     	//Callbacks functions
 	updateDate(date){
+        alert(date)
 		this.props.updateDate(date);
 	}
 
@@ -60,7 +61,6 @@ class MeetingDataView extends React.Component {
 
     render(){
         const { classes } = this.props;
-
         return(
             <div >
                 <Grid container spacing={24}>
@@ -82,9 +82,9 @@ class MeetingDataView extends React.Component {
                     <br/>
                 </Grid>
                 <Grid container spacing={40} direction="column" alignItems="center" justify="center" item xs={12}>
-                    <DateSelector label='Trip date' callback={this.updateDate} date={this.props.tripData.date}/>
+                    <DateSelector label='Trip date' callback={this.updateDate} date={moment(this.props.tripData.steps[0].date).format('YYYY-MM-DD')}/>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <TextField id="time" label="Trip Time" type="time" onChange={this.updateTime} value={this.props.tripData.steps[0].time}
+                        <TextField id="time" label="Trip Time" type="time" onChange={this.updateTime} value={moment(this.props.tripData.steps[0].date).format("HH:mm")}
                             InputProps={{
                                 step: 300, // 5 min
                                 startAdornment: (

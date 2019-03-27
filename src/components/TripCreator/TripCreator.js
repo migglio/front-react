@@ -5,8 +5,12 @@ import './index.css'
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
-import blue from '@material-ui/core/colors/blue';
 import Auth from '../Auth/Auth.js';
+import axios from 'axios'
+import url from '../../config'
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+const queryString = require('query-string');
 
 const styles2 = theme => ({
 	icon: {
@@ -42,7 +46,10 @@ class OfferARide extends React.Component {
 			errors:{
 				seats:'',
 				car:''
-			}
+			},
+			idTrip: queryString.parse(this.props.location.search),
+			loaded: false,
+			toUpdate: false
 		}
 
 		//Callback functions
@@ -66,6 +73,27 @@ class OfferARide extends React.Component {
 		this.deleteStep = this.deleteStep.bind(this);	
 	}
 
+		//Carga de Datos
+		componentDidMount() {
+			if (this.state.idTrip.id !== undefined)
+				axios.get(url.api+'trips/'+this.state.idTrip.id)
+				.then((response)=>{
+					this.setState({
+						steps: response.data.steps,
+						reservation: response.data.automaticReservation,
+						food: response.data.food,
+						mate: response.data.mate,
+						car: response.data.vehiculo,
+						details: response.data.description,
+						owner: response.data.owner,
+						loaded:true,
+						toUpdate: true
+					})					
+				})
+			else
+				this.setState({loaded:true})
+		}	
+
 
 	//Returns a new step with default values
 	getStepEmpty(){
@@ -76,7 +104,7 @@ class OfferARide extends React.Component {
 			price:'', 
 			time:'',
 			date:'', 
-			passengers: {total:'', users:[] }
+			passengers: {total:'', users:[], pendingUsers: [] }
 			});
 	}
 
@@ -118,7 +146,13 @@ class OfferARide extends React.Component {
 
 	//Callbacks functions
 	updateDate(date){
-		this.setState({date:date});
+		const list = this.state.steps;
+		list[0].date = new Date(moment(date,'YYYY-MM-DD'));
+		if (this.state.steps[0].time !== ''){
+			const timeValue = moment(this.state.steps[0].time, 'HH:mm');
+			list[0].date.setHours(timeValue.hours(),timeValue.minutes());	
+		}
+		this.setState({date:date, steps:list});
 	}
 
 	updateFrom(fromUpdated){
@@ -139,7 +173,16 @@ class OfferARide extends React.Component {
 		const list = this.state.steps;
 		//update just the time from the first step
 		list[0].time = value;
+
+		//update the time if the date field has already been changed
+		if (this.state.steps[0].date !== ''){
+			list[0].date = new Date(moment(list[0].date,'YYYY-MM-DD'));
+			const timeValue = moment(value, 'HH:mm');
+			list[0].date.setHours(timeValue.hours(),timeValue.minutes()) ;	
+		}
+
 		this.setState({steps:list});
+
 	}
 
 	addStep(step){
@@ -190,26 +233,30 @@ class OfferARide extends React.Component {
 
 	render(){
 		return(
-			<div style={{paddingLeft:"10%", paddingRight:"10%"}} >
-				<Typography variant="title" gutterBottom style={{  color:'#616161', fontWeight: 700, padding: '1%'}} >
-						Offer a ride	
-				</Typography>
-
-				<Grid container spacing={24} class ='row'>
-					<Grid item xs={12} >
-						<OptionView 
-							tripData={this.state} tripData={this.state} updateDate={this.updateDate} updateFrom={this.updateFrom} updateTo={this.updateTo} updateTime={this.updateTime} changeOrder={this.changeOrder}
-							 handleUserInput={this.handleUserInput} handleReservation={this.handleReservation} handleMate={this.handleMate} handleFood={this.handleFood} handleDetails={this.handleDetails}
-							/>
-					</Grid>
-					<Grid item xs={12} >
+			<div>
+					{ this.state.loaded ? (
+					<div style={{paddingLeft:"10%", paddingRight:"10%"}} >
 						<Typography variant="title" gutterBottom style={{  color:'#616161', fontWeight: 700, padding: '1%'}} >
-							View of my trip
+								Offer a ride	
 						</Typography>
 
-						<MyMapComponent steps={this.state.steps}/>
-					</Grid>
-				</Grid>
+						<Grid container spacing={24} class ='row'>
+							<Grid item xs={12} >
+								<OptionView 
+									tripData={this.state} updateDate={this.updateDate} updateFrom={this.updateFrom} updateTo={this.updateTo} updateTime={this.updateTime} changeOrder={this.changeOrder}
+									handleUserInput={this.handleUserInput} handleReservation={this.handleReservation} handleMate={this.handleMate} handleFood={this.handleFood} handleDetails={this.handleDetails}
+									/>
+							</Grid>
+							<Grid item xs={12} >
+								<Typography variant="title" gutterBottom style={{  color:'#616161', fontWeight: 700, padding: '1%'}} >
+									View of my trip
+								</Typography>
+
+								<MyMapComponent steps={this.state.steps}/>
+							</Grid>
+						</Grid>
+						</div> )
+				: <CircularProgress /> }
 			</div>
 			);
 	}

@@ -13,6 +13,8 @@ import ProfileResume from '../Profile/ProfileResume'
 import PassengerView from './PassengerView'
 import TripSaver from '../TripSaver/TripSaver.js';
 import Auth from '../Auth/Auth.js';
+
+
 const queryString = require('query-string');
 
 
@@ -40,7 +42,8 @@ class DetailsView extends React.Component{
 			details: '',
 			loaded:false,
 			idTrip: queryString.parse(this.props.location.search),
-			showMap: false
+			showMap: false,
+			update: false
 		}
 
 		this.joinToTheTrip = this.joinToTheTrip.bind(this);
@@ -60,7 +63,6 @@ class DetailsView extends React.Component{
 				details: response.data.description,
 				owner: response.data.owner,
 				loaded:true,
-				update: false
 			})
 			
 		})
@@ -94,7 +96,10 @@ class DetailsView extends React.Component{
 	joinToTheTrip(){
 		const list = this.state.steps;
 		//add the id of the new User
-		list[0].passengers.users.push(Auth.getUserID());
+		if (this.state.reservation)
+			list[0].passengers.users.push(Auth.getUserID());
+		else
+			list[0].passengers.pendingUsers.push(Auth.getUserID());		
 		this.setState({update:true, steps: list});
 	}
 
@@ -113,7 +118,7 @@ class DetailsView extends React.Component{
 									<Paper>
 										<ResumeTrip tripData={this.state}></ResumeTrip>
 										<hr/>
-										<PassengerView update={this.state.update} passengers={this.state.steps[0].passengers.users}></PassengerView>
+										<PassengerView update={this.state.update} passengers={this.state.steps[0].passengers}></PassengerView>
 										<hr/>
 										<ButtonRequest completed={this.state.steps[0].passengers.total===this.state.steps[0].passengers.users.length} automatic={this.state.reservation} joinToTheTrip={this.joinToTheTrip}/>
 									</Paper>
@@ -123,7 +128,7 @@ class DetailsView extends React.Component{
 							<div class='column'>
 								<h3>Driver Profile</h3>
 								<ProfileResume tripData={this.state}></ProfileResume>
-								<TripSaver update={this.state.update} tripData={this.state} id={this.state.idTrip.id}></TripSaver>
+								<TripSaver success={'Your request has been sent. You will be redirect to home page soon'} error={'Sorry, Your request has not been sent.'} update={this.state.update} tripData={this.state} id={this.state.idTrip.id}></TripSaver>
 								<Chat/>
 							</div>
 						</div>

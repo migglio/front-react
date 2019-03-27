@@ -27,6 +27,7 @@ import red from '@material-ui/core/colors/red';
 import Axios from 'axios';
 import url from '../../config'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ButtonPanel from './ButtonPanel';
 
 const styles2 = theme => ({
   root: {
@@ -202,9 +203,8 @@ class ListElement extends React.Component {
                     {this.props.tripData.description}
                 </Typography>
                 </div >
-                <Button href={'tripDetails?id='+this.props.tripData._id} className={classes.button} variant="raised" >
-                          Reservar
-                </Button>
+                <ButtonPanel newTrips={this.props.newTrips} tripData={this.props.tripData} />
+
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </div>       

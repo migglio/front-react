@@ -1,7 +1,7 @@
 import axios from 'axios'
 import url from '../../config.js'
 import React from 'react';
-
+import { Redirect } from 'react-router-dom'
 var NotificationSystem = require('react-notification-system')
 const moment = require('moment');
 
@@ -12,7 +12,8 @@ class TripSaver extends React.Component {
         this.state = {
             //when it is true, processForm is called
             save: false,
-            steps: props.tripData.steps
+            steps: props.tripData.steps,
+            redirect: null
         }
 		//db methods
 		this.processForm = this.processForm.bind(this);
@@ -20,6 +21,8 @@ class TripSaver extends React.Component {
 
 		//notifications
         this.addNotification = this.addNotification.bind(this)
+        this.redirect = this.redirect.bind(this)
+
 	}
 
     componentDidMount = (event) => {
@@ -27,24 +30,36 @@ class TripSaver extends React.Component {
         if (this.props.save){
             this.processForm(event);
         }
+        if (this.props.updateTrip){
+            this.updateTrip(this.props.tripData, this.props.id);
+        }
+
     }
 
     componentDidUpdate = (event) => {
         if (this.props.update){
             this.updatePassengers(this.props.tripData, this.props.id);
         }
+
     }
 
 
     notifications ;
 
-    addNotification = ( type, message) => {    
-
+    addNotification = ( type, message) => {
+        const onRemove = (type === 'success') ? this.redirect : null
         this.notifications.addNotification({
-            message: message,
-            level: type,
-            position: 'tc',
-            autoDismiss: 3,
+          message: message,
+          level: type,
+          position: 'tc',
+          autoDismiss: 4,
+          onRemove: onRemove
+        })
+    }
+
+    redirect(){
+        this.setState({
+            redirect: <Redirect to='/login'/>
         })
     }
 
@@ -58,26 +73,47 @@ class TripSaver extends React.Component {
             const timeValue = moment(this.props.tripData.steps[0].time, 'HH:mm');
             list[index].date.setHours(timeValue.hours(),timeValue.minutes()) ;
         }
-        alert(list[0].date)
 		this.setState({steps:list}) 
 	}
 
 
     updatePassengers(tripData, id){
-		//Copy number of passengers and date before saving the trip
 		// prevent default action. in this case, action is the form submission event
         //event.preventDefault();
 		const userData = {
             steps: tripData.steps,
             id: id
 		}
-        console.log(userData.tripData)
 		axios.put(url.socket + 'api/trips', userData, url.config)
 		.then((response) => {
-            this.addNotification( 'success', 'You successfully added');
+            this.addNotification( 'success', this.props.success);
         })
 		.catch((error) => {
-            this.addNotification( 'error', 'Sorry, Your trip was not successfully added');
+            this.addNotification( 'error', this.props.success);
+            console.log(error)}
+		)
+	}
+
+    updateTrip(tripData, id){
+		// prevent default action. in this case, action is the form submission event
+        //event.preventDefault();
+		const userData = {
+            owner: tripData.owner,
+			steps: tripData.steps,
+			description: tripData.details,
+			vehiculo: tripData.car,
+            automaticReservation: tripData.reservation,
+            food: tripData.food,
+            mate: tripData.steps.mate,
+            id: id
+		}
+        console.log(userData.tripData)
+		axios.put(url.socket + 'api/trips/updateTrip', userData, url.config)
+		.then((response) => {
+            this.addNotification( 'success', this.props.success);
+        })
+		.catch((error) => {
+            this.addNotification( 'error', this.props.success);
             console.log(error)}
 		)
 
@@ -103,11 +139,11 @@ class TripSaver extends React.Component {
 
 		axios.post(url.socket + 'api/trips', userData, url.config)
 		.then((response) => {
-            this.addNotification( 'success', 'You successfully added');
+            this.addNotification( 'success', this.props.success);
             this.props.updateSavedState(true);
         })
 		.catch((error) => {
-            this.addNotification( 'error', 'Sorry, Your trip was not successfully added');
+            this.addNotification( 'error', this.props.error);
             this.props.updateSavedState(false);
             console.log(error)}
 		)
@@ -115,7 +151,10 @@ class TripSaver extends React.Component {
     
     render(){
         return(
-            <NotificationSystem ref="notificationSystem" />
+            <div>
+                {this.props.update ? this.state.redirect: null}
+                <NotificationSystem ref="notificationSystem" />
+            </div>
         );
 
     }

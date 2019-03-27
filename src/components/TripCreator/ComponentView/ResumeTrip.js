@@ -111,7 +111,7 @@ class resumeTrip extends React.Component {
           <div style={{ display: 'flex'}}>
             <AccessTime color="primary"/>
             <Typography variant="title" gutterBottom style={{ fontWeight: 500}}>
-            {moment(this.props.tripData.steps[0].date).format('LLLL')}, {this.props.tripData.steps[0].time} hs
+            {moment(this.props.tripData.steps[0].date).format('LLLL')}
             </Typography>
           </div>
         </Grid>
@@ -137,7 +137,7 @@ class resumeTrip extends React.Component {
           <br/>
 				</Grid>
 
-				<Grid container spacing={40} direction="row" alignItems="center" justify="center" item xs={10}>
+				<Grid container spacing={40} direction="row" textAlign='center' alignItems="center" justify="center" item xs={10}>
           <Tooltip title="Modelo del Auto" placement="top">
             <div style={{ display: 'flex'}}>
               <DirectionsCarIcon className={classes.icon} style={{ color:blue[900]}}/>
@@ -187,7 +187,6 @@ class resumeTrip extends React.Component {
 								<LocalCafe className={classes.icon} style={{ color: this.props.tripData.mate ? green[900] : red[900]}}/>
 							</div>  
 						</Tooltip>
-
         </Grid>
         <Grid class='centerRow' item xs={10} sm={6}>
         <br/>

@@ -6,6 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import UserRequest from '../UserRequestDB/UserRequest'
+import Typography from '@material-ui/core/Typography';
 
 
 const styles = theme => ({
@@ -29,15 +30,15 @@ class SinglePassengerView extends React.Component{
     }
 
     addUser(user){
-        const userList = [];
+        const userList = this.state.users;
         userList.push(user);
         this.setState({users: userList});
     }
 
     
     componentWillMount(){
-        if (this.props.passengers.length > 0){
-            UserRequest.getUser(this.props.passengers[0], this.addUser);        
+        for (let index = 0; index < this.props.passengers.length; index++) {
+            UserRequest.getUser(this.props.passengers[index], this.addUser);        
         }
     }
 
@@ -45,7 +46,11 @@ class SinglePassengerView extends React.Component{
         const { classes } = this.props;
 
         return (
-            <div style={{display: 'flex', justifyContent: 'center'}}>
+            <div style={{justifyContent: 'center'}}>
+                <Typography variant="caption" gutterBottom style={{ color:'#054752',fontWeight: 700, padding: '0%'}} >
+                  {this.props.subtitle}
+                </Typography>
+
                 <List dense className={classes.root}>
                 {this.state.users.map(user => (
                 <ListItem key={user.nickname} button>

@@ -1,14 +1,8 @@
 import React from 'react';
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Checkbox from "@material-ui/core/Checkbox";
-import Avatar from "@material-ui/core/Avatar";
 import SinglePassengerView from './SinglePassengerView';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
     root: {
@@ -30,9 +24,19 @@ class PassengerView extends React.Component{
 
         return (
             <div>
-                <h1>Passengers</h1>
-                <SinglePassengerView passengers={this.props.passengers}></SinglePassengerView>
+                <Typography variant="headline" gutterBottom style={{ color:'#054752',fontWeight: 700, padding: '0%'}} >
+                  Passengers
+                </Typography>
 
+                <Grid
+                  container
+                  direction="row"
+                  justify="center"
+                  alignItems="center"
+                >
+                  <SinglePassengerView subtitle="confirmed" passengers={this.props.passengers.users}></SinglePassengerView>
+                  <SinglePassengerView subtitle="pending" passengers={this.props.passengers.pendingUsers}></SinglePassengerView>
+                </Grid>
             </div>
          );
     }
