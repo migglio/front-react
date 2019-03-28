@@ -100,6 +100,7 @@ class TripSaver extends React.Component {
     updateTrip(tripData, id){
 		// prevent default action. in this case, action is the form submission event
         //event.preventDefault();
+        alert(id)
 		const userData = {
             owner: tripData.owner,
 			steps: tripData.steps,
@@ -107,7 +108,7 @@ class TripSaver extends React.Component {
 			vehiculo: tripData.car,
             automaticReservation: tripData.reservation,
             food: tripData.food,
-            mate: tripData.steps.mate,
+            mate: tripData.mate,
             id: id
 		}
         console.log(userData.tripData)

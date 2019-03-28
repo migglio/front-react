@@ -14,6 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
 import Info from '@material-ui/icons/Info';
+import { Redirect } from 'react-router-dom'
 
 const styles = theme => ({
   root: {
@@ -284,7 +285,7 @@ class OptionView extends React.Component {
                 <Button href="/" onClick={this.handleReset} className={classes.button} variant="raised" color="primary">
                   Back to home
                 </Button>
-                <TripSaver tripData={this.props.tripData} save={this.state.save} updateTrip={this.state.update} updateSavedState={this.updateSavedState} success={'Your trip has been successfully added'} error={'Sorry, Your trip has not been successfully added'} ></TripSaver>
+                <TripSaver id={this.props.tripData.idTrip.id} tripData={this.props.tripData} save={this.state.save} updateTrip={this.state.update} updateSavedState={this.updateSavedState} success={'Your trip has been successfully added'} error={'Sorry, Your trip has not been successfully added'} ></TripSaver>
               </div>
             ) : (
               <div>

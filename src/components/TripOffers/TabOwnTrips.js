@@ -7,8 +7,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import ListElement from '../TripList/ListElement';
-import TripList from '../TripList/TripList';
-import DrawerContainer from '../TripList/DrawerContainer';
 
 function TabContainer({ children, dir }) {
   return (
@@ -44,14 +42,21 @@ class TabOwnTrips extends React.Component {
 
   renderTrips(trips) {
     const nowDate = new Date();
-    const next = [];
+    const previous = [];
+
 
     for (let index = 0; index < trips.length; index++) {
       if (new Date(trips[index].steps[0].date) < nowDate) 
-          next.push(trips[index])        
+      previous.push(trips[index])        
     }
 
-    return next.map((trip, index) => 
+    if (previous.length === 0)
+      return         <Typography variant="subheading" gutterBottom style={{ color:'#054752',fontWeight: 700, padding: '1%'}} >
+      No has realizado viajes hasta el momento
+    </Typography>
+;
+
+    return previous.map((trip, index) => 
       <ListElement key={index} tripData={trip} />)
   }
 
@@ -63,6 +68,13 @@ class TabOwnTrips extends React.Component {
         if (new Date(trips[index].steps[0].date) > nowDate) 
             next.push(trips[index])        
       }
+
+      if (next.length === 0)
+      return 
+        <Typography variant="title" gutterBottom style={{ color:'#054752',fontWeight: 700, padding: '1%'}} >
+          No tienes viajes publicados por hacer hasta el momento
+        </Typography>
+
 
       return next.map((trip, index) => 
         <ListElement key={index} tripData={trip} newTrips={true} />)

@@ -38,8 +38,8 @@ class SearchBar extends React.Component{
     constructor(props) {
         super(props)
         this.state={
-            from:'',
-            to:'',
+            from: undefined,
+            to: undefined,
             date:"",
             redirect:false,
             res:null

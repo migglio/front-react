@@ -88,7 +88,8 @@ class OfferARide extends React.Component {
 						owner: response.data.owner,
 						loaded:true,
 						toUpdate: true
-					})					
+					});
+					this.state.steps[0].date = new Date(this.state.steps[0].date);					
 				})
 			else
 				this.setState({loaded:true})
