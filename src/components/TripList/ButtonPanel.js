@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import TripSaver from '../TripSaver/TripSaver';
 
 const styles2 = theme => ({
   root: {
@@ -68,9 +69,21 @@ const moment = require('moment');
 class ButtonPanel extends React.Component {
   constructor(props) {
     super(props)
-    this.state={
+    this.state = {
         newTrips: this.props.newTrips,
+        delete: false
     }
+
+    this.deleteById = this.deleteById.bind(this);
+    this.updateDeleteState = this.updateDeleteState.bind(this);
+  }
+
+  deleteById(){
+    this.setState({delete: true})
+  }
+
+  updateDeleteState(value){
+    this.setState({delete: value})
   }
 
   renderButtons(type){
@@ -101,9 +114,10 @@ class ButtonPanel extends React.Component {
             <Button href={'TripCreator?id='+this.props.tripData._id} className={classes.button} variant="raised" >
                     Editar
             </Button>
-            <Button href={'tripDetails?id='+this.props.tripData._id} className={classes.button} variant="raised" >
+            <Button onClick={this.deleteById} className={classes.button} variant="raised" >
                     Borrar
             </Button>
+            <TripSaver tripData={this.props.tripData} delete={this.state.delete} updateTrip={this.state.update} updateDeleteState={this.updateDeleteState} success={'Your trip has been successfully deleted'} error={'Sorry, Your trip has not been successfully deleted'} ></TripSaver>
         </div>
     
     );

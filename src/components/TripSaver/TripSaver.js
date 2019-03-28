@@ -33,13 +33,16 @@ class TripSaver extends React.Component {
         if (this.props.updateTrip){
             this.updateTrip(this.props.tripData, this.props.id);
         }
-
     }
 
     componentDidUpdate = (event) => {
         if (this.props.update){
             this.updatePassengers(this.props.tripData, this.props.id);
         }
+        if (this.props.delete){
+            this.deleteTrip(this.props.tripData._id);
+        }
+
 
     }
 
@@ -111,12 +114,33 @@ class TripSaver extends React.Component {
 		axios.put(url.socket + 'api/trips/updateTrip', userData, url.config)
 		.then((response) => {
             this.addNotification( 'success', this.props.success);
+            this.props.updateSavedState(true);
         })
 		.catch((error) => {
-            this.addNotification( 'error', this.props.success);
+            this.addNotification( 'error', this.props.error);
+            this.props.updateSavedState(false);
             console.log(error)}
 		)
 
+    }
+    
+    deleteTrip(id){
+		// prevent default action. in this case, action is the form submission event
+        //event.preventDefault();
+		const userData = {
+            id: id
+        }
+		axios.delete(url.socket + 'api/trips/deleteTrip', { data: {id: id} })
+		.then((response) => {
+            this.addNotification( 'success', this.props.success);
+            this.props.updateDeleteState(false);
+
+        })
+		.catch((error) => {
+            this.addNotification( 'error', this.props.error);
+            this.props.updateDeleteState(false);
+            console.log(error)}
+		)
 	}
 
 

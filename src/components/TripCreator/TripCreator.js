@@ -209,11 +209,18 @@ class OfferARide extends React.Component {
 	}
 	
 	changeOrder(){
-		const list = this.state.steps
-		const first = list[0];
-		const last = list[list.length-1];
-		list[0] = last;
-		list[list.length-1] = first;
+		const list = this.state.steps;
+		const first = {};
+		const last = {};
+		//copy objects
+		Object.assign(first, list[0] );
+		Object.assign(last, list[list.length-1] );
+
+		//change names and locations
+		list[0].location = last.location;
+		list[0].name = last.name;
+		list[list.length-1].location = first.location;
+		list[list.length-1].name = first.name;
 		this.setState({steps:list})
 
 	}

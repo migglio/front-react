@@ -87,7 +87,6 @@ class OptionView extends React.Component {
         this.setState({update:true});
       else
         this.setState({save:true});    
-      alert(this.props.tripData.toUpdate)
     }
   };
 

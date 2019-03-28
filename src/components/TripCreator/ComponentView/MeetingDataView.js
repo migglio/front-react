@@ -37,7 +37,6 @@ class MeetingDataView extends React.Component {
 
     	//Callbacks functions
 	updateDate(date){
-        alert(date)
 		this.props.updateDate(date);
 	}
 
