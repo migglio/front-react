@@ -11,6 +11,7 @@ import TripsList from './components/TripList/TripList.js'
 import DetailsView from './components/TripDetails/DetailsView.js';
 import Profile from './components/Profile/Profile';
 import TripOffered from './components/TripOffers/TripOffered'
+import ViewWaitingPassengers from './components/ViewWaitingRequests/ViewPassengerRequest'
 
 render((
   <BrowserRouter>
@@ -25,7 +26,7 @@ render((
           <Route path='/tripsList' component={TripsList}/>
           <Route path='/Profile' component={Profile}/>
           <Route path='/TripOffers' component={TripOffered}/>
-
+          <Route path='/ViewWaitingPassengers' component={ViewWaitingPassengers}/>
         </Switch>
     </div>
   </BrowserRouter>

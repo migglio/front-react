@@ -47,14 +47,14 @@ class TabOwnTrips extends React.Component {
 
     for (let index = 0; index < trips.length; index++) {
       if (new Date(trips[index].steps[0].date) < nowDate) 
-      previous.push(trips[index])        
+        previous.push(trips[index])        
     }
 
     if (previous.length === 0)
-      return         <Typography variant="subheading" gutterBottom style={{ color:'#054752',fontWeight: 700, padding: '1%'}} >
-      No has realizado viajes hasta el momento
-    </Typography>
-;
+      return (        
+        <Typography variant="subheading" gutterBottom style={{ color:'#054752',fontWeight: 700, padding: '1%'}} >
+          No has realizado viajes hasta el momento
+      </Typography>);
 
     return previous.map((trip, index) => 
       <ListElement key={index} tripData={trip} />)
@@ -70,14 +70,14 @@ class TabOwnTrips extends React.Component {
       }
 
       if (next.length === 0)
-      return 
-        <Typography variant="title" gutterBottom style={{ color:'#054752',fontWeight: 700, padding: '1%'}} >
+      return (
+        <Typography variant="subheading" gutterBottom style={{ color:'#054752',fontWeight: 700, padding: '1%'}} >
           No tienes viajes publicados por hacer hasta el momento
-        </Typography>
+        </Typography>);
 
 
       return next.map((trip, index) => 
-        <ListElement key={index} tripData={trip} newTrips={true} />)
+        <ListElement key={index} tripData={trip} newTrips={true} />);
   }
 
   render() {

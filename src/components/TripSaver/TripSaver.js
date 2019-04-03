@@ -2,7 +2,9 @@ import axios from 'axios'
 import url from '../../config.js'
 import React from 'react';
 import { Redirect } from 'react-router-dom'
+
 var NotificationSystem = require('react-notification-system')
+
 const moment = require('moment');
 
 class TripSaver extends React.Component {
@@ -22,7 +24,6 @@ class TripSaver extends React.Component {
 		//notifications
         this.addNotification = this.addNotification.bind(this)
         this.redirect = this.redirect.bind(this)
-
 	}
 
     componentDidMount = (event) => {
@@ -36,14 +37,13 @@ class TripSaver extends React.Component {
     }
 
     componentDidUpdate = (event) => {
+        console.log(this.props.id)
         if (this.props.update){
             this.updatePassengers(this.props.tripData, this.props.id);
         }
         if (this.props.delete){
             this.deleteTrip(this.props.tripData._id);
         }
-
-
     }
 
 
@@ -100,7 +100,6 @@ class TripSaver extends React.Component {
     updateTrip(tripData, id){
 		// prevent default action. in this case, action is the form submission event
         //event.preventDefault();
-        alert(id)
 		const userData = {
             owner: tripData.owner,
 			steps: tripData.steps,
@@ -111,7 +110,6 @@ class TripSaver extends React.Component {
             mate: tripData.mate,
             id: id
 		}
-        console.log(userData.tripData)
 		axios.put(url.socket + 'api/trips/updateTrip', userData, url.config)
 		.then((response) => {
             this.addNotification( 'success', this.props.success);

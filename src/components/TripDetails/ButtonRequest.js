@@ -31,7 +31,7 @@ function ButtonRequest(props) {
   const { classes } = props;
   return (
     <div>
-      <Button disabled={props.completed} variant="contained" color="primary" className={classes.button} onClick={props.joinToTheTrip}>
+      <Button disabled={props.completed || props.past} variant="contained" color="primary" className={classes.button} onClick={props.joinToTheTrip}>
         <PersonAdd />
         {getType(props.automatic)}
      </Button>

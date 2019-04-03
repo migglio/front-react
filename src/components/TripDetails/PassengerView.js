@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import SinglePassengerView from './SinglePassengerView';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
     root: {
@@ -23,29 +24,20 @@ class PassengerView extends React.Component{
         const { classes } = this.props;
 
         return (
-            <div>
-                <Typography variant="headline" gutterBottom style={{ color:'#054752',fontWeight: 700, padding: '0%'}} >
-                  Passengers
-                </Typography>
+          <div style={{textAlign:"center",alignItems:"center",paddingTop:"2%",paddingLeft:"20%", paddingRight:"20%"}}>
+          <Paper>
+              <Typography variant="title" gutterBottom style={{ color:'#054752',fontWeight: 700, padding: '1%'}} >
+                  Pasajeros
+              </Typography>
+          </Paper>
+          <SinglePassengerView subtitle="confirmed" idTrip={this.props.idTrip} tripData={this.props.tripData} passengers={this.props.passengers} request={this.props.request}></SinglePassengerView>
+        </div>
 
-                <Grid
-                  container
-                  direction="row"
-                  justify="center"
-                  alignItems="center"
-                >
-                  <SinglePassengerView subtitle="confirmed" passengers={this.props.passengers.users}></SinglePassengerView>
-                  <SinglePassengerView subtitle="pending" passengers={this.props.passengers.pendingUsers}></SinglePassengerView>
-                </Grid>
-            </div>
          );
     }
 }
 
 export default withStyles(styles)(PassengerView);
 
-/*
-    <SinglePassengerView  passengers={this.props.passengers}></SinglePassengerView>
-*/
 
 
