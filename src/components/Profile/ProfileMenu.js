@@ -79,7 +79,7 @@ class ProfileMenu extends React.Component {
         >
             <MenuItem component={Link} to="/Profile" onClick={this.handleClose} >
                 <AccountCircle/>Perfil</MenuItem>
-            <MenuItem  onClick={this.handleClose}><ViewAgenda/>Reservas</MenuItem>
+            <MenuItem  component={Link} to="/BookedTrips" onClick={this.handleClose}><ViewAgenda/>Reservas</MenuItem>
             <MenuItem  component={Link} to="/TripOffers" onClick={this.handleClose}><ViewCarousel/>Viajes Publicados</MenuItem>
             <MenuItem  onClick={this.handleClose}><Message/>Mensajes</MenuItem>
             <MenuItem component={Link} to="/"  onClick={this.handleCloseLogout}><ExitToApp/>Logout</MenuItem>

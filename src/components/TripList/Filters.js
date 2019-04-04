@@ -26,8 +26,8 @@ class Filters extends React.Component {
       super(props)
       //Default State
       this.state={
-        value:{max:Math.max.apply(null, this.props.trips.map(item => item.price)),
-          min:Math.min.apply(null, this.props.trips.map(item => item.price))
+        value:{max:Math.max.apply(null, this.props.trips.map(item => item.steps[0].price)),
+          min:Math.min.apply(null, this.props.trips.map(item => item.steps[0].price))
         },
         max:this.props.max,
         min:0,
