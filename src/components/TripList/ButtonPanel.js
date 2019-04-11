@@ -106,7 +106,7 @@ class ButtonPanel extends React.Component {
     console.log(this.props.tripData)
     return (
         <div style={{ display: 'flex' ,alignItems: 'center'}}>
-            {!this.props.tripData.automaticReservation ?
+            {!this.props.tripData.reservation ?
                 <Button href={'ViewWaitingPassengers?id='+this.props.tripData._id} tripData={this.props.tripData} className={classes.button} variant="raised" >
                         Solicitudes
                 </Button>   
@@ -126,8 +126,8 @@ class ButtonPanel extends React.Component {
   render() {
     
     return (
-        <div>
-            {this.renderButtons(true)}
+        <div style={{ display: 'flex' ,alignItems: 'center'}}>
+          {this.renderButtons(true)}
         </div>
     )
   }

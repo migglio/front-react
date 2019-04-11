@@ -13,6 +13,7 @@ import ProfileResume from '../Profile/ProfileResume'
 import PassengerView from './PassengerView'
 import TripSaver from '../TripSaver/TripSaver.js';
 import Auth from '../Auth/Auth.js';
+import ButtonPanel from '../TripList/ButtonPanel.js';
 
 
 const queryString = require('query-string');
@@ -41,7 +42,7 @@ class DetailsView extends React.Component{
 			car: '',
 			details: '',
 			loaded:false,
-			idTrip: queryString.parse(this.props.location.search),
+			_id: queryString.parse(this.props.location.search).id,
 			showMap: false,
 			update: false
 		}
@@ -51,7 +52,7 @@ class DetailsView extends React.Component{
 
 	//Carga de Datos
 	componentWillMount() {
-		axios.get(url.api+'trips/'+this.state.idTrip.id)
+		axios.get(url.api+'trips/'+this.state._id)
 		.then((response)=>{
 			this.setState({
 				steps: response.data.steps,
@@ -103,8 +104,17 @@ class DetailsView extends React.Component{
 		this.setState({update:true, steps: list});
 	}
 
+	checkPassengers(){
+		const userLogged = Auth.getUserID();
+		return this.state.owner !== userLogged && 
+			this.state.steps[0].passengers.users.indexOf(userLogged) === -1 &&
+			this.state.steps[0].passengers.pendingUsers.indexOf(userLogged) === -1 
+	}
+
 
     render(){
+		const { classes } = this.props;
+
 		const list= this.state.steps;
         return (
 			<div style={{"textAlign":"center",'background-color':'#efefef'}}>
@@ -120,10 +130,15 @@ class DetailsView extends React.Component{
 										<hr/>
 										<PassengerView tripData={this.state} request={false} update={this.state.update} passengers={this.state.steps[0].passengers}></PassengerView>
 										<hr/>
-										{ (this.state.owner !== Auth.getUserID()) ?
+										{ (this.checkPassengers()) ?
 											<ButtonRequest past={new Date(this.state.steps[0].date) < new Date()} completed={this.state.steps[0].passengers.total===this.state.steps[0].passengers.users.length} automatic={this.state.reservation} joinToTheTrip={this.joinToTheTrip}/>
 										: null	
+										}
+										{ (this.state.owner === Auth.getUserID()) ?
+											<ButtonPanel newTrips={true} tripData={this.state} />
+										: null	
 										}									
+
 									</Paper>
 								</Grid>
 							</div>
@@ -131,7 +146,7 @@ class DetailsView extends React.Component{
 							<div class='column'>
 								<h3>Driver Profile</h3>
 								<ProfileResume tripData={this.state}></ProfileResume>
-								<TripSaver success={'Your request has been sent. You will be redirect to home page soon'} error={'Sorry, Your request has not been sent.'} update={this.state.update} tripData={this.state} id={this.state.idTrip.id}></TripSaver>
+								<TripSaver success={'Your request has been sent. You will be redirect to home page soon'} error={'Sorry, Your request has not been sent.'} update={this.state.update} tripData={this.state} id={this.state._id}></TripSaver>
 								<Chat/>
 							</div>
 						</div>
@@ -145,5 +160,4 @@ class DetailsView extends React.Component{
     }
 }
 
-export default DetailsView; 
-
+export default DetailsView;

@@ -2,6 +2,9 @@ import axios from 'axios'
 import url from '../../config.js'
 import React from 'react';
 import { Redirect } from 'react-router-dom'
+import NotificationSaver from '../Notifications/NotificationSaver.js';
+import NotificationTypes from '../Notifications/notificationTypes.js'
+
 
 var NotificationSystem = require('react-notification-system')
 
@@ -19,7 +22,8 @@ class TripSaver extends React.Component {
         }
 		//db methods
 		this.processForm = this.processForm.bind(this);
-		this.updatePassengers = this.updatePassengers.bind(this);
+        this.updatePassengers = this.updatePassengers.bind(this);
+        this.deleteTrip = this.deleteTrip.bind(this);
 
 		//notifications
         this.addNotification = this.addNotification.bind(this)
@@ -109,11 +113,17 @@ class TripSaver extends React.Component {
             food: tripData.food,
             mate: tripData.mate,
             id: id
-		}
-		axios.put(url.socket + 'api/trips/updateTrip', userData, url.config)
+        }
+        //when a trip is modified, every passenger must be notified
+        const users = userData.steps[0].passengers.users.concat(userData.steps[0].passengers.pendingUsers);
+
+        axios.put(url.socket + 'api/trips/updateTrip', userData, url.config)
 		.then((response) => {
             this.addNotification( 'success', this.props.success);
             this.props.updateSavedState(true);
+            //save a notification, only if there's any user to be nofified
+            if (users.length > 0)
+                NotificationSaver.addNewNotification(this.props.tripData.owner, id, NotificationTypes.tripEdited, users)
         })
 		.catch((error) => {
             this.addNotification( 'error', this.props.error);
@@ -124,16 +134,16 @@ class TripSaver extends React.Component {
     }
     
     deleteTrip(id){
-		// prevent default action. in this case, action is the form submission event
-        //event.preventDefault();
-		const userData = {
-            id: id
-        }
+        //when a trip is deleted, every passenger must be notified
+        const users = this.props.tripData.steps[0].passengers.users.concat(this.props.tripData.steps[0].passengers.pendingUsers);
+
 		axios.delete(url.socket + 'api/trips/deleteTrip', { data: {id: id} })
 		.then((response) => {
             this.addNotification( 'success', this.props.success);
             this.props.updateDeleteState(false);
-
+            //save a notification, only if there's any user to be nofified
+            if (users.length > 0)
+                NotificationSaver.addNewNotification(this.props.tripData.owner, id, NotificationTypes.tripDeleted, users)
         })
 		.catch((error) => {
             this.addNotification( 'error', this.props.error);

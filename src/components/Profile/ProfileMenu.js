@@ -12,6 +12,12 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import MenuList from '@material-ui/core/MenuList';
+import Typography from 'material-ui/Typography';
 
 const styles = {
   root: {
@@ -59,31 +65,53 @@ class ProfileMenu extends React.Component {
                   onClick={this.handleMenu}
                   color="inherit"
                 >
-                <Avatar alt="Remy Sharp" src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10217208501150893&height=50&width=50&ext=1554739566&hash=AeQKw7zkyBkC5RI9" />
+                <Avatar  alt="Remy Sharp" src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10217208501150893&height=50&width=50&ext=1554739566&hash=AeQKw7zkyBkC5RI9" />
                 {Auth.getNickname()}
                 </Button>
 
-        <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-            }}
-            transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-            }}
-            open={open}
-            onClose={this.handleClose}
-        >
-            <MenuItem component={Link} to="/Profile" onClick={this.handleClose} >
-                <AccountCircle/>Perfil</MenuItem>
-            <MenuItem  component={Link} to="/BookedTrips" onClick={this.handleClose}><ViewAgenda/>Reservas</MenuItem>
-            <MenuItem  component={Link} to="/TripOffers" onClick={this.handleClose}><ViewCarousel/>Viajes Publicados</MenuItem>
-            <MenuItem  onClick={this.handleClose}><Message/>Mensajes</MenuItem>
-            <MenuItem component={Link} to="/"  onClick={this.handleCloseLogout}><ExitToApp/>Logout</MenuItem>
-        </Menu>
+        <Popper open={open} placement={'bottom-end'} anchorEl={this.anchorEl} transition disablePortal>
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                id="menu-appbar"
+                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={this.handleClose}>
+                    <MenuList>
+                      <MenuItem component={Link} to="/Profile" onClick={this.handleClose} >
+                          <AccountCircle/>
+                          <Typography variant="caption" style={{ color:'#212121', paddingLeft: '1%'}} >
+                            Perfil
+                          </Typography>
+                        </MenuItem>
+                        <hr/>
+                      <MenuItem  component={Link} to="/BookedTrips" onClick={this.handleClose}>
+                        <ViewAgenda/>
+                        <Typography variant="caption" style={{ color:'#212121', paddingLeft: '1%'}} >
+                          Reservas
+                        </Typography>
+                      </MenuItem>
+                      <MenuItem  component={Link} to="/TripOffers" onClick={this.handleClose}>
+                        <ViewCarousel/>
+                        <Typography variant="caption" style={{ color:'#212121', paddingLeft: '1%'}} >
+                          Viajes Publicados
+                        </Typography>
+                      </MenuItem>
+                      <hr/>
+                      <MenuItem component={Link} to="/"  onClick={this.handleCloseLogout}>
+                        <ExitToApp/>
+                        <Typography variant="caption" style={{ color:'#212121', paddingLeft: '1%'}} >
+                          Logout
+                        </Typography>  
+                      </MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+
         </div>
       </div>
     );

@@ -13,6 +13,8 @@ import Profile from './components/Profile/Profile';
 import TripOffered from './components/TripOffers/TripOffered'
 import ViewWaitingPassengers from './components/ViewWaitingRequests/ViewPassengerRequest'
 import BookedTrips from './components/BookedTrips/BookedTrips'
+import NotificationView from './components/Notifications/NotificationView';
+
 render((
   <BrowserRouter>
     <div style={{backgroundColor:"#efefef",minHeight: "100vh"}}>
@@ -28,6 +30,7 @@ render((
           <Route path='/TripOffers' component={TripOffered}/>
           <Route path='/ViewWaitingPassengers' component={ViewWaitingPassengers}/>
           <Route path='/BookedTrips' component={BookedTrips}/>
+          <Route path='/NotificationView' component={NotificationView}/>
         </Switch>
     </div>
   </BrowserRouter>

@@ -10,6 +10,7 @@ import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
 import ProfileMenu from './Profile/ProfileMenu.js';
 import Badge from '@material-ui/core/Badge';
 import MailIcon from '@material-ui/icons/Mail';
+import NotificationsHeader from './Notifications/NotificationsHeader.js';
 
 const styles = {
   root: {
@@ -32,17 +33,21 @@ class Header extends React.Component{
     return (
       <div className={classes.root}>
       <AppBar position="static" >
-        <Toolbar style={{ marginLeft:'15%',marginRight:'15%' }}>
+        <Toolbar style={{ marginLeft:'5%',marginRight:'5%' }}>
         <Button color="inherit" href="/" >Car APP</Button>
           <Typography variant="title" color="inherit" className={classes.flex} >
-            
           </Typography>
           
           {Auth.isUserAuthenticated() ?
           (<div style={{display:"flex"}}>
-            <Button color="inherit"href="/TripCreator">
-              <AddCircleOutline></AddCircleOutline>{' Offer a Ride'}
+            <Button color="inherit" href="/TripCreator">
+              <AddCircleOutline></AddCircleOutline>
+              <Typography variant="button" color="inherit" className={classes.flex} >
+                Publicar un viaje
+            </Typography>
+
             </Button>
+            <NotificationsHeader></NotificationsHeader>
             <ProfileMenu></ProfileMenu>
           </div>
           ):(
