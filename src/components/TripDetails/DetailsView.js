@@ -134,11 +134,6 @@ class DetailsView extends React.Component{
 											<ButtonRequest past={new Date(this.state.steps[0].date) < new Date()} completed={this.state.steps[0].passengers.total===this.state.steps[0].passengers.users.length} automatic={this.state.reservation} joinToTheTrip={this.joinToTheTrip}/>
 										: null	
 										}
-										{ (this.state.owner === Auth.getUserID()) ?
-											<ButtonPanel newTrips={true} tripData={this.state} />
-										: null	
-										}									
-
 									</Paper>
 								</Grid>
 							</div>

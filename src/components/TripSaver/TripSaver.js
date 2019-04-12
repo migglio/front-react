@@ -4,6 +4,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom'
 import NotificationSaver from '../Notifications/NotificationSaver.js';
 import NotificationTypes from '../Notifications/notificationTypes.js'
+import Auth from '../Auth/Auth.js';
 
 
 var NotificationSystem = require('react-notification-system')
@@ -41,9 +42,11 @@ class TripSaver extends React.Component {
     }
 
     componentDidUpdate = (event) => {
-        console.log(this.props.id)
         if (this.props.update){
             this.updatePassengers(this.props.tripData, this.props.id);
+        }
+        if (this.props.updatePendingPassengers){
+            this.updatePendingPassengers(this.props.tripData, this.props.id);
         }
         if (this.props.delete){
             this.deleteTrip(this.props.tripData._id);
@@ -83,7 +86,32 @@ class TripSaver extends React.Component {
 		this.setState({steps:list}) 
 	}
 
+    //Confirm or deny passengers who are waiting the response
+    updatePendingPassengers(tripData, id){
+		const userData = {
+            steps: tripData.steps,
+            id: id
+		}
+		axios.put(url.socket + 'api/trips', userData, url.config)
+		.then((response) => {
+            this.addNotification( 'success', this.props.success);
+            this.props.updateSavedState(true);
 
+            const users = this.props.selected;
+            console.log(users)
+            if (this.props.accept)
+                NotificationSaver.addNewNotification(Auth.getUserID(), id, NotificationTypes.tripAccepted, users)
+            else
+                NotificationSaver.addNewNotification(Auth.getUserID(), id, NotificationTypes.tripDenied, users)
+
+        })
+		.catch((error) => {
+            this.addNotification( 'error', this.props.success);
+            console.log(error)}
+		)
+	}
+
+    //add a new pending or final passenger to the trip
     updatePassengers(tripData, id){
 		// prevent default action. in this case, action is the form submission event
         //event.preventDefault();
@@ -94,6 +122,15 @@ class TripSaver extends React.Component {
 		axios.put(url.socket + 'api/trips', userData, url.config)
 		.then((response) => {
             this.addNotification( 'success', this.props.success);
+            this.props.updateSavedState(true);
+
+            const users = [this.props.tripData.owner];
+            //Notify to the owner of the trip
+            if (this.props.tripData.reservation)  
+                NotificationSaver.addNewNotification(Auth.getUserID(), id, NotificationTypes.userJoined, users)
+            else
+                NotificationSaver.addNewNotification(Auth.getUserID(), id, NotificationTypes.userPending, users)
+
         })
 		.catch((error) => {
             this.addNotification( 'error', this.props.success);

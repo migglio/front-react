@@ -71,7 +71,9 @@ class ValidationButtons extends React.Component {
     super(props);
     this.state = {
       steps: this.props.tripData.steps,
-      update: false
+      update: false,
+      accept: false,
+      selected: []
     }    
     this.saveConfirmedPassengers = this.saveConfirmedPassengers.bind(this);
     this.saveDeniedPassengers = this.saveDeniedPassengers.bind(this);
@@ -79,29 +81,35 @@ class ValidationButtons extends React.Component {
     //callbacks
     this.confirmPassengers = this.confirmPassengers.bind(this);
     this.denyPassengers = this.denyPassengers.bind(this);
+    this.updateSavedState = this.updateSavedState.bind(this);
   }
 
   //callback receiving the passenger list and the passenger selected
   saveConfirmedPassengers(passengers, selected){
     const list = this.state.steps;
+    const listId = [];
     selected.map((value) => {
+      listId.push(passengers.pendingUsers[value]);
       passengers.users.push(passengers.pendingUsers[value]);
       passengers.pendingUsers.splice(value, 1);
       }
     );
     list[0].passengers = passengers;
-    this.setState({steps: list, update:true }); 
+    this.setState({steps: list, update:true, selected: listId, accept: true }); 
   }
 
     //callback receiving the passenger list and the passenger selected
     saveDeniedPassengers(passengers, selected){
       const list = this.state.steps;
+      const listId = [];
+
       selected.map((value) => {
+        listId.push(passengers.pendingUsers[value]);
         passengers.pendingUsers.splice(value, 1);
         }
       );
       list[0].passengers = passengers;
-      this.setState({steps: list, update:true }); 
+      this.setState({steps: list, update:true, selected: listId, accept: false }); 
     }
   
   //method called when the confirm button is clicked
@@ -112,6 +120,11 @@ class ValidationButtons extends React.Component {
   //method called when the deny button is clicked
   denyPassengers(){
     this.props.getSelected(this.saveDeniedPassengers);
+  }
+
+  //set the boolean variables in false because it was successfully added
+  updateSavedState(){
+    this.setState({update:false})
   }
 
   render() {
@@ -125,7 +138,7 @@ class ValidationButtons extends React.Component {
         <Button disabled={this.props.disabled} onClick={this.denyPassengers} className={classes.button} variant="raised" >
           Rechazar
         </Button>
-        <TripSaver success={'Your request has been saved'} error={'Sorry, Your request has not been sent.'} update={this.state.update} tripData={this.state} id={this.props.idTrip} ></TripSaver>
+        <TripSaver success={'Your request has been saved'} error={'Sorry, Your request has not been sent.'} updateSavedState={this.updateSavedState} updatePendingPassengers={this.state.update} selected={this.state.selected} accept={this.state.accept} tripData={this.state} id={this.props.idTrip} ></TripSaver>
       </div>
     )
   }

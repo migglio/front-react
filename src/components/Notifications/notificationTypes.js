@@ -47,7 +47,7 @@ class NotificationTypes {
               return this.getNotificationTripAccepted();
             case 3:
               //type 2 means the user has deleted the trip conditions
-              return this.getNotificationTripAccepted();
+              return this.getNotificationTripDenied();
             case 4:
               //type 2 means the user has deleted the trip conditions
               return this.getNotificationUserPending();

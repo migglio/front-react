@@ -29,12 +29,11 @@ class ViewWaitingPassengers extends React.Component {
         super(props);
         this.state = {
             idTrip: queryString.parse(this.props.location.search),
-            checked: [1],
+            checked: [],
             passengers: [],
             total: 0,
             loaded: false
           };
-        console.log('id:', this.state.idTrip.id)
     }
 
     	//Carga de Datos
