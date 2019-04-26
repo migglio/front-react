@@ -130,7 +130,7 @@ class NotificationsHeader extends React.Component {
                   this.state.notifications.map(item => 
                       <div>
                         <MenuItem >
-                          <Avatar alt="Remy Sharp" src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10217208501150893&height=50&width=50&ext=1554739566&hash=AeQKw7zkyBkC5RI9" />
+                          <Avatar alt="Remy Sharp" src="../../profile.jpg" />
                           <Typography variant="caption" style={{ color:'#212121', padding: '1%'}} >
                             <b>{item.nickname} </b> 
                             {NotificationTypes.getNotificationText(item.type)}

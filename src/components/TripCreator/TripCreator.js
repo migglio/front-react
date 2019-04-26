@@ -2,7 +2,7 @@ import React from 'react';
 import MyMapComponent from "./GoogleMapAPI/Map.js"
 import OptionView from './ComponentView/OptionView.js';
 import './index.css'
-import { Grid } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 import Auth from '../Auth/Auth.js';
@@ -245,7 +245,7 @@ class OfferARide extends React.Component {
 					{ this.state.loaded ? (
 					<div style={{paddingLeft:"10%", paddingRight:"10%"}} >
 						<Typography variant="title" gutterBottom style={{  color:'#616161', fontWeight: 700, padding: '1%'}} >
-								Offer a ride	
+								PUBLICAR UN VIAJE	
 						</Typography>
 
 						<Grid container spacing={24} class ='row'>
@@ -256,11 +256,13 @@ class OfferARide extends React.Component {
 									/>
 							</Grid>
 							<Grid item xs={12} >
-								<Typography variant="title" gutterBottom style={{  color:'#616161', fontWeight: 700, padding: '1%'}} >
-									View of my trip
-								</Typography>
+								<Paper>
+									<Typography variant="title" gutterBottom style={{  color:'#616161', fontWeight: 700, padding: '1%'}} >
+										View of my trip
+									</Typography>
 
-								<MyMapComponent steps={this.state.steps}/>
+									<MyMapComponent steps={this.state.steps}/>
+								</Paper>
 							</Grid>
 						</Grid>
 						</div> )

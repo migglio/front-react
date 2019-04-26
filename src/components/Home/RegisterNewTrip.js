@@ -6,22 +6,21 @@ import Button from '@material-ui/core/Button';
 const styles = theme => ({
 
     paper2: {
-      padding: theme.spacing.unit ,
+      padding: theme.spacing.unit,
       textAlign: 'left',
       color: theme.palette.text.secondary,
-    },button: {
+    },
+    button: {
         textAlign: 'center',
         margin: theme.spacing.unit,
       },
-      leftIcon: {
-        marginRight: theme.spacing.unit,
-      },
-      rightIcon: {
-        marginLeft: theme.spacing.unit,
-      },
-      iconSmall: {
-        fontSize: 20,
-      },
+    demo:{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'row',
+      position: 'absolute',
+    },
   });
   
 class RegisterNewTrip extends React.Component{
@@ -39,18 +38,15 @@ class RegisterNewTrip extends React.Component{
             container
             spacing={16}
             className={classes.demo}
-            alignItems='center'
-            direction='row'
-            justify='center'>
-                <img src={ require('../../driver.jpg') } width="40%" height="40%"/>
+            >
+                <img src={ require('../../driver.jpg') } width="30%" height="30%"/>
                 <Grid item className={classes.paper2}>
                         <h1> ¿Cansado de viajar solo?</h1>
                         <h1>Encuentra una compañia de viaje..</h1>
                         <p> Conoce nueva gente, convierte tu viaje mas divertido y económico. </p> 
-                        <p> Conoce nueva gente, convierte tu viaje mas divertido y económico. </p> 
                         <Grid item className={classes.button}>
                             <Button href="../TripCreator" className={classes.button} variant="raised" color="primary">
-                                Offer a Ride
+                                Nuevo viaje
                         </Button>
                 </Grid>
 

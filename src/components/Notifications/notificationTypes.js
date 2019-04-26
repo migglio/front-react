@@ -19,7 +19,7 @@ class NotificationTypes {
     }
 
     static getNotificationTripAccepted(){
-        return "ha aceptado tu solicitud para incoporarte en su viaje";
+        return "ha aceptado tu solicitud para incoporarte en su viaje. ¡Disfruta el viaje!";
     }
 
     static getNotificationTripDenied(){
