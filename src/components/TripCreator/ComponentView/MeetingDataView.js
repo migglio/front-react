@@ -1,6 +1,5 @@
 import React from "react";
 import { Typography, Divider } from "@material-ui/core";
-import FormLabel from "@material-ui/core/FormLabel";
 import MySearchPlaceComponent from "../GoogleMapAPI/CitySearcher.js";
 import Button from "@material-ui/core/Button";
 import SwapVerticalCircle from "@material-ui/icons/SwapVerticalCircle";
@@ -18,11 +17,20 @@ const styles2 = theme => ({
     padding: 20
   },
   searchButton: {
-    paddingBottom: 20
+    paddingBottom: "2vh"
   },
   icon: {
     height: 30,
     width: 30
+  },
+  dateContainer: {
+    display: "flex",
+    paddingTop: "3vh",
+    flexDirection: "row"
+  },
+  dateSelector: {
+    paddingBottom: "3vh",
+    width: "100%"
   }
 });
 
@@ -64,7 +72,6 @@ class MeetingDataView extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <Typography variant="subheading">Schedule</Typography>
         <div className={classes.searchButton}>
           <MySearchPlaceComponent
             callback={this.updateFrom}
@@ -86,29 +93,33 @@ class MeetingDataView extends React.Component {
           />
         </div>
         <Divider />
-        <Typography variant="subheading">Date and Time</Typography>
-        <DateSelector
-          label="Trip date"
-          callback={this.updateDate}
-          date={moment(this.props.tripData.steps[0].date).format("YYYY-MM-DD")}
-        />
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <TextField
-            id="time"
-            label="Trip Time"
-            type="time"
-            onChange={this.updateTime}
-            value={moment(this.props.tripData.steps[0].date).format("HH:mm")}
-            InputProps={{
-              step: 300, // 5 min
-              startAdornment: (
-                <InputAdornment position="start">
-                  <AccessTime />
-                </InputAdornment>
-              )
-            }}
+        <div className={classes.dateContainer}>
+          <DateSelector
+            label="Trip date"
+            callback={this.updateDate}
+            date={moment(this.props.tripData.steps[0].date).format(
+              "YYYY-MM-DD"
+            )}
           />
-        </MuiPickersUtilsProvider>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <TextField
+              className={classes.dateSelector}
+              id="time"
+              label="Trip Time"
+              type="time"
+              onChange={this.updateTime}
+              value={moment(this.props.tripData.steps[0].date).format("HH:mm")}
+              InputProps={{
+                step: 300, // 5 min
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AccessTime />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        </div>
       </div>
     );
   }

@@ -1,31 +1,40 @@
-import React from 'react';
-import DatePicker from 'material-ui-pickers/DatePicker';
-import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
-import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
-import TextField from '@material-ui/core/TextField';
-import DateRange from '@material-ui/icons/DateRange';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import React from "react";
+import DatePicker from "material-ui-pickers/DatePicker";
+import DateFnsUtils from "material-ui-pickers/utils/date-fns-utils";
+import MuiPickersUtilsProvider from "material-ui-pickers/utils/MuiPickersUtilsProvider";
+import TextField from "@material-ui/core/TextField";
+import DateRange from "@material-ui/icons/DateRange";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import { withStyles } from "@material-ui/core/styles";
+const moment = require("moment");
 
-const moment = require('moment');
+const styles2 = theme => ({
+  dateSelector: {
+    width: "100%"
+  }
+});
 
-class DateSelector extends React.Component{
+class DateSelector extends React.Component {
   constructor(props) {
-      super(props)
-      this.state={
-        selectedDate: props.date,
-      }
-      this.handleDateChange = this.handleDateChange.bind(this)
+    super(props);
+    this.state = {
+      selectedDate: props.date
+    };
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
-  handleDateChange  = (e) => {
+  handleDateChange = e => {
     this.setState({ selectedDate: e.target.value });
     this.props.callback(e.target.value);
   };
 
   render() {
+    const { classes } = this.props;
+
     return (
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <TextField
+          className={classes.dateSelector}
           id="date"
           type="date"
           label="Trip date"
@@ -36,13 +45,12 @@ class DateSelector extends React.Component{
               <InputAdornment position="start">
                 <DateRange />
               </InputAdornment>
-            ),
+            )
           }}
         />
       </MuiPickersUtilsProvider>
-
     );
   }
 }
 
-export default DateSelector;
+export default withStyles(styles2)(DateSelector);

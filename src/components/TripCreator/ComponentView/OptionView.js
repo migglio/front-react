@@ -15,18 +15,22 @@ import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
 import Info from "@material-ui/icons/Info";
 import { Redirect } from "react-router-dom";
+import { Divider } from "material-ui";
 
 const styles = theme => ({
   root: {
     display: "flex",
-    padding: 10,
-    background: "#fafafa",
+    background: "#fff",
     flexDirection: "column",
-    maxWidth: "90%",
+    maxWidth: "100%",
     textAlign: "center"
   },
   stepper: {
-    display: "flex"
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    textAlign: "center",
+    justifyContent: "center"
   },
   button: {
     textAlign: "center",
@@ -51,9 +55,9 @@ const styles = theme => ({
   }
 });
 
-function getSteps() {
+const getSteps = () => {
   return ["Encuentro", "Detalles", "Resumen"];
-}
+};
 
 class OptionView extends React.Component {
   static propTypes = {
@@ -254,7 +258,7 @@ class OptionView extends React.Component {
             );
           })}
         </Stepper>
-        <hr />
+        <Divider />
         {this.getSection(this.state.activeStep)}
 
         <div>

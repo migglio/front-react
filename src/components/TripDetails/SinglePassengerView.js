@@ -1,20 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import SwipeableViews from 'react-swipeable-views';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import SwipeableViews from "react-swipeable-views";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
-import UserRequest from '../UserRequestDB/UserRequest'
-import Checkbox from '@material-ui/core/Checkbox';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ValidationButtons from '../ViewWaitingRequests/ValidationButtons'
+import UserRequest from "../UserRequestDB/UserRequest";
+import Checkbox from "@material-ui/core/Checkbox";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ValidationButtons from "../ViewWaitingRequests/ValidationButtons";
 
 function TabContainer({ children, dir }) {
   return (
@@ -26,18 +26,18 @@ function TabContainer({ children, dir }) {
 
 TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
-  dir: PropTypes.string.isRequired,
+  dir: PropTypes.string.isRequired
 };
 
 const styles = theme => ({
   root: {
-    backgroundColor: theme.palette.background.paper,
-  },
+    backgroundColor: theme.palette.background.paper
+  }
 });
 
 class SinglePassengerView extends React.Component {
   //constructor
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       value: 0,
@@ -46,21 +46,27 @@ class SinglePassengerView extends React.Component {
       users: [],
       pendingUsers: []
     };
-  
+
     this.addUser = this.addUser.bind(this);
     this.addPendingUser = this.addPendingUser.bind(this);
 
     this.getSelected = this.getSelected.bind(this);
   }
 
-  componentWillMount(){
-    for (let index = 0; index < this.props.passengers.users.length; index++) 
-        UserRequest.getUser(this.props.passengers.users[index], this.addUser);            
+  componentWillMount() {
+    for (let index = 0; index < this.props.passengers.users.length; index++)
+      UserRequest.getUser(this.props.passengers.users[index], this.addUser);
 
-    for (let index = 0; index < this.props.passengers.pendingUsers.length; index++) 
-      UserRequest.getUser(this.props.passengers.pendingUsers[index], this.addPendingUser);        
+    for (
+      let index = 0;
+      index < this.props.passengers.pendingUsers.length;
+      index++
+    )
+      UserRequest.getUser(
+        this.props.passengers.pendingUsers[index],
+        this.addPendingUser
+      );
   }
-
 
   //manage the checkbox
   handleToggle = value => () => {
@@ -75,9 +81,8 @@ class SinglePassengerView extends React.Component {
     }
 
     this.setState({
-      checked: newChecked,
+      checked: newChecked
     });
-
   };
 
   //manage tabs view
@@ -90,22 +95,22 @@ class SinglePassengerView extends React.Component {
     this.setState({ value: index });
   };
 
-  //callback from getting data of confirm users from db  
-  addUser(user){
+  //callback from getting data of confirm users from db
+  addUser(user) {
     const userList = this.state.users;
     userList.push(user);
-    this.setState({users: userList});
+    this.setState({ users: userList });
   }
 
   //callback from getting data of pending users from db
-  addPendingUser(user){
+  addPendingUser(user) {
     const userList = this.state.pendingUsers;
     userList.push(user);
-    this.setState({pendingUsers: userList});
+    this.setState({ pendingUsers: userList });
   }
 
   //this method is called when a confirm or deny button is clicked
-  getSelected(callback){
+  getSelected(callback) {
     callback(this.props.passengers, this.state.checked);
   }
 
@@ -114,34 +119,38 @@ class SinglePassengerView extends React.Component {
     const { classes } = this.props;
 
     if (users.length === 0)
-    return (
-      <Typography variant="subheading" gutterBottom style={{ color:'#054752',fontWeight: 700, padding: '1%'}} >
-        No hay ningún pasajero
-      </Typography>)
+      return (
+        <Typography
+          variant="subheading"
+          gutterBottom
+          style={{ color: "#054752", fontWeight: 700, padding: "1%" }}
+        >
+          No hay ningún pasajero
+        </Typography>
+      );
     else
       return (
-          <div style={{justifyContent: 'center'}}>
-              <List dense className={classes.root}>
-                  {users.map((user, index) => (
-                  <ListItem key={user.nickname} button>
-                      <ListItemAvatar>
-                          <Avatar src="https://scontent.faep9-1.fna.fbcdn.net/v/t1.0-9/12963492_10209579536151536_6662472157604379054_n.jpg?_nc_cat=100&_nc_ht=scontent.faep9-1.fna&oh=39a1c64cf2e477c9c4ff8e617780aa2f&oe=5D29225F" />
-                      </ListItemAvatar>
-                      <ListItemText primary={user.nickname} secondary={user.mail}/>
-                      {(this.state.value === 1) && (this.state.request) ?
-                      <ListItemSecondaryAction>
-                        <Checkbox
-                          onChange={this.handleToggle(index)}
-                          checked={this.state.checked.indexOf(index) !== -1}
-                        />
-                      </ListItemSecondaryAction>
-                      : null}
-                  </ListItem>
-                  ))}
-              </List>
-          </div>
+        <div style={{ justifyContent: "center" }}>
+          <List dense className={classes.root}>
+            {users.map((user, index) => (
+              <ListItem key={user.nickname} button>
+                <ListItemAvatar>
+                  <Avatar src="https://scontent.faep9-1.fna.fbcdn.net/v/t1.0-9/12963492_10209579536151536_6662472157604379054_n.jpg?_nc_cat=100&_nc_ht=scontent.faep9-1.fna&oh=39a1c64cf2e477c9c4ff8e617780aa2f&oe=5D29225F" />
+                </ListItemAvatar>
+                <ListItemText primary={user.nickname} secondary={user.mail} />
+                {this.state.value === 1 && this.state.request ? (
+                  <ListItemSecondaryAction>
+                    <Checkbox
+                      onChange={this.handleToggle(index)}
+                      checked={this.state.checked.indexOf(index) !== -1}
+                    />
+                  </ListItemSecondaryAction>
+                ) : null}
+              </ListItem>
+            ))}
+          </List>
+        </div>
       );
-
   }
 
   render() {
@@ -162,17 +171,26 @@ class SinglePassengerView extends React.Component {
           </Tabs>
         </AppBar>
         <SwipeableViews
-          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer dir={theme.direction}> {this.renderUsers(this.state.users)}</TabContainer>
-          <TabContainer dir={theme.direction}>{this.renderUsers(this.state.pendingUsers)}</TabContainer>
+          <TabContainer dir={theme.direction}>
+            {" "}
+            {this.renderUsers(this.state.users)}
+          </TabContainer>
+          <TabContainer dir={theme.direction}>
+            {this.renderUsers(this.state.pendingUsers)}
+          </TabContainer>
         </SwipeableViews>
-        {(this.state.value === 1) && (this.state.request) ?
-          <ValidationButtons disabled={this.state.checked.length === 0} getSelected={this.getSelected} tripData={this.props.tripData} idTrip={this.props.idTrip}/>          
-        : null}
-
+        {this.state.value === 1 && this.state.request ? (
+          <ValidationButtons
+            disabled={this.state.checked.length === 0}
+            getSelected={this.getSelected}
+            tripData={this.props.tripData}
+            idTrip={this.props.idTrip}
+          />
+        ) : null}
       </div>
     );
   }
@@ -180,7 +198,7 @@ class SinglePassengerView extends React.Component {
 
 SinglePassengerView.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(SinglePassengerView);
+export default withStyles(styles)(SinglePassengerView);

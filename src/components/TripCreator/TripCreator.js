@@ -2,16 +2,23 @@ import React from "react";
 import MyMapComponent from "./GoogleMapAPI/Map.js";
 import OptionView from "./ComponentView/OptionView.js";
 import { withStyles } from "material-ui/styles";
-import { Paper } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Auth from "../Auth/Auth.js";
 import axios from "axios";
 import url from "../../config";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { Divider } from "material-ui";
 
 const queryString = require("query-string");
 
 let styles = {
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    flexWrap: "wrap",
+    alignItems: "strech",
+    justifyContent: "center"
+  },
   title: {
     color: "#616161",
     padding: 20
@@ -19,12 +26,15 @@ let styles = {
   body: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
     padding: 20
   },
   map: {
-    minWidth: 300,
-    padding: "2%",
+    minWidth: 250,
+    width: "35vw",
+    height: "100%",
+    backgroundColor: "#fff",
+    padding: "1.2%",
     border: 1,
     borderColor: "#616161",
     borderStyle: "solid",
@@ -245,31 +255,34 @@ class OfferARide extends React.Component {
     return (
       <div>
         {this.state.loaded ? (
-          <div>
-            <Typography className={classes.title} variant="title">
-              Publicar un viaje
-            </Typography>
+          <div className={classes.root}>
             <div className={classes.body}>
-              <OptionView
-                tripData={this.state}
-                updateDate={this.updateDate}
-                updateFrom={this.updateFrom}
-                updateTo={this.updateTo}
-                updateTime={this.updateTime}
-                changeOrder={this.changeOrder}
-                handleUserInput={this.handleUserInput}
-                handleReservation={this.handleReservation}
-                handleMate={this.handleMate}
-                handleFood={this.handleFood}
-                handleDetails={this.handleDetails}
-              />
               <div className={classes.map}>
+                <OptionView
+                  tripData={this.state}
+                  updateDate={this.updateDate}
+                  updateFrom={this.updateFrom}
+                  updateTo={this.updateTo}
+                  updateTime={this.updateTime}
+                  changeOrder={this.changeOrder}
+                  handleUserInput={this.handleUserInput}
+                  handleReservation={this.handleReservation}
+                  handleMate={this.handleMate}
+                  handleFood={this.handleFood}
+                  handleDetails={this.handleDetails}
+                />
+                <Divider />
                 <Typography
                   variant="title"
                   gutterBottom
-                  style={{ color: "#616161", fontWeight: 700, padding: "1%" }}
+                  style={{
+                    color: "#616161",
+                    textAlign: "center",
+                    fontWeight: 700,
+                    padding: "1%"
+                  }}
                 >
-                  View of my trip
+                  Sobre Mi Viaje
                 </Typography>
 
                 <MyMapComponent steps={this.state.steps} />
