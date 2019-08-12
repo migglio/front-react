@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Divider } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 import MySearchPlaceComponent from "../GoogleMapAPI/CitySearcher.js";
 import Button from "@material-ui/core/Button";
 import SwapVerticalCircle from "@material-ui/icons/SwapVerticalCircle";

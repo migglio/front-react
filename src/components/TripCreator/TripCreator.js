@@ -30,8 +30,8 @@ let styles = {
     padding: 20
   },
   map: {
-    minWidth: 250,
-    width: "35vw",
+    maxWidth: 600,
+    width: "100%",
     height: "100%",
     backgroundColor: "#fff",
     padding: "1.2%",
@@ -39,6 +39,12 @@ let styles = {
     borderColor: "#616161",
     borderStyle: "solid",
     borderRadius: "8px"
+  },
+  mapTitle: {
+    color: "#616161",
+    textAlign: "center",
+    fontWeight: 700,
+    padding: "1%"
   },
   icon: {
     height: 30,
@@ -275,12 +281,7 @@ class OfferARide extends React.Component {
                 <Typography
                   variant="title"
                   gutterBottom
-                  style={{
-                    color: "#616161",
-                    textAlign: "center",
-                    fontWeight: 700,
-                    padding: "1%"
-                  }}
+                  className={classes.mapTitle}
                 >
                   Sobre Mi Viaje
                 </Typography>

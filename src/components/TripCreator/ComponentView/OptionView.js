@@ -7,14 +7,13 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TripSaver from "../../TripSaver/TripSaver";
-import ResumeTrip from "./ResumeTrip.js";
+import ResumeTrip from "./resumeTrip/ResumeTrip.js";
 import MeetingDataView from "./MeetingDataView";
 import PreferencesView from "./PreferencesView";
 import Paper from "@material-ui/core/Paper";
 import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
 import Info from "@material-ui/icons/Info";
-import { Redirect } from "react-router-dom";
 import { Divider } from "material-ui";
 
 const styles = theme => ({
@@ -87,7 +86,7 @@ class OptionView extends React.Component {
     this.setState({
       activeStep: activeStep + 1
     });
-    if (activeStep == 2) {
+    if (activeStep === 2) {
       if (this.props.tripData.toUpdate) this.setState({ update: true });
       else this.setState({ save: true });
     }
@@ -125,14 +124,14 @@ class OptionView extends React.Component {
   }
 
   validateSecondStep() {
-    //    		return false; //borrar linea desp de terminar
+    return false; //borrar linea desp de terminar
     if (
-      this.props.tripData.steps[0].passengers.total == "" ||
+      this.props.tripData.steps[0].passengers.total === "" ||
       this.getError(this.props.tripData.steps[0].passengers.total)
     )
       return true;
 
-    if (this.props.tripData.car == "") return true;
+    if (this.props.tripData.car === "") return true;
 
     for (let index = 0; index < this.props.tripData.steps.length - 1; index++) {
       if (
@@ -148,13 +147,10 @@ class OptionView extends React.Component {
     switch (step) {
       case 0:
         return this.validateFistStep();
-        break;
       case 1:
         return this.validateSecondStep();
-        break;
       case 2:
         return false;
-        break;
       default:
         break;
     }

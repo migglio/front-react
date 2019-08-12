@@ -98,7 +98,7 @@ export default class MySearchPlaceComponent extends React.Component {
   isCity(name, list) {
     if (name === "") return false;
     for (let index = 0; index < list.length; index++) {
-      if (list[index].name == name) {
+      if (list[index].name === name) {
         this.setState({ error: true });
         return true;
       }
@@ -119,7 +119,7 @@ export default class MySearchPlaceComponent extends React.Component {
   updateLocation(loc_par, name) {
     if (!this.isCity(name, this.props.steps)) {
       this.setState({ location: loc_par, name: name });
-      if (this.props.idx == undefined)
+      if (!this.props.idx)
         this.props.callback({ location: this.state.location, name: name });
       else this.props.callback(this.state.location, this.props.idx, name);
     }
@@ -127,7 +127,7 @@ export default class MySearchPlaceComponent extends React.Component {
 
   getError() {
     if (this.state.error) return "That city is already defined";
-    else if (this.state.name == "") return "Field required";
+    else if (this.state.name === "") return "Field required";
     return "";
   }
 

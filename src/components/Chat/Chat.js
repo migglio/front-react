@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Widget, addResponseMessage, addLinkSnippet, addUserMessage } from 'react-chat-widget';
+import React, { Component } from "react";
+import { Widget, addResponseMessage } from "react-chat-widget";
 
-import 'react-chat-widget/lib/styles.css';
+import "react-chat-widget/lib/styles.css";
 
 class Chat extends Component {
   componentDidMount() {
@@ -9,10 +9,10 @@ class Chat extends Component {
     addResponseMessage("Guardar conversacion en db!");
   }
 
-  handleNewUserMessage = (newMessage) => {
+  handleNewUserMessage = newMessage => {
     console.log(`New message incomig! ${newMessage}`);
     // Now send the message throught the backend API
-  }
+  };
 
   render() {
     return (
@@ -27,7 +27,7 @@ class Chat extends Component {
         />
       </div>
     );
-  } 
+  }
 }
 
 export default Chat;

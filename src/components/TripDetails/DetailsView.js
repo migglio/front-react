@@ -3,7 +3,7 @@ import MyMapComponent from "../TripCreator/GoogleMapAPI/Map.js";
 import { Grid } from "@material-ui/core";
 import ButtonRequest from "./ButtonRequest.js";
 import Chat from "../Chat/Chat.js";
-import ResumeTrip from "../TripCreator/ComponentView/ResumeTrip.js";
+import ResumeTrip from "../TripCreator/ComponentView/resumeTrip/ResumeTrip";
 import axios from "axios";
 import handleServerResponse from "../../response";
 import url from "../../config";
@@ -13,7 +13,6 @@ import ProfileResume from "../Profile/ProfileResume";
 import PassengerView from "./PassengerView";
 import TripSaver from "../TripSaver/TripSaver.js";
 import Auth from "../Auth/Auth.js";
-import ButtonPanel from "../TripList/ButtonPanel.js";
 
 const queryString = require("query-string");
 
