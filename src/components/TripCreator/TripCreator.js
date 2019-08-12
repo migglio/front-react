@@ -8,6 +8,7 @@ import axios from "axios";
 import url from "../../config";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Divider } from "material-ui";
+import ResumeTrip from "./ComponentView/resumeTrip/ResumeTrip.js";
 
 const queryString = require("query-string");
 
@@ -278,15 +279,7 @@ class OfferARide extends React.Component {
                   handleDetails={this.handleDetails}
                 />
                 <Divider />
-                <Typography
-                  variant="title"
-                  gutterBottom
-                  className={classes.mapTitle}
-                >
-                  Sobre Mi Viaje
-                </Typography>
-
-                <MyMapComponent steps={this.state.steps} />
+                <ResumeTrip tripData={this.state} />
               </div>
             </div>
           </div>

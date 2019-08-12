@@ -111,7 +111,6 @@ class OptionView extends React.Component {
 
   //Validation methods
   validateFistStep() {
-    return false; //borrar linea desp de terminar
     if (
       this.props.tripData.steps[0].location.lat === undefined ||
       this.props.tripData.steps[this.props.tripData.steps.length - 1].location
@@ -124,7 +123,6 @@ class OptionView extends React.Component {
   }
 
   validateSecondStep() {
-    return false; //borrar linea desp de terminar
     if (
       this.props.tripData.steps[0].passengers.total === "" ||
       this.getError(this.props.tripData.steps[0].passengers.total)

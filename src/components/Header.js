@@ -30,9 +30,6 @@ class Header extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar style={{ marginLeft: "5%", marginRight: "5%" }}>
-            <Button color="inherit" href="/">
-              Car APP
-            </Button>
             <Typography
               variant="title"
               color="inherit"

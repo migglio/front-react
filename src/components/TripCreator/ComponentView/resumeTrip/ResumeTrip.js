@@ -137,6 +137,7 @@ class resumeTrip extends React.Component {
     const destino = this.props.tripData.steps[
       this.props.tripData.steps.length - 1
     ];
+    const isSecondStep = origen.name && destino.name && origen.date;
 
     return (
       <div className={classes.root}>
@@ -145,7 +146,7 @@ class resumeTrip extends React.Component {
             Sobre Mi Viaje
           </Typography>
 
-          {this.props.tripData.steps[0].date && (
+          {origen.date && (
             <div className={classes.dateData}>
               <AccessTime color="primary" />
               <Typography
@@ -153,7 +154,7 @@ class resumeTrip extends React.Component {
                 gutterBottom
                 style={{ fontWeight: 500 }}
               >
-                {moment(this.props.tripData.steps[0].date).format("LLLL")}
+                {moment(origen.date).format("LLLL")}
               </Typography>
             </div>
           )}
@@ -174,81 +175,95 @@ class resumeTrip extends React.Component {
           </div>
         </div>
 
-        <FormLabel className={classes.subtitle} component="legend">
-          Información del auto
-        </FormLabel>
-
+        {(this.props.tripData.car ||
+          origen.passengers.total ||
+          origen.price) && (
+          <FormLabel className={classes.subtitle} component="legend">
+            Información del auto
+          </FormLabel>
+        )}
         <div className={classes.carInformation}>
           <div style={{ justifyContent: "center" }}>
-            <ToolTipTravel
-              label={MODELO_AUTO}
-              value={this.props.tripData.car}
-            />
-            <ToolTipTravel
-              label={PLAZAS_DISPONIBLES}
-              value={origen.passengers.total - origen.passengers.users.length}
-            />
-
-            <div
-              className={classNames(classes.columnFlex1, classes.paddingTrip)}
-            >
-              <div>
-                <Typography variant="headline" style={{ color: blue[800] }}>
-                  ${this.props.tripData.steps[0].price}
-                </Typography>
+            {origen.price && (
+              <div
+                className={classNames(classes.columnFlex1, classes.paddingTrip)}
+              >
+                <div>
+                  <Typography variant="headline" style={{ color: blue[800] }}>
+                    ${origen.price}
+                  </Typography>
+                </div>
+                <Typography variant="caption">Por pasajero</Typography>
               </div>
-              <Typography variant="caption">Por pasajero</Typography>
-            </div>
+            )}
+            {origen.passengers.total && (
+              <ToolTipTravel
+                label={PLAZAS_DISPONIBLES}
+                value={origen.passengers.total - origen.passengers.users.length}
+              />
+            )}
+            {this.props.tripData.car && (
+              <ToolTipTravel
+                label={MODELO_AUTO}
+                value={this.props.tripData.car}
+              />
+            )}
           </div>
         </div>
 
         <Divider />
 
-        <FormLabel className={classes.subtitle} component="legend">
-          Preferencias del conductor
-        </FormLabel>
-
-        <div className={classes.preferencesContainer}>
-          <div className={classes.iconPreference}>
-            <ToolTipTravel
-              label={
-                this.props.tripData.reservation
-                  ? RESERVA_AUTOMATICA
-                  : RESERVA_SEGURA
-              }
-              value={this.props.tripData.reservation}
-            />
-          </div>
-          <div className={classes.iconPreference}>
-            <ToolTipTravel
-              label={
-                this.props.tripData.food
-                  ? COMIDA_PERMITIDA
-                  : COMIDA_NO_PERMITIDA
-              }
-              value={this.props.tripData.food}
-            />
-          </div>
-          <div className={classes.iconPreference}>
-            <ToolTipTravel
-              label={
-                this.props.tripData.mate ? MATE_PERMITIDO : MATE_NO_PERMITIDO
-              }
-              value={this.props.tripData.mate}
-            />
-          </div>
-        </div>
-
-        <div style={{ width: "80%", display: "flex", alignItems: "center" }}>
-          <Tooltip title="Descripción" placement="top">
-            <AssignmentIcon />
-          </Tooltip>
-          <Typography variant="caption">
-            {this.props.tripData.details === ""
-              ? "El conductor no ha añadido comentarios"
-              : this.props.tripData.details}
-          </Typography>
-        </div>
+        {isSecondStep && (
+          <Fragment>
+            <FormLabel className={classes.subtitle} component="legend">
+              Preferencias del conductor
+            </FormLabel>
+            <div className={classes.preferencesContainer}>
+              <div className={classes.iconPreference}>
+                <ToolTipTravel
+                  label={
+                    this.props.tripData.reservation
+                      ? RESERVA_AUTOMATICA
+                      : RESERVA_SEGURA
+                  }
+                  value={this.props.tripData.reservation}
+                />
+              </div>
+              <div className={classes.iconPreference}>
+                <ToolTipTravel
+                  label={
+                    this.props.tripData.food
+                      ? COMIDA_PERMITIDA
+                      : COMIDA_NO_PERMITIDA
+                  }
+                  value={this.props.tripData.food}
+                />
+              </div>
+              <div className={classes.iconPreference}>
+                <ToolTipTravel
+                  label={
+                    this.props.tripData.mate
+                      ? MATE_PERMITIDO
+                      : MATE_NO_PERMITIDO
+                  }
+                  value={this.props.tripData.mate}
+                />
+              </div>
+            </div>
+            <div
+              style={{ width: "80%", display: "flex", alignItems: "center" }}
+            >
+              <Tooltip title="Descripción" placement="top">
+                <AssignmentIcon />
+              </Tooltip>
+              <Typography variant="caption">
+                {this.props.tripData.details === ""
+                  ? "El conductor no ha añadido comentarios"
+                  : this.props.tripData.details}
+              </Typography>
+            </div>
+          </Fragment>
+        )}
       </div>
     );
   }

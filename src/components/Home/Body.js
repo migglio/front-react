@@ -1,35 +1,31 @@
-import React from 'react';
-import PlaceSelector from './PlaceSelector';
-import { withStyles } from 'material-ui/styles';
-import RegisterNewTrip from './RegisterNewTrip';
-import Background from '../../driver-woman.jpeg';
+import React from "react";
+import PlaceSelector from "./PlaceSelector";
+import { withStyles } from "material-ui/styles";
+import RegisterNewTrip from "./RegisterNewTrip";
+import Background from "../../driver-woman.jpeg";
 
-let imgUrl = '../../driver-woman.jpeg'
+let imgUrl = "../../driver-woman.jpeg";
 let styles = {
-    root: {
-        backgroundImage: "url(" + Background + ")",
-        backgroundSize: 'cover',
-        overflow: 'hidden',
-        'min-height':'320px',
-    }
-}
+  root: {
+    backgroundImage: "url(" + Background + ")",
+    backgroundSize: "cover",
+    overflow: "hidden",
+    "min-height": "320px"
+  }
+};
 
-
-class Body extends React.Component{
-    
-  render(){
+class Body extends React.Component {
+  render() {
     const { classes } = this.props;
     return (
       <div>
         <div className={classes.root}>
-          <PlaceSelector />      
+          <PlaceSelector />
         </div>
-        <br/><br/><br/><br/>  
-        <RegisterNewTrip/>
+        <RegisterNewTrip />
       </div>
-  );
+    );
+  }
 }
 
-}
-
-export default withStyles(styles)(Body)
+export default withStyles(styles)(Body);
