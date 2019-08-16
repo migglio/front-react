@@ -5,7 +5,7 @@ import { withStyles } from "material-ui/styles";
 import Button from "@material-ui/core/Button";
 import Search from "@material-ui/icons/Search";
 import DateSelector from "../DateSelector";
-import MySearchPlaceComponent from "../TripCreator/GoogleMapAPI/CitySearcher";
+import MySearchPlaceComponent from "../shared/GoogleMapAPI/CitySearcher";
 const styles = theme => ({
   paper2: {
     padding: theme.spacing.unit,

@@ -1,5 +1,5 @@
 import React from "react";
-import MyMapComponent from "../TripCreator/GoogleMapAPI/Map.js";
+import MyMapComponent from "../shared/GoogleMapAPI/Map.js";
 import { Grid } from "@material-ui/core";
 import ButtonRequest from "./ButtonRequest.js";
 import Chat from "../Chat/Chat.js";
