@@ -54,7 +54,7 @@ const styles2 = theme => ({
   }
 });
 
-class MeetingDataView extends React.Component {
+class PreferenceDriverStep extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -264,4 +264,4 @@ class MeetingDataView extends React.Component {
   }
 }
 
-export default withStyles(styles2)(MeetingDataView);
+export default withStyles(styles2)(PreferenceDriverStep);

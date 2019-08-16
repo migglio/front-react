@@ -3,7 +3,7 @@ import MyMapComponent from "../TripCreator/GoogleMapAPI/Map.js";
 import { Grid } from "@material-ui/core";
 import ButtonRequest from "./ButtonRequest.js";
 import Chat from "../Chat/Chat.js";
-import ResumeTrip from "../TripCreator/ComponentView/resumeTrip/ResumeTrip";
+import ResumeTrip from "../TripCreator/resumeTripStep/ResumeTripStep";
 import axios from "axios";
 import handleServerResponse from "../../response";
 import url from "../../config";

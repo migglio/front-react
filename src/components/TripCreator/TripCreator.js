@@ -1,5 +1,5 @@
 import React from "react";
-import MyMapComponent from "./GoogleMapAPI/Map.js";
+import MyMapComponent from "../shared/GoogleMapAPI/Map.js";
 import OptionView from "./ComponentView/OptionView.js";
 import { withStyles } from "material-ui/styles";
 import Typography from "@material-ui/core/Typography";
@@ -8,7 +8,7 @@ import axios from "axios";
 import url from "../../config";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Divider } from "material-ui";
-import ResumeTrip from "./ComponentView/resumeTrip/ResumeTrip.js";
+import ResumeTrip from "./resumeTripStep/ResumeTripStep";
 
 const queryString = require("query-string");
 
@@ -279,7 +279,6 @@ class OfferARide extends React.Component {
                   handleDetails={this.handleDetails}
                 />
                 <Divider />
-                <ResumeTrip tripData={this.state} />
               </div>
             </div>
           </div>

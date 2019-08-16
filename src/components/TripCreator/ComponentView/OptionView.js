@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
@@ -7,9 +7,9 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TripSaver from "../../TripSaver/TripSaver";
-import ResumeTrip from "./resumeTrip/ResumeTrip.js";
-import MeetingDataView from "./MeetingDataView";
-import PreferencesView from "./PreferencesView";
+import ResumeTrip from "../resumeTripStep/ResumeTripStep";
+import MeetingDataView from "../MeetingDataStep/MeetingDataStep";
+import PreferencesView from "../PreferenceDriverStep/PreferenceDriverStep";
 import Paper from "@material-ui/core/Paper";
 import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
@@ -57,6 +57,10 @@ const styles = theme => ({
 const getSteps = () => {
   return ["Encuentro", "Detalles", "Resumen"];
 };
+
+const MEETING_STEP = 0;
+const PREFERENCES_STEP = 1;
+const RESUME_STEP = 2;
 
 class OptionView extends React.Component {
   static propTypes = {
@@ -169,57 +173,6 @@ class OptionView extends React.Component {
     else return "";
   }
 
-  //Returns View for select each city of the one trip
-  getFirstStepView() {
-    return (
-      <MeetingDataView
-        tripData={this.props.tripData}
-        updateDate={this.props.updateDate}
-        updateFrom={this.props.updateFrom}
-        updateTo={this.props.updateTo}
-        updateTime={this.props.updateTime}
-        changeOrder={this.props.changeOrder}
-      />
-    );
-  }
-
-  //Returns View for select date, seats and price of trip
-  getSecondStepView() {
-    return (
-      <PreferencesView
-        tripData={this.props.tripData}
-        handleUserInput={this.props.handleUserInput}
-        handleReservation={this.props.handleReservation}
-        handleMate={this.props.handleMate}
-        handleFood={this.props.handleFood}
-        handleDetails={this.props.handleDetails}
-      />
-    );
-  }
-
-  getThirdStepView() {
-    return (
-      <ResumeTrip tripData={this.props.tripData} success={this.state.success} />
-    );
-  }
-
-  //Return a view for each step. UI method
-  getSection(step) {
-    switch (step) {
-      case 0:
-        return this.getFirstStepView();
-        break;
-      case 1:
-        return this.getSecondStepView();
-        break;
-      case 2:
-        return this.getThirdStepView();
-        break;
-      default:
-        break;
-    }
-  }
-
   getButtonName() {
     const steps = getSteps();
     const { activeStep } = this.state;
@@ -253,7 +206,32 @@ class OptionView extends React.Component {
           })}
         </Stepper>
         <Divider />
-        {this.getSection(this.state.activeStep)}
+        {this.state.activeStep === MEETING_STEP && (
+          <MeetingDataView
+            tripData={this.props.tripData}
+            updateDate={this.props.updateDate}
+            updateFrom={this.props.updateFrom}
+            updateTo={this.props.updateTo}
+            updateTime={this.props.updateTime}
+            changeOrder={this.props.changeOrder}
+          />
+        )}
+        {this.state.activeStep === PREFERENCES_STEP && (
+          <PreferencesView
+            tripData={this.props.tripData}
+            handleUserInput={this.props.handleUserInput}
+            handleReservation={this.props.handleReservation}
+            handleMate={this.props.handleMate}
+            handleFood={this.props.handleFood}
+            handleDetails={this.props.handleDetails}
+          />
+        )}
+        {this.state.activeStep === RESUME_STEP && (
+          <ResumeTrip
+            tripData={this.props.tripData}
+            success={this.state.success}
+          />
+        )}
 
         <div>
           {activeStep === steps.length ? (
@@ -354,6 +332,13 @@ class OptionView extends React.Component {
             </div>
           )}
         </div>
+        {(this.state.activeStep === MEETING_STEP ||
+          this.state.activeStep === PREFERENCES_STEP) && (
+          <ResumeTrip
+            tripData={this.props.tripData}
+            success={this.state.success}
+          />
+        )}
       </div>
     );
   }

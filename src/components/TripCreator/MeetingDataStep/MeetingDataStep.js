@@ -1,6 +1,6 @@
-import React from "react";
+import React, { Component } from "react";
 import { Divider } from "@material-ui/core";
-import MySearchPlaceComponent from "../GoogleMapAPI/CitySearcher.js";
+import MySearchPlaceComponent from "../../shared/GoogleMapAPI/CitySearcher.js";
 import Button from "@material-ui/core/Button";
 import SwapVerticalCircle from "@material-ui/icons/SwapVerticalCircle";
 import blue from "@material-ui/core/colors/blue";
@@ -36,7 +36,7 @@ const styles2 = theme => ({
 
 const moment = require("moment");
 
-class MeetingDataView extends React.Component {
+class MeetingDataStep extends Component {
   constructor(props) {
     super(props);
 
@@ -125,4 +125,4 @@ class MeetingDataView extends React.Component {
   }
 }
 
-export default withStyles(styles2)(MeetingDataView);
+export default withStyles(styles2)(MeetingDataStep);
