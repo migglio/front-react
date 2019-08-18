@@ -168,8 +168,8 @@ class OptionView extends React.Component {
   };
 
   getError(value) {
-    if (!value) return "Field required";
-    else if (value < 1) return "It must be a positive number";
+    if (!value) return "Requerido";
+    else if (value < 1) return "Debe ser un valor positivo";
     else return "";
   }
 
@@ -178,9 +178,9 @@ class OptionView extends React.Component {
     const { activeStep } = this.state;
 
     if (activeStep === steps.length - 1) {
-      if (this.props.tripData.toUpdate) return "Update";
-      else return "Save Trip";
-    } else return "Next";
+      if (this.props.tripData.toUpdate) return "ACTUALIZAR";
+      else return "GUARDAR";
+    } else return "CONTINUAR";
   }
 
   render() {
@@ -318,7 +318,7 @@ class OptionView extends React.Component {
                 variant="raised"
                 color="primary"
               >
-                Back
+                VOLVER
               </Button>
               <Button
                 disabled={this.validateStep(activeStep)}

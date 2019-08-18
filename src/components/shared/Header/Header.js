@@ -5,14 +5,21 @@ import AppBar from "material-ui/AppBar";
 import Toolbar from "material-ui/Toolbar";
 import Typography from "material-ui/Typography";
 import Button from "material-ui/Button";
-import Auth from "./Auth/Auth.js";
+import Auth from "../../Auth/Auth.js";
 import AddCircleOutline from "@material-ui/icons/AddCircleOutline";
-import ProfileMenu from "./Profile/ProfileMenu.js";
-import NotificationsHeader from "./Notifications/NotificationsHeader.js";
+import ProfileMenu from "../../Profile/ProfileMenu.js";
+import NotificationsHeader from "../../Notifications/NotificationsHeader.js";
+import { IconButton } from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
 
 const styles = {
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  buttonHome: {
+    color: "#fff"
   },
   flex: {
     flex: 1
@@ -29,7 +36,21 @@ class Header extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position="static">
-          <Toolbar style={{ marginLeft: "5%", marginRight: "5%" }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Button className={classes.buttonHome} href="/">
+              <Typography variant="h6" className={classes.title}>
+                Carpooling App
+              </Typography>
+            </Button>
+
             <Typography
               variant="title"
               color="inherit"
@@ -38,16 +59,6 @@ class Header extends React.Component {
 
             {Auth.isUserAuthenticated() ? (
               <div style={{ display: "flex" }}>
-                <Button color="inherit" href="/TripCreator">
-                  <AddCircleOutline />
-                  <Typography
-                    variant="button"
-                    color="inherit"
-                    className={classes.flex}
-                  >
-                    Publicar un viaje
-                  </Typography>
-                </Button>
                 <NotificationsHeader />
                 <ProfileMenu />
               </div>
