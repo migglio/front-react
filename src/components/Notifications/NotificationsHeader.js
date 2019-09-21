@@ -8,7 +8,6 @@ import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import { withStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
 import Notifications from "@material-ui/icons/Notifications";
 import Badge from "@material-ui/core/Badge";
 import Typography from "material-ui/Typography";
@@ -19,6 +18,7 @@ import url from "../../config";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Auth from "../Auth/Auth";
 import NotificationSaver from "./NotificationSaver";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 const styles = theme => ({
   root: {
@@ -95,7 +95,6 @@ class NotificationsHeader extends React.Component {
 
   //mark every notifications as read
   markAsRead() {
-    alert("entra");
     this.state.notifications.map(notification => {
       const users = notification.read;
       if (users.indexOf(Auth.getUserID()) > -1) {
@@ -147,7 +146,8 @@ class NotificationsHeader extends React.Component {
               this.state.notifications.map(item => (
                 <div>
                   <MenuItem>
-                    <Avatar alt="Remy Sharp" src="../../profile.jpg" />
+                    <AccountCircleIcon />
+
                     <Typography
                       variant="caption"
                       style={{ color: "#212121", padding: "1%" }}

@@ -6,7 +6,6 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import Typography from "@material-ui/core/Typography";
-import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import Tooltip from "@material-ui/core/Tooltip";
 import Badge from "@material-ui/core/Badge";
@@ -26,6 +25,7 @@ import Axios from "axios";
 import url from "../../config";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ButtonPanel from "./ButtonPanel";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 const styles2 = theme => ({
   root: {
@@ -59,10 +59,6 @@ const styles2 = theme => ({
     "&:hover": {
       textDecoration: "underline"
     }
-  },
-  bigAvatar: {
-    width: 50,
-    height: 50
   },
   separator: {
     borderRight: `2px solid ${theme.palette.divider}`
@@ -137,7 +133,7 @@ class ListElement extends React.Component {
                 }
                 color="secondary"
               >
-                <Avatar src="https://scontent.faep9-1.fna.fbcdn.net/v/t1.0-9/12963492_10209579536151536_6662472157604379054_n.jpg?_nc_cat=100&_nc_ht=scontent.faep9-1.fna&oh=39a1c64cf2e477c9c4ff8e617780aa2f&oe=5D29225F" />
+                <AccountCircleIcon />
               </Badge>
               <Typography className={classes.heading}>
                 {this.state.userLoaded ? (

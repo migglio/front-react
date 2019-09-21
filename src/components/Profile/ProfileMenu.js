@@ -8,13 +8,13 @@ import Auth from "../Auth/Auth.js";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import Avatar from "@material-ui/core/Avatar";
 import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuList from "@material-ui/core/MenuList";
 import Typography from "material-ui/Typography";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 const styles = {
   root: {
@@ -62,7 +62,7 @@ class ProfileMenu extends React.Component {
             onClick={this.handleMenu}
             color="inherit"
           >
-            <Avatar src="https://scontent.faep9-1.fna.fbcdn.net/v/t1.0-9/12963492_10209579536151536_6662472157604379054_n.jpg?_nc_cat=100&_nc_ht=scontent.faep9-1.fna&oh=39a1c64cf2e477c9c4ff8e617780aa2f&oe=5D29225F" />
+            <AccountCircleIcon />
             {Auth.getNickname()}
           </Button>
 

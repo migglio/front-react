@@ -21,7 +21,7 @@ const styles = theme => ({
     display: "flex",
     background: "#fff",
     flexDirection: "column",
-    maxWidth: "100%",
+    maxWidth: "90vw",
     textAlign: "center"
   },
   stepper: {

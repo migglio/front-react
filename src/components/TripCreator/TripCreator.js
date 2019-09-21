@@ -1,14 +1,11 @@
 import React from "react";
-import MyMapComponent from "../shared/GoogleMapAPI/Map.js";
 import OptionView from "./ComponentView/OptionView.js";
 import { withStyles } from "material-ui/styles";
-import Typography from "@material-ui/core/Typography";
 import Auth from "../Auth/Auth.js";
 import axios from "axios";
 import url from "../../config";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Divider } from "material-ui";
-import ResumeTrip from "./resumeTripStep/ResumeTripStep";
 
 const queryString = require("query-string");
 
@@ -28,7 +25,10 @@ let styles = {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-evenly",
-    padding: 20
+    paddingTop: "5vh",
+    paddingLeft: "1vw",
+    paddingRight: "1vw",
+    paddingBottom: "5vh"
   },
   map: {
     maxWidth: 600,

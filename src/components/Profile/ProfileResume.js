@@ -1,25 +1,17 @@
 import React from "react";
 import url from "../../config";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Avatar } from "material-ui";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Axios from "axios";
 import StarIcon from "@material-ui/icons/Star";
 import yellow from "@material-ui/core/colors/yellow";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 const styles = theme => ({
   heading: {
     fontSize: theme.typography.pxToRem(15)
-  },
-  avatar: {
-    margin: 10
-  },
-  bigAvatar: {
-    margin: 10,
-    width: 80,
-    height: 80
   }
 });
 
@@ -58,7 +50,7 @@ class ProfileResume extends React.Component {
         {this.state.userLoaded ? (
           <div>
             <Grid container justify="center" alignItems="center">
-              <Avatar src="https://scontent.faep9-1.fna.fbcdn.net/v/t1.0-9/12963492_10209579536151536_6662472157604379054_n.jpg?_nc_cat=100&_nc_ht=scontent.faep9-1.fna&oh=39a1c64cf2e477c9c4ff8e617780aa2f&oe=5D29225F" />
+              <AccountCircleIcon />
             </Grid>
             <Typography
               variant="headline"

@@ -10,11 +10,11 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
 import UserRequest from "../UserRequestDB/UserRequest";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ValidationButtons from "../ViewWaitingRequests/ValidationButtons";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 function TabContainer({ children, dir }) {
   return (
@@ -135,7 +135,7 @@ class SinglePassengerView extends React.Component {
             {users.map((user, index) => (
               <ListItem key={user.nickname} button>
                 <ListItemAvatar>
-                  <Avatar src="https://scontent.faep9-1.fna.fbcdn.net/v/t1.0-9/12963492_10209579536151536_6662472157604379054_n.jpg?_nc_cat=100&_nc_ht=scontent.faep9-1.fna&oh=39a1c64cf2e477c9c4ff8e617780aa2f&oe=5D29225F" />
+                  <AccountCircleIcon />
                 </ListItemAvatar>
                 <ListItemText primary={user.nickname} secondary={user.mail} />
                 {this.state.value === 1 && this.state.request ? (

@@ -12,14 +12,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 const styles = theme => ({
   heading: {
     fontSize: theme.typography.pxToRem(15)
-  },
-  avatar: {
-    margin: 10
-  },
-  bigAvatar: {
-    margin: 10,
-    width: 80,
-    height: 80
   }
 });
 

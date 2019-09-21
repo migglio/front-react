@@ -6,7 +6,6 @@ import Toolbar from "material-ui/Toolbar";
 import Typography from "material-ui/Typography";
 import Button from "material-ui/Button";
 import Auth from "../../Auth/Auth.js";
-import AddCircleOutline from "@material-ui/icons/AddCircleOutline";
 import ProfileMenu from "../../Profile/ProfileMenu.js";
 import NotificationsHeader from "../../Notifications/NotificationsHeader.js";
 import { IconButton } from "@material-ui/core";

@@ -4,7 +4,7 @@ import { withStyles } from "material-ui/styles";
 import RegisterNewTrip from "./RegisterNewTrip";
 import Background from "../../driver-woman.jpeg";
 
-let imgUrl = "../../driver-woman.jpeg";
+//let imgUrl = "../../driver-woman.jpeg";
 let styles = {
   root: {
     backgroundImage: "url(" + Background + ")",
