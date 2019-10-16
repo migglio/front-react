@@ -58,8 +58,8 @@ class Header extends React.Component {
 
             {Auth.isUserAuthenticated() ? (
               <div style={{ display: "flex" }}>
-                <NotificationsHeader />
                 <ProfileMenu />
+                <NotificationsHeader />
               </div>
             ) : (
               <div>

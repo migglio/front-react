@@ -18,7 +18,11 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 const styles = {
   root: {
-    flexGrow: 1
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "left",
+    justifyContent: "center",
+    zIndex: 2
   },
   grow: {
     flexGrow: 1
@@ -33,6 +37,10 @@ class ProfileMenu extends React.Component {
   state = {
     auth: true,
     anchorEl: null
+  };
+
+  handleToggle = () => {
+    this.setState({ open: !this.state.open, invisible: true });
   };
 
   handleMenu = event => {
@@ -50,22 +58,24 @@ class ProfileMenu extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { auth, anchorEl } = this.state;
+    const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
     return (
       <div className={classes.root}>
+        <Button
+          className={classes.button}
+          buttonRef={node => {
+            this.anchorEl = node;
+          }}
+          aria-owns={open ? "menu-list-grow" : undefined}
+          aria-haspopup="true"
+          onClick={this.handleToggle}
+        >
+          <AccountCircleIcon />
+          {Auth.getNickname()}
+        </Button>
         <div>
-          <Button
-            aria-owns={open ? "menu-appbar" : undefined}
-            aria-haspopup="true"
-            onClick={this.handleMenu}
-            color="inherit"
-          >
-            <AccountCircleIcon />
-            {Auth.getNickname()}
-          </Button>
-
           <Popper
             open={open}
             placement={"bottom-end"}
@@ -76,7 +86,7 @@ class ProfileMenu extends React.Component {
             {({ TransitionProps, placement }) => (
               <Grow
                 {...TransitionProps}
-                id="menu-appbar"
+                id="menu-list-grow"
                 style={{
                   transformOrigin:
                     placement === "bottom" ? "center top" : "center bottom"

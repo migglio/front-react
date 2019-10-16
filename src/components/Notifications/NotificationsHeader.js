@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -25,7 +25,8 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "left",
-    justifyContent: "center"
+    justifyContent: "center",
+    zIndex: 2
   },
   button: { color: "#fff" },
   centerLink: {
@@ -69,7 +70,7 @@ class NotificationsHeader extends React.Component {
   componentWillMount() {
     axios.all([this.loadTripList()]).then(
       axios.spread(res1 => {
-        if (res1 !== undefined) {
+        if (res1) {
           this.setState({
             notifications: res1.data,
             loaded: true
@@ -120,7 +121,7 @@ class NotificationsHeader extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div>
+      <Fragment>
         {this.state.loaded ? (
           <div>
             <Typography
@@ -162,7 +163,7 @@ class NotificationsHeader extends React.Component {
                 </div>
               ))
             ) : (
-              <div>
+              <div style={{ minWidth: "320px" }}>
                 <Typography
                   className={classes.centerLink}
                   variant="subheading"
@@ -181,7 +182,7 @@ class NotificationsHeader extends React.Component {
         ) : (
           <CircularProgress />
         )}
-      </div>
+      </Fragment>
     );
   }
 

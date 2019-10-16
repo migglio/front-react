@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "material-ui/Typography";
 import NotificationTypes from "./notificationTypes";
@@ -20,7 +20,10 @@ const styles = theme => ({
     alignItems: "left",
     paddingLeft: "20%",
     paddingRight: "20%",
-    paddingTop: "2%"
+    paddingTop: "2%",
+    zIndex: 4,
+    minHeigth: "500px",
+    minWidth: "500px"
   },
   centerLink: {
     display: "flex",
@@ -102,20 +105,25 @@ class NotificationView extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
+      <Fragment>
         {this.state.loaded ? (
           <div className={classes.root}>
-            <Paper>
+            <Paper className={classes.root}>
               <Typography
                 className={classes.centerLink}
                 variant="subheading"
                 gutterBottom
-                style={{ color: "#21212", fontWeight: 700, padding: "1%" }}
+                style={{
+                  color: "#21212",
+                  fontWeight: 700,
+                  padding: "1%",
+                  zIndex: 2
+                }}
               >
                 Notificaciones
               </Typography>
               <hr />
-              <List>
+              <List className={classes.root}>
                 {this.state.notifications.length > 0
                   ? this.state.notifications.map(item => (
                       <ul>
@@ -153,7 +161,7 @@ class NotificationView extends React.Component {
         ) : (
           <CircularProgress />
         )}
-      </div>
+      </Fragment>
     );
   }
 }
