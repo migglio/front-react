@@ -137,7 +137,7 @@ class ResumeTripStep extends React.Component {
     return (
       <div className={classes.root}>
         <div className={classes.map}>
-          <ExpansionPanel>
+          <ExpansionPanel defaultExpanded={this.props.open}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <div>
                 <Typography

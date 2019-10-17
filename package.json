@@ -21,7 +21,6 @@
     "query-string": "^6.1.0",
     "react": "^16.9.0",
     "react-bootstrap": "^0.32.1",
-    "react-chat-widget": "^2.1.4-1",
     "react-dom": "^16.8.0",
     "react-facebook-login": "^4.0.1",
     "react-google-maps": "^9.4.5",

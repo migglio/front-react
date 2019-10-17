@@ -2,7 +2,6 @@ import React from "react";
 import MyMapComponent from "../shared/GoogleMapAPI/Map.js";
 import { Grid } from "@material-ui/core";
 import ButtonRequest from "./ButtonRequest.js";
-import Chat from "../Chat/Chat.js";
 import ResumeTrip from "../TripCreator/resumeTripStep/ResumeTripStep";
 import axios from "axios";
 import handleServerResponse from "../../response";
@@ -133,7 +132,7 @@ class DetailsView extends React.Component {
                 <Grid>
                   <h3>Trip resume</h3>
                   <Paper>
-                    <ResumeTrip tripData={this.state} />
+                    <ResumeTrip tripData={this.state} open={true} />
                     <hr />
                     <PassengerView
                       tripData={this.state}
@@ -169,7 +168,6 @@ class DetailsView extends React.Component {
                   tripData={this.state}
                   id={this.state._id}
                 />
-                <Chat />
               </div>
             </div>
           </div>

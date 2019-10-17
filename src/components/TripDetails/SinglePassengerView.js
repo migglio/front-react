@@ -24,11 +24,6 @@ function TabContainer({ children, dir }) {
   );
 }
 
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-  dir: PropTypes.string.isRequired
-};
-
 const styles = theme => ({
   root: {
     backgroundColor: theme.palette.background.paper
@@ -171,15 +166,14 @@ class SinglePassengerView extends React.Component {
           </Tabs>
         </AppBar>
         <SwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+          axis={theme && theme.direction === "rtl" ? "x-reverse" : "x"}
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer dir={theme.direction}>
-            {" "}
+          <TabContainer dir={theme && theme.direction}>
             {this.renderUsers(this.state.users)}
           </TabContainer>
-          <TabContainer dir={theme.direction}>
+          <TabContainer dir={theme && theme.direction}>
             {this.renderUsers(this.state.pendingUsers)}
           </TabContainer>
         </SwipeableViews>
