@@ -12,43 +12,33 @@ const styles = theme => ({
   }
 });
 
-class PassengerView extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    //const { classes } = this.props;
-
-    return (
-      <div
-        style={{
-          textAlign: "center",
-          alignItems: "center",
-          paddingTop: "2%",
-          paddingLeft: "20%",
-          paddingRight: "20%"
-        }}
-      >
-        <Paper>
-          <Typography
-            variant="title"
-            gutterBottom
-            style={{ color: "#054752", fontWeight: 700, padding: "1%" }}
-          >
-            Pasajeros
-          </Typography>
-        </Paper>
-        <SinglePassengerView
-          subtitle="confirmed"
-          idTrip={this.props.idTrip}
-          tripData={this.props.tripData}
-          passengers={this.props.passengers}
-          request={this.props.request}
-        />
-      </div>
-    );
-  }
-}
+const PassengerView = ({ idTrip, tripData, passengers, request }) => {
+  return (
+    <div
+      style={{
+        textAlign: "center",
+        alignItems: "center",
+        paddingTop: "2%"
+      }}
+    >
+      <Paper>
+        <Typography
+          variant="title"
+          gutterBottom
+          style={{ color: "#054752", fontWeight: 700, padding: "1%" }}
+        >
+          Pasajeros
+        </Typography>
+      </Paper>
+      <SinglePassengerView
+        subtitle="confirmed"
+        idTrip={idTrip}
+        tripData={tripData}
+        passengers={passengers}
+        request={request}
+      />
+    </div>
+  );
+};
 
 export default withStyles(styles)(PassengerView);
