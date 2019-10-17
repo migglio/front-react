@@ -53,6 +53,8 @@ class NotificationTypes {
       case 5:
         //type 2 means the user has deleted the trip conditions
         return this.getNotificationUserJoined();
+      default:
+        return null;
     }
   }
 }

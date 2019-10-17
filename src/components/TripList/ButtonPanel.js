@@ -58,8 +58,6 @@ const styles2 = theme => ({
   }
 });
 
-const moment = require("moment");
-
 class ButtonPanel extends React.Component {
   constructor(props) {
     super(props);

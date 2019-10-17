@@ -99,6 +99,7 @@ class NotificationView extends React.Component {
         console.log(users);
         NotificationSaver.markAsRead(notification._id, users);
       }
+      return true;
     });
   }
 

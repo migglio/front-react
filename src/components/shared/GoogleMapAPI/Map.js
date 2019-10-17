@@ -18,7 +18,6 @@ export default class MyMapComponent extends React.Component {
 
   createWaypointsList() {
     const list = [];
-    const google = window.google;
 
     this.props.steps.forEach((step, index) => {
       if (index !== 0 && index !== this.props.steps.length - 1) {

@@ -15,8 +15,6 @@ const styles = theme => ({
   }
 });
 
-const moment = require("moment");
-
 class NotificationView extends React.Component {
   isEdition(type) {
     return type === 0;

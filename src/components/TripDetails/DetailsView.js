@@ -1,12 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
-import MyMapComponent from "../shared/GoogleMapAPI/Map.js";
-import { Grid } from "@material-ui/core";
 import ButtonRequest from "./ButtonRequest.js";
 import ResumeTrip from "../TripCreator/resumeTripStep/ResumeTripStep";
-import axios from "axios";
-import url from "../../config";
-import handleServerResponse from "../../response";
-import Paper from "@material-ui/core/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ProfileResume from "../Profile/ProfileResume";
 import PassengerView from "./PassengerView";
@@ -86,24 +80,30 @@ const DetailsView = props => {
   const [loaded, setLoaded] = useState(false);
   const [update, setUpdate] = useState(false);
 
-  const [id, setId] = useState(queryString.parse(props.location.search).id);
+  const id = queryString.parse(props.location.search).id;
 
   const data = { owner, steps, date, reservation, food, mate, car, details };
 
   //Carga de Datos
-  useEffect(async () => {
-    const response = await trips().getTrip(id);
-    setSteps(response.steps);
-    setDate(response.date);
-    setReservation(response.automaticReservation);
-    setFood(response.food);
-    setMate(response.mate);
-    setCar(response.vehiculo);
-    setDetails(response.description);
-    setOwner(response.owner);
-    setLoaded(true);
+  useEffect(() => {
+    const asyncFunction = async () => {
+      const response = await trips().getTrip(id);
+      setSteps(response.steps);
+      setDate(response.date);
+      setReservation(response.automaticReservation);
+      setFood(response.food);
+      setMate(response.mate);
+      setCar(response.vehiculo);
+      setDetails(response.description);
+      setOwner(response.owner);
+      setLoaded(true);
+    };
+    asyncFunction();
+
+    //eslint-disable-next-line
   }, []);
 
+  /*
   const loadTripList = () => {
     return axios.get(url.api + "trips", { params: data }).catch(error => {
       handleServerResponse(
@@ -112,6 +112,7 @@ const DetailsView = props => {
       );
     });
   };
+  */
 
   const joinToTheTrip = () => {
     //add the id of the new User

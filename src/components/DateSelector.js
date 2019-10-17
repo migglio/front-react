@@ -1,12 +1,10 @@
 import React from "react";
-import DatePicker from "material-ui-pickers/DatePicker";
 import DateFnsUtils from "material-ui-pickers/utils/date-fns-utils";
 import MuiPickersUtilsProvider from "material-ui-pickers/utils/MuiPickersUtilsProvider";
 import TextField from "@material-ui/core/TextField";
 import DateRange from "@material-ui/icons/DateRange";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { withStyles } from "@material-ui/core/styles";
-const moment = require("moment");
 
 const styles2 = theme => ({
   dateSelector: {

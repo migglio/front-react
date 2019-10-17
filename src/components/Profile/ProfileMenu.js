@@ -29,7 +29,9 @@ const styles = {
   },
   menuButton: {
     marginLeft: -12,
-    marginRight: 20
+    marginRight: 20,
+    color: "#fff",
+    backgroundColor: "#fff"
   }
 };
 
@@ -71,6 +73,7 @@ class ProfileMenu extends React.Component {
           aria-owns={open ? "menu-list-grow" : undefined}
           aria-haspopup="true"
           onClick={this.handleToggle}
+          color="inherit"
         >
           <AccountCircleIcon />
           {Auth.getNickname()}

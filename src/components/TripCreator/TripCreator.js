@@ -54,7 +54,6 @@ let styles = {
 };
 
 const moment = require("moment");
-var NotificationSystem = require("react-notification-system");
 
 class OfferARide extends React.Component {
   constructor(props, context) {
@@ -120,7 +119,7 @@ class OfferARide extends React.Component {
           loaded: true,
           toUpdate: true
         });
-        this.state.steps[0].date = new Date(this.state.steps[0].date);
+        //this.state.steps[0].date = new Date(this.state.steps[0].date);
       });
     else this.setState({ loaded: true });
   }

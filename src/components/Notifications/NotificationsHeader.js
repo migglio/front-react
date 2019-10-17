@@ -100,9 +100,9 @@ class NotificationsHeader extends React.Component {
       const users = notification.read;
       if (users.indexOf(Auth.getUserID()) > -1) {
         users.push(Auth.getUserID());
-        console.log(users);
         NotificationSaver.markAsRead(notification._id, users);
       }
+      return true;
     });
   }
 

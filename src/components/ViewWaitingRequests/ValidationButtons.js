@@ -58,8 +58,6 @@ const styles2 = theme => ({
   }
 });
 
-const moment = require("moment");
-
 class ValidationButtons extends React.Component {
   constructor(props) {
     super(props);
@@ -86,6 +84,7 @@ class ValidationButtons extends React.Component {
       listId.push(passengers.pendingUsers[value]);
       passengers.users.push(passengers.pendingUsers[value]);
       passengers.pendingUsers.splice(value, 1);
+      return true;
     });
     list[0].passengers = passengers;
     this.setState({
@@ -104,6 +103,7 @@ class ValidationButtons extends React.Component {
     selected.map(value => {
       listId.push(passengers.pendingUsers[value]);
       passengers.pendingUsers.splice(value, 1);
+      return true;
     });
     list[0].passengers = passengers;
     this.setState({

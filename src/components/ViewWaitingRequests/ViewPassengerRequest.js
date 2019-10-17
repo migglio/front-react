@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import handleServerResponse from "../../response";
 import url from "../../config";
 import PassengerView from "../TripDetails/PassengerView";
 
@@ -37,17 +36,6 @@ class ViewWaitingPassengers extends React.Component {
         loaded: true
       });
     });
-  }
-
-  loadTripList() {
-    return axios
-      .get(url.api + "trips", { params: this.state.data })
-      .catch(error => {
-        handleServerResponse(
-          error,
-          "An error occured when getting the trips data"
-        );
-      });
   }
 
   handleToggle = value => () => {

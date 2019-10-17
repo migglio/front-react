@@ -4,8 +4,7 @@ const {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  DirectionsRenderer,
-  google
+  DirectionsRenderer
 } = require("react-google-maps");
 
 //it is needed because componentDidUpdate cannot use props for scoping problems

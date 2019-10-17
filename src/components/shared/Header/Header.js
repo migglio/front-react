@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "material-ui/styles";
 import AppBar from "material-ui/AppBar";
@@ -9,15 +10,16 @@ import Auth from "../../Auth/Auth.js";
 import ProfileMenu from "../../Profile/ProfileMenu.js";
 import NotificationsHeader from "../../Notifications/NotificationsHeader.js";
 import { IconButton } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-
+import HomeIcon from "@material-ui/icons/Home";
 const styles = {
   root: {
     flexGrow: 1,
+    width: "100%",
     justifyContent: "center",
     alignItems: "center"
   },
   buttonHome: {
+    alignItems: "center",
     color: "#fff"
   },
   flex: {
@@ -36,26 +38,24 @@ class Header extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="menu"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Button className={classes.buttonHome} href="/">
-              <Typography variant="h6" className={classes.title}>
-                Carpooling App
-              </Typography>
-            </Button>
-
+            {!this.props.isHome && (
+              <IconButton
+                component={Link}
+                to="/"
+                className={classes.menuButton}
+                color="inherit"
+              >
+                <HomeIcon />
+              </IconButton>
+            )}
+            <Typography variant="h6" className={classes.title}>
+              Carpooling App
+            </Typography>
             <Typography
               variant="title"
               color="inherit"
               className={classes.flex}
             />
-
             {Auth.isUserAuthenticated() ? (
               <div style={{ display: "flex" }}>
                 <ProfileMenu />

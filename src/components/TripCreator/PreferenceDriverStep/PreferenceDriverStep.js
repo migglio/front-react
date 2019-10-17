@@ -55,10 +55,6 @@ const styles2 = theme => ({
 });
 
 class PreferenceDriverStep extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   //Get value entered by user
   handleUserInput = e => {
     const name = e.target.name;

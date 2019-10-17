@@ -96,13 +96,6 @@ const styles2 = theme => ({
     alignItems: "center",
     width: "100%"
   },
-  preferencesContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingBottom: "2vh"
-  },
   details: {
     padding: "2vw"
   },
@@ -131,7 +124,8 @@ class ResumeTripStep extends React.Component {
     const destino = this.props.tripData.steps[
       this.props.tripData.steps.length - 1
     ];
-    const isSecondStep = origen.name && destino.name && origen.date;
+
+    //const isSecondStep = origen.name && destino.name && origen.date;
 
     return (
       <div className={classes.root}>
