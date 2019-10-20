@@ -138,7 +138,11 @@ class NotificationView extends React.Component {
                             <b>{item.nickname} </b>
                             {NotificationTypes.getNotificationText(item.type)}
                             <br />
-                            <b>{moment(item.date).format("LLLL")}</b>
+                            <b>
+                              {moment(item.date)
+                                .locale("es")
+                                .format("LLLL")}
+                            </b>
                           </Typography>
                           <NotificationButtons notification={item} />
                         </div>

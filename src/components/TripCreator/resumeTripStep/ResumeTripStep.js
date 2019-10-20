@@ -14,6 +14,7 @@ import ToolTipTravel from "./ToolTipTravel";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import moment from "moment";
 import {
   SALIDA,
   DESTINO,
@@ -104,8 +105,6 @@ const styles2 = theme => ({
     width: 30
   }
 });
-
-const moment = require("moment");
 
 class ResumeTripStep extends React.Component {
   constructor(props) {

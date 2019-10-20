@@ -97,9 +97,9 @@ class MeetingDataStep extends Component {
           <DateSelector
             label="Trip date"
             callback={this.updateDate}
-            date={moment(this.props.tripData.steps[0].date).format(
-              "YYYY-MM-DD"
-            )}
+            date={moment(this.props.tripData.steps[0].date)
+              .locale("es")
+              .format("YYYY-MM-DD")}
           />
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <TextField
@@ -108,7 +108,9 @@ class MeetingDataStep extends Component {
               label="Trip Time"
               type="time"
               onChange={this.updateTime}
-              value={moment(this.props.tripData.steps[0].date).format("HH:mm")}
+              value={moment(this.props.tripData.steps[0].date)
+                .locale("es")
+                .format("HH:mm")}
               InputProps={{
                 step: 300, // 5 min
                 startAdornment: (

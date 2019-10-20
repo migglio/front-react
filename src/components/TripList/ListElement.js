@@ -179,7 +179,9 @@ class ListElement extends React.Component {
                   gutterBottom
                   style={{ fontWeight: 500 }}
                 >
-                  {moment(this.props.tripData.steps[0].date).format("LLLL")}
+                  {moment(this.props.tripData.steps[0].date)
+                    .locale("es")
+                    .format("LLLL")}
                 </Typography>
               </div>
 

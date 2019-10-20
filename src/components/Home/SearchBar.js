@@ -1,25 +1,31 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Paper } from "material-ui";
-import Grid from "material-ui/Grid";
 import { withStyles } from "material-ui/styles";
 import Button from "@material-ui/core/Button";
 import Search from "@material-ui/icons/Search";
 import DateSelector from "../DateSelector";
 import MySearchPlaceComponent from "../shared/GoogleMapAPI/CitySearcher";
 const styles = theme => ({
+  root: { display: "flex", flexWrap: "wrap", justifyContent: "center" },
+
   paper2: {
     padding: theme.spacing.unit,
     textAlign: "center",
     color: theme.palette.text.secondary,
-    borderRadius: 11,
+    borderRadius: 8,
     minHeight: 80,
     display: "flex",
-    minWidth: 200,
+    width: 250,
     alignItems: "center",
     justifyContent: "center"
   },
+  container: { padding: 16 },
   button: {
-    margin: theme.spacing.unit
+    display: "flex",
+    borderRadius: 50,
+    margin: theme.spacing.unit,
+    width: "200px"
   },
   leftIcon: {
     marginRight: theme.spacing.unit
@@ -50,56 +56,52 @@ class SearchBar extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
-        <Grid
-          container
-          spacing={16}
-          className={classes.demo}
-          alignItems="center"
-          direction="row"
-          justify="center"
-        >
-          <Grid item>
-            <Paper className={classes.paper2}>
-              <MySearchPlaceComponent
-                callback={this.updateFrom}
-                name={this.state.from}
-                steps={[{ name: this.state.to }]}
-              />
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Paper className={classes.paper2}>
-              <MySearchPlaceComponent
-                callback={this.updateTo}
-                name={this.state.to}
-                steps={[{ name: this.state.from }]}
-              />
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Paper className={classes.paper2}>
-              <DateSelector callback={this.handleDateChange} />
-            </Paper>
-          </Grid>
-          <Button
-            href={
-              "/tripsList?from=" +
-              this.state.from +
-              "&to=" +
-              this.state.to +
-              "&date=" +
-              this.state.date
-            }
-            className={classes.button}
-            variant="raised"
-            color="primary"
-          >
-            Search
-            <Search className={classes.rightIcon}>send</Search>
-          </Button>
-        </Grid>
-        <p />
+      <div className={classes.root}>
+        <div className={classes.container}>
+          <Paper className={classes.paper2}>
+            <MySearchPlaceComponent
+              callback={this.updateFrom}
+              name={this.state.from}
+              steps={[{ name: this.state.to }]}
+            />
+          </Paper>
+        </div>
+        <div className={classes.container}>
+          <Paper className={classes.paper2}>
+            <MySearchPlaceComponent
+              callback={this.updateTo}
+              name={this.state.to}
+              steps={[{ name: this.state.from }]}
+            />
+          </Paper>
+        </div>
+        <div className={classes.container}>
+          <Paper className={classes.paper2}>
+            <DateSelector callback={this.handleDateChange} />
+          </Paper>
+        </div>
+        <div className={classes.container}>
+          <div className={classes.paper2}>
+            <Button
+              component={Link}
+              to={
+                "/tripsList?from=" +
+                this.state.from +
+                "&to=" +
+                this.state.to +
+                "&date=" +
+                this.state.date
+              }
+              //disabled={!this.state.from && !this.state.to}
+              className={classes.button}
+              variant="contained"
+              color="primary"
+            >
+              Buscar
+              <Search className={classes.rightIcon}>send</Search>
+            </Button>
+          </div>
+        </div>
       </div>
     );
   }

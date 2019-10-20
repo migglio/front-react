@@ -38,7 +38,8 @@ const styles = {
 class ProfileMenu extends React.Component {
   state = {
     auth: true,
-    anchorEl: null
+    anchorEl: null,
+    open: false
   };
 
   handleToggle = () => {
@@ -60,8 +61,8 @@ class ProfileMenu extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { anchorEl } = this.state;
-    const open = Boolean(anchorEl);
+    //const open = Boolean(anchorEl);
+    const open = this.state.open;
 
     return (
       <div className={classes.root}>

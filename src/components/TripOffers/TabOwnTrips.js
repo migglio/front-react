@@ -108,15 +108,14 @@ class TabOwnTrips extends React.Component {
           </Tabs>
         </AppBar>
         <SwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+          axis={theme && theme.direction === "rtl" ? "x-reverse" : "x"}
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer dir={theme.direction}>
-            {" "}
+          <TabContainer dir={theme && theme.direction}>
             {this.renderTrips(this.props.trips)}
           </TabContainer>
-          <TabContainer dir={theme.direction}>
+          <TabContainer dir={theme && theme.direction}>
             {this.renderNextTrips(this.props.trips)}
           </TabContainer>
         </SwipeableViews>
