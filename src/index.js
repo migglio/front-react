@@ -14,6 +14,11 @@ import TripOffered from "./components/TripOffers/TripOffered";
 import ViewWaitingPassengers from "./components/ViewWaitingRequests/ViewPassengerRequest";
 import BookedTrips from "./components/BookedTrips/BookedTrips";
 import NotificationView from "./components/Notifications/NotificationView";
+import routes, {
+  TRIP_WITH_ID_PATH,
+  TRIP_PATH,
+  TRIP_CREATOR_PATH
+} from "./constants/routes";
 
 render(
   <BrowserRouter>
@@ -23,9 +28,15 @@ render(
         <Route exact path="/" component={Body} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/TripCreator" component={OfferARide} />
-        <Route path="/TripDetails" component={DetailsView} />
-        <Route path="/tripsList" component={TripsList} />
+        <Route
+          path={routes().trips[TRIP_CREATOR_PATH] + "/:id"}
+          component={OfferARide}
+        />
+        <Route
+          path={routes().trips[TRIP_WITH_ID_PATH] + "/:id"}
+          component={DetailsView}
+        />
+        <Route path={routes().trips[TRIP_PATH]} component={TripsList} />
         <Route path="/Profile" component={Profile} />
         <Route path="/TripOffers" component={TripOffered} />
         <Route

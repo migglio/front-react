@@ -1,8 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TripSaver from "../TripSaver/TripSaver";
+import routes, {
+  TRIP_WITH_ID_PATH,
+  TRIP_CREATOR_PATH
+} from "../../constants/routes";
 
 const styles2 = theme => ({
   root: {
@@ -86,7 +91,10 @@ class ButtonPanel extends React.Component {
       return (
         <div style={{ display: "flex", alignItems: "center" }}>
           <Button
-            href={"tripDetails?id=" + this.props.tripData._id}
+            component={Link}
+            to={
+              routes().trips[TRIP_WITH_ID_PATH] + "/" + this.props.tripData._id
+            }
             className={classes.button}
             variant="raised"
           >
@@ -98,7 +106,6 @@ class ButtonPanel extends React.Component {
 
   renderNewTrips() {
     const { classes } = this.props;
-    console.log(this.props.tripData);
     return (
       <div style={{ display: "flex", alignItems: "center" }}>
         {!this.props.tripData.reservation ? (
@@ -112,7 +119,8 @@ class ButtonPanel extends React.Component {
           </Button>
         ) : null}
         <Button
-          href={"TripCreator?id=" + this.props.tripData._id}
+          component={Link}
+          to={TRIP_CREATOR_PATH + "/" + this.props.tripData._id}
           className={classes.button}
           variant="raised"
         >

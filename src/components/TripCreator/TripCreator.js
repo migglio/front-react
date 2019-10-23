@@ -6,8 +6,7 @@ import axios from "axios";
 import url from "../../config";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Divider } from "material-ui";
-
-const queryString = require("query-string");
+import { useParams } from "react-router-dom";
 
 let styles = {
   root: {
@@ -79,7 +78,7 @@ class OfferARide extends React.Component {
         seats: "",
         car: ""
       },
-      idTrip: queryString.parse(this.props.location.search),
+      idTrip: null,
       loaded: false,
       toUpdate: false
     };
@@ -106,8 +105,10 @@ class OfferARide extends React.Component {
 
   //Carga de Datos
   componentDidMount() {
-    if (this.state.idTrip.id !== undefined)
-      axios.get(url.api + "trips/" + this.state.idTrip.id).then(response => {
+    const { id } = useParams();
+
+    if (id)
+      axios.get(url.api + "trips/" + id).then(response => {
         this.setState({
           steps: response.data.steps,
           reservation: response.data.automaticReservation,

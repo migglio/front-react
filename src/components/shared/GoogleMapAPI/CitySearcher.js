@@ -33,13 +33,15 @@ const PlacesWithStandaloneSearchBox = compose(
           this.setState({
             places: places
           });
+
           //select the unique element of the list(city selected by user)
           if (places.length > 0) {
             const lat = this.state.places[0].geometry.location.lat();
             const lng = this.state.places[0].geometry.location.lng();
             this.props.changeLoc(
               { lat: lat, lng: lng },
-              places[0].formatted_address
+              places[0].formatted_address,
+              this.state.places[0].name
             );
           }
         }
@@ -116,18 +118,22 @@ export default class MySearchPlaceComponent extends React.Component {
     this.getError();
   };
 
-  updateLocation(loc_par, name) {
+  updateLocation(loc_par, name, shortName) {
     if (!this.isCity(name, this.props.steps)) {
       this.setState({ location: loc_par, name: name });
       if (!this.props.idx)
-        this.props.callback({ location: this.state.location, name: name });
+        this.props.callback({
+          location: this.state.location,
+          name: name,
+          shortName
+        });
       else this.props.callback(this.state.location, this.props.idx, name);
     }
   }
 
   getError() {
-    if (this.state.error) return "That city is already defined";
-    else if (this.state.name === "") return "Field required";
+    if (this.state.error) return "Ciudad ya seleccionada";
+    //if (!this.state.name) return "Requerido";
     return "";
   }
 

@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import Search from "@material-ui/icons/Search";
 import DateSelector from "../DateSelector";
 import MySearchPlaceComponent from "../shared/GoogleMapAPI/CitySearcher";
+import routes, { TRIP_PATH } from "../../constants/routes";
 const styles = theme => ({
   root: { display: "flex", flexWrap: "wrap", justifyContent: "center" },
 
@@ -55,6 +56,15 @@ class SearchBar extends React.Component {
 
   render() {
     const { classes } = this.props;
+
+    const params =
+      "from=" +
+      (this.state.from ? this.state.from : "") +
+      "&to=" +
+      (this.state.to ? this.state.to : "") +
+      "&date=" +
+      this.state.date;
+
     return (
       <div className={classes.root}>
         <div className={classes.container}>
@@ -84,14 +94,7 @@ class SearchBar extends React.Component {
           <div className={classes.paper2}>
             <Button
               component={Link}
-              to={
-                "/tripsList?from=" +
-                this.state.from +
-                "&to=" +
-                this.state.to +
-                "&date=" +
-                this.state.date
-              }
+              to={routes().trips[TRIP_PATH] + "?" + params}
               //disabled={!this.state.from && !this.state.to}
               className={classes.button}
               variant="contained"

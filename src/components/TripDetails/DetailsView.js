@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import ButtonRequest from "./ButtonRequest.js";
 import ResumeTrip from "../TripCreator/resumeTripStep/ResumeTripStep";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -8,8 +9,6 @@ import TripSaver from "../TripSaver/TripSaver.js";
 import Auth from "../Auth/Auth.js";
 import { withStyles } from "@material-ui/core/styles";
 import { trips } from "../../api/Trips.js";
-
-const queryString = require("query-string");
 
 const styles = theme => ({
   root: {
@@ -80,9 +79,11 @@ const DetailsView = props => {
   const [loaded, setLoaded] = useState(false);
   const [update, setUpdate] = useState(false);
 
-  const id = queryString.parse(props.location.search).id;
+  //const id = queryString.parse(props.location.search).id;
 
   const data = { owner, steps, date, reservation, food, mate, car, details };
+
+  let { id } = useParams();
 
   //Carga de Datos
   useEffect(() => {
