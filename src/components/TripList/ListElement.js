@@ -78,6 +78,11 @@ const styles2 = theme => ({
     background: "#EB1B00",
     color: "white",
     marginRight: "3%"
+  },
+  ownerUserInfo: {
+    "@media (max-width:768px)": {
+      display: "none"
+    }
   }
 });
 
@@ -122,7 +127,8 @@ class ListElement extends React.Component {
               className={classNames(
                 classes.separator,
                 classes.columnFlex1,
-                classes.paddingTrip
+                classes.paddingTrip,
+                classes.ownerUserInfo
               )}
             >
               <Badge

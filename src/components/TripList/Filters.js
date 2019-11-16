@@ -11,8 +11,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import "react-input-range/lib/css/index.css";
 const styles = theme => ({
   root: {
-    width: "25%",
-    padding: "1%"
+    padding: "2%"
   },
   ".input-range": {
     "min-height": "35px"

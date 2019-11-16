@@ -4,8 +4,21 @@ import axios from "axios";
 import url from "../../config";
 import DrawerContainer from "./DrawerContainer";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { withStyles } from "@material-ui/core/styles";
 
 const queryString = require("query-string");
+const styles = theme => ({
+  root: {
+    textAlign: "center",
+    paddingLeft: "15%",
+    paddingRight: "15%",
+    "@media (max-width:768px)": {
+      padding: "2%"
+    },
+    "background-color": "#efefef",
+    paddingTop: "1%"
+  }
+});
 
 class TripList extends React.Component {
   constructor(props) {
@@ -43,16 +56,10 @@ class TripList extends React.Component {
 
   //Render
   render() {
+    const { classes } = this.props;
+
     return (
-      <div
-        style={{
-          textAlign: "center",
-          paddingLeft: "15%",
-          paddingRight: "15%",
-          "background-color": "#efefef",
-          paddingTop: "1%"
-        }}
-      >
+      <div className={classes.root}>
         {this.state.loaded ? (
           <DrawerContainer trips={this.state.trips} data={this.state.data} />
         ) : (
@@ -63,4 +70,4 @@ class TripList extends React.Component {
   }
 }
 
-export default TripList;
+export default withStyles(styles)(TripList);

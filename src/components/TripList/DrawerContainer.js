@@ -8,14 +8,15 @@ const moment = require("moment");
 
 const styles = theme => ({
   root: {
-    display: "flex"
+    display: "flex",
+    "@media (max-width:768px)": {
+      display: "none"
+    }
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1
   },
-  tripsContainer: {
-    width: "80%"
-  },
+  tripsContainer: {},
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
@@ -46,38 +47,50 @@ class DrawerContainer extends React.Component {
 
   render() {
     const { classes } = this.props;
+    console.log(this.props.data.from);
     return (
       <div>
         <SearchBar />
-        <Paper style={{ margin: "1%" }} elevation={4}>
+        <Paper
+          style={{
+            margin: "1%",
+            width: "75%",
+            marginRight: "auto",
+            marginLeft: "auto"
+          }}
+          elevation={4}
+        >
           <Typography
             variant="title"
             gutterBottom
             style={{ color: "#054752", fontWeight: 700, padding: "1%" }}
           >
-            {this.state.trips.length} viajes disponibles desde{" "}
-            {this.props.data.from} hasta {this.props.data.to}
-            el{" "}
-            {moment(this.props.date)
-              .locale("es")
-              .format("LL")}
+            {this.state.trips.length} viajes disponibles
+            {this.props.data.from === undefined
+              ? ` desde ${this.props.data.from} hasta ${
+                  this.props.data.to
+                } el ${moment(this.props.date)
+                  .locale("es")
+                  .format("LL")}`
+              : " "}
           </Typography>
         </Paper>
-        <div className={classes.root}>
-          <Filters
-            trips={this.state.trips}
-            max={Math.max.apply(
-              null,
-              this.props.trips.map(item => item.steps[0].price)
-            )}
-            min={Math.min.apply(
-              null,
-              this.props.trips.map(item => item.steps[0].price)
-            )}
-            value={this.state.value}
-            filterTrips={this.filterTrips}
-          />
-
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div className={classes.root}>
+            <Filters
+              trips={this.state.trips}
+              max={Math.max.apply(
+                null,
+                this.props.trips.map(item => item.steps[0].price)
+              )}
+              min={Math.min.apply(
+                null,
+                this.props.trips.map(item => item.steps[0].price)
+              )}
+              value={this.state.value}
+              filterTrips={this.filterTrips}
+            />
+          </div>
           <div className={classes.tripsContainer}>
             {this.renderTrips(this.state.trips)}
           </div>
