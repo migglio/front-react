@@ -102,16 +102,17 @@ class DrawerContainer extends React.Component {
             trip.steps[0].passengers.users.length >
           0
       );
-    if (autRes)
+    if (autRes) {
+      console.log(newTrips);
       this.setState({
         trips: newTrips.filter(
           trip =>
             trip.steps[0].price >= value.min &&
-            trip.price <= value.max &&
+            trip.steps[0].price <= value.max &&
             trip.automaticReservation === autRes
         )
       });
-    else
+    } else
       this.setState({
         trips: newTrips.filter(
           trip =>
