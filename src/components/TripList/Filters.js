@@ -8,7 +8,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import InputRange from "react-input-range";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-
+import "react-input-range/lib/css/index.css";
 const styles = theme => ({
   root: {
     width: "25%",
@@ -47,6 +47,7 @@ class Filters extends React.Component {
   render() {
     const { classes } = this.props;
 
+    console.log();
     return (
       <div className={classes.root}>
         <ExpansionPanel expanded>
