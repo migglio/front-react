@@ -8,6 +8,7 @@ import FacebookLogin from "react-facebook-login";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import "../../../index.css";
+import { Paper } from "@material-ui/core";
 
 const NotificationSystem = require("react-notification-system");
 
@@ -117,51 +118,65 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div
+      <Paper
         style={{
-          textAlign: "center",
-          margin: "auto",
-          width: "20%",
-          marginTop: "5%"
+          width: "25%",
+          marginLeft: "auto",
+          marginRight: "auto",
+          padding: 1,
+          marginTop: 15
         }}
       >
-        {this.state.redirect}
-        <NotificationSystem ref="notificationSystem" />
-        <div style={{ margin: "10%" }}>
-          <TextField
-            label="Email"
-            name="nickname"
-            margin="normal"
-            onChange={this.handleUserInput}
-          />
-          <TextField
-            name="password"
-            id="password-input"
-            label="Password"
-            type="password"
-            autoComplete="current-password"
-            margin="normal"
-            onChange={this.handleUserInput}
-          />
-          <br />
-          <Button
-            color="primary"
-            variant="raised"
-            disabled={!this.state.formValid}
-            className="bttn"
-            onClick={this.processForm}
-          >
-            Login
-          </Button>
+        <div
+          style={{
+            textAlign: "center",
+            margin: "auto",
+            marginTop: "5%",
+            width: "70%"
+          }}
+        >
+          <h2>Log In</h2>
+          {this.state.redirect}
+          <NotificationSystem ref="notificationSystem" />
+          <div style={{ margin: "10%" }}>
+            <TextField
+              label="Nickname"
+              name="nickname"
+              margin="normal"
+              onChange={this.handleUserInput}
+            />
+            <TextField
+              name="password"
+              id="password-input"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+              margin="normal"
+              onChange={this.handleUserInput}
+            />
+            <br />
+            <Button
+              color="primary"
+              variant="raised"
+              disabled={!this.state.formValid}
+              className="bttn"
+              onClick={this.processForm}
+              style={{ marginTop: 28 }}
+            >
+              Login
+            </Button>
+          </div>
+          <div style={{ textAlign: "center", marginTop: 48, marginBottom: 48 }}>
+            <FacebookLogin
+              style={{ textAlign: "center", margin: 48 }}
+              appId="140609023473072"
+              fields="name,email,picture"
+              scope="public_profile, email, user_birthday"
+              callback={this.responseFacebook}
+            />
+          </div>
         </div>
-        <FacebookLogin
-          style={{ textAlign: "center", margin: "3%" }}
-          appId="140609023473072"
-          fields="name,email,picture"
-          scope="public_profile, email, user_birthday"
-          callback={this.responseFacebook}
-        />
-      </div>
+      </Paper>
     );
   }
 

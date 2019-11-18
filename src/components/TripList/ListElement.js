@@ -78,6 +78,11 @@ const styles2 = theme => ({
     background: "#EB1B00",
     color: "white",
     marginRight: "3%"
+  },
+  ownerUserInfo: {
+    "@media (max-width:768px)": {
+      display: "none"
+    }
   }
 });
 
@@ -94,13 +99,15 @@ class ListElement extends React.Component {
   }
 
   componentWillMount() {
-    Axios.get(url.api + "user/" + this.props.tripData.owner)
-      .then(response => {
-        this.setState({ userData: response.data, userLoaded: true }); //Check response.local
-      })
-      .catch(function(error) {
-        alert(error);
-      });
+    if (this.props.tripData.owner) {
+      Axios.get(url.api + "user/" + this.props.tripData.owner)
+        .then(response => {
+          this.setState({ userData: response.data, userLoaded: true }); //Check response.local
+        })
+        .catch(function(error) {
+          alert(error);
+        });
+    }
   }
 
   render() {
@@ -120,7 +127,8 @@ class ListElement extends React.Component {
               className={classNames(
                 classes.separator,
                 classes.columnFlex1,
-                classes.paddingTrip
+                classes.paddingTrip,
+                classes.ownerUserInfo
               )}
             >
               <Badge
