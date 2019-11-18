@@ -11,6 +11,12 @@ const trips = () => {
       const response = await axios.get(url.api + "trips");
       return response.data;
     },
+    getOwnTrip: async (id, data) => {
+      const response = await axios.get(url.api + "trips/ownTrips", {
+        params: data
+      });
+      return response.data;
+    },
     getBookedTrip: async (id, data) => {
       const response = await axios.get(url.api + "trips/bookedTrips", {
         params: data

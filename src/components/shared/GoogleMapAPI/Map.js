@@ -11,8 +11,8 @@ export default class MyMapComponent extends React.Component {
 
   createMarkersList() {
     const list = [];
-    list.push(this.props.steps[0].location);
-    list.push(this.props.steps[this.props.steps.length - 1].location);
+    list.push(this.props.steps[0]);
+    list.push(this.props.steps[this.props.steps.length - 1]);
     return list;
   }
 
@@ -32,7 +32,6 @@ export default class MyMapComponent extends React.Component {
   render() {
     const markers = this.createMarkersList();
     const waypoints = this.createWaypointsList();
-    console.log(markers);
     return (
       <GoogleMapsWrapper
         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw6XjBV9dEHkRt_T4ChYB5Nklc2-YiN9M&v=3.exp&libraries=geometry,drawing,places"
@@ -41,10 +40,8 @@ export default class MyMapComponent extends React.Component {
         mapElement={<div style={{ height: `100%` }} />}
         defaultZoom={4}
         defaultCenter={{ lat: -37.669651, lng: -59.807167 }}
-        fromLat={markers[0].lat}
-        fromLng={markers[0].lng}
-        toLat={markers[1].lat}
-        toLng={markers[1].lng}
+        origin={markers[0].placeId}
+        destination={markers[1].placeId}
         waypoints={waypoints}
       />
     );

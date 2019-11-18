@@ -58,7 +58,7 @@ class RegisterNewTrip extends React.Component {
             </Typography>
           </div>
           <Button
-            href="../TripCreator"
+            href="/TripCreator"
             className={classes.button}
             variant="raised"
             color="primary"

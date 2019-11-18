@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
-import MySearchPlaceComponent from './GoogleMapAPI/CitySearcher.js'
+import CitySearcher from "./GoogleMapAPI/CitySearcher.js";
 
 const styles = theme => ({
   root: {
@@ -46,66 +46,72 @@ const styles = theme => ({
   }
 });
 
-class DetailedStepPanel extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            step:{
-                location:{lat:undefined, lng:undefined},
-                name:undefined
-            }
-        };	
-        this.newStep = this.newStep.bind(this);
-        this.updateLocation = this.updateLocation.bind(this);
-    }
+class DetailedStepPanel extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      step: {
+        location: { lat: undefined, lng: undefined },
+        name: undefined
+      }
+    };
+    this.newStep = this.newStep.bind(this);
+    this.updateLocation = this.updateLocation.bind(this);
+  }
 
-    updateLocation(stepWithName){
-      this.setState({step:stepWithName});
-    }  
+  updateLocation(stepWithName) {
+    this.setState({ step: stepWithName });
+  }
 
-    newStep(){
-      const step = this.props.newStep();
-      step.location = this.state.step.location;
-      step.name = this.state.step.name;
-      this.props.callback(step);
-    }
-    
-    render() {
+  newStep() {
+    const step = this.props.newStep();
+    step.location = this.state.step.location;
+    step.name = this.state.step.name;
+    this.props.callback(step);
+  }
+
+  render() {
     const { classes } = this.props;
     return (
-        <div className={classes.root}>
-          <ExpansionPanel defaultExpanded={false}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <div className={classes.column}>
-                <Typography className={classes.heading}>Location</Typography>
-              </div>
-              <div className={classes.column}>
-                <Typography className={classes.secondaryHeading}>
-                  Select a trip step
-                </Typography>
-              </div>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails className={classes.details}>
-              <div className={classes.column} />
-              <div className={classes.column}>
-              <MySearchPlaceComponent steps={this.props.steps} callback={this.updateLocation}/>
-              </div>
-            </ExpansionPanelDetails>
-            <Divider />
-            <ExpansionPanelActions>
-              <Button size="small" color="primary" onClick={this.newStep} disabled={this.state.step.name == undefined} >
-                Add
-              </Button>
-            </ExpansionPanelActions>
-          </ExpansionPanel>
-        </div>
-      );
-    }    
-      
+      <div className={classes.root}>
+        <ExpansionPanel defaultExpanded={false}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <div className={classes.column}>
+              <Typography className={classes.heading}>Location</Typography>
+            </div>
+            <div className={classes.column}>
+              <Typography className={classes.secondaryHeading}>
+                Select a trip step
+              </Typography>
+            </div>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails className={classes.details}>
+            <div className={classes.column} />
+            <div className={classes.column}>
+              <CitySearcher
+                steps={this.props.steps}
+                callback={this.updateLocation}
+              />
+            </div>
+          </ExpansionPanelDetails>
+          <Divider />
+          <ExpansionPanelActions>
+            <Button
+              size="small"
+              color="primary"
+              onClick={this.newStep}
+              disabled={this.state.step.name == undefined}
+            >
+              Add
+            </Button>
+          </ExpansionPanelActions>
+        </ExpansionPanel>
+      </div>
+    );
+  }
 }
 DetailedStepPanel.propTypes = {
-    classes: PropTypes.object.isRequired
-  };
-
+  classes: PropTypes.object.isRequired
+};
 
 export default withStyles(styles)(DetailedStepPanel);

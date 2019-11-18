@@ -8,18 +8,14 @@ const {
 } = require("react-google-maps");
 
 //it is needed because componentDidUpdate cannot use props for scoping problems
-let fromLat = undefined;
-let fromLng = undefined;
-let toLat = undefined;
-let toLng = undefined;
+let origin = undefined;
+let destination = undefined;
 let waypoints = [];
 
 //comunicate props with variables scoped by componentDidUpdate function
-function updateValue(lat, lng, toLatitude, toLong, waypointsList) {
-  fromLat = lat;
-  fromLng = lng;
-  toLat = toLatitude;
-  toLng = toLong;
+function updateValue(from, to, waypointsList) {
+  origin = from;
+  destination = to;
   waypoints = waypointsList;
 }
 
@@ -37,15 +33,15 @@ const GoogleMapsWrapper = compose(
   lifecycle({
     //este se necesita para la vista de tripCreator
     componentDidUpdate() {
-      if (fromLat && toLat) {
+      if (origin && destination) {
         const google = window.google;
 
         const DirectionsService = new google.maps.DirectionsService();
 
         DirectionsService.route(
           {
-            origin: new google.maps.LatLng(fromLat, fromLng),
-            destination: new google.maps.LatLng(toLat, toLng),
+            origin: { placeId: origin },
+            destination: { placeId: destination },
             travelMode: google.maps.TravelMode.DRIVING,
             waypoints: waypoints
           },
@@ -61,15 +57,17 @@ const GoogleMapsWrapper = compose(
     },
     //componentDidUpdate no es llamado la primera vez cuando es montado. Por esto se usa este -tripDetails-
     componentDidMount() {
-      if (fromLat && toLat) {
+      if (origin && destination) {
         const google = window.google;
 
         const DirectionsService = new google.maps.DirectionsService();
 
+        console.log("origin", origin, "destination", destination, this.props);
+
         DirectionsService.route(
           {
-            origin: new google.maps.LatLng(fromLat, fromLng),
-            destination: new google.maps.LatLng(toLat, toLng),
+            origin: origin,
+            destination: destination,
             travelMode: google.maps.TravelMode.DRIVING,
             waypoints: waypoints
           },
@@ -86,13 +84,7 @@ const GoogleMapsWrapper = compose(
   })
 )(props => (
   <div>
-    {updateValue(
-      props.fromLat,
-      props.fromLng,
-      props.toLat,
-      props.toLng,
-      props.waypoints
-    )}
+    {updateValue(props.origin, props.destination, props.waypoints)}
 
     <GoogleMap {...props} ref={props.onMapMounted}>
       {props.children}

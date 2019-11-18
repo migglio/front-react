@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Divider } from "@material-ui/core";
-import MySearchPlaceComponent from "../../shared/GoogleMapAPI/CitySearcher.js";
 import Button from "@material-ui/core/Button";
 import SwapVerticalCircle from "@material-ui/icons/SwapVerticalCircle";
 import blue from "@material-ui/core/colors/blue";
@@ -11,6 +10,7 @@ import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import AccessTime from "@material-ui/icons/AccessTime";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import CitySearcher from "../../shared/GoogleMapAPI/CitySearcher";
 
 const styles2 = theme => ({
   root: {
@@ -73,10 +73,9 @@ class MeetingDataStep extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.searchButton}>
-          <MySearchPlaceComponent
-            callback={this.updateFrom}
-            name={this.props.tripData.steps[0].name}
-            steps={this.props.tripData.steps}
+          <CitySearcher
+            onComplete={this.updateFrom}
+            defaultValue={this.props.tripData.steps[0].label}
           />
         </div>
         <Button onClick={this.changeOrder}>
@@ -86,10 +85,9 @@ class MeetingDataStep extends Component {
           />
         </Button>
         <div className={classes.searchButton}>
-          <MySearchPlaceComponent
-            callback={this.updateTo}
-            name={this.props.tripData.steps[1].name}
-            steps={this.props.tripData.steps}
+          <CitySearcher
+            onComplete={this.updateTo}
+            defaultValue={this.props.tripData.steps[1].label}
           />
         </div>
         <Divider />

@@ -5,7 +5,7 @@ import { withStyles } from "material-ui/styles";
 import Button from "@material-ui/core/Button";
 import Search from "@material-ui/icons/Search";
 import DateSelector from "../DateSelector";
-import MySearchPlaceComponent from "../shared/GoogleMapAPI/CitySearcher";
+import CitySearcher from "../shared/GoogleMapAPI/CitySearcher";
 import routes, { TRIP_PATH } from "../../constants/routes";
 const styles = theme => ({
   root: { display: "flex", flexWrap: "wrap", justifyContent: "center" },
@@ -69,7 +69,7 @@ class SearchBar extends React.Component {
       <div className={classes.root}>
         <div className={classes.container}>
           <Paper className={classes.paper2}>
-            <MySearchPlaceComponent
+            <CitySearcher
               callback={this.updateFrom}
               name={this.state.from}
               steps={[{ name: this.state.to }]}
@@ -78,7 +78,7 @@ class SearchBar extends React.Component {
         </div>
         <div className={classes.container}>
           <Paper className={classes.paper2}>
-            <MySearchPlaceComponent
+            <CitySearcher
               callback={this.updateTo}
               name={this.state.to}
               steps={[{ name: this.state.from }]}

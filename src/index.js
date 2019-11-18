@@ -29,7 +29,7 @@ render(
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route
-          path={routes().trips[TRIP_CREATOR_PATH] + "/:id"}
+          path={routes().trips[TRIP_CREATOR_PATH]}
           component={OfferARide}
         />
         <Route

@@ -6,7 +6,7 @@ import axios from "axios";
 import url from "../../config";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Divider } from "material-ui";
-import { useParams } from "react-router-dom";
+const queryString = require("query-string");
 
 let styles = {
   root: {
@@ -105,8 +105,7 @@ class OfferARide extends React.Component {
 
   //Carga de Datos
   componentDidMount() {
-    const { id } = useParams();
-
+    const id = queryString.parse(this.props.location.search).id;
     if (id)
       axios.get(url.api + "trips/" + id).then(response => {
         this.setState({
@@ -129,8 +128,10 @@ class OfferARide extends React.Component {
   getStepEmpty() {
     //init default value easily
     return {
-      location: { lat: undefined, lng: undefined },
-      name: undefined,
+      placeId: null,
+      id: null,
+      label: null,
+      value: null,
       price: "",
       time: "",
       date: "",
@@ -182,16 +183,18 @@ class OfferARide extends React.Component {
   }
 
   updateFrom(fromUpdated) {
+    const { id, placeId, label, value } = fromUpdated;
     const list = this.state.steps;
-    list[0].name = fromUpdated.name;
-    list[0].location = fromUpdated.location;
+    const from = { ...list[0], id, placeId, label, value };
+    list[0] = from;
     this.setState({ steps: list });
   }
 
   updateTo(toUpdated) {
+    const { id, placeId, label, value } = toUpdated;
     const list = this.state.steps;
-    list[list.length - 1].name = toUpdated.name;
-    list[list.length - 1].location = toUpdated.location;
+    const to = { ...list[list.length - 1], id, placeId, label, value };
+    list[list.length - 1] = to;
     this.setState({ steps: list });
   }
 

@@ -115,12 +115,12 @@ class OptionView extends React.Component {
 
   //Validation methods
   validateFistStep() {
-    if (
-      this.props.tripData.steps[0].location.lat === undefined ||
-      this.props.tripData.steps[this.props.tripData.steps.length - 1].location
-        .lat === undefined
-    )
-      return true;
+    const origin = this.props.tripData.steps[0];
+    const destination = this.props.tripData.steps[
+      this.props.tripData.steps.length - 1
+    ];
+
+    if (!origin.placeId || !destination.placeId) return true;
     if (this.props.tripData.steps[0].time === "") return true;
     if (this.props.tripData.date === "") return true;
     return false;
@@ -187,6 +187,8 @@ class OptionView extends React.Component {
     const { classes } = this.props;
     const steps = getSteps();
     const { activeStep } = this.state;
+
+    console.log("steps", this.props.tripData);
 
     return (
       <div className={classes.root}>

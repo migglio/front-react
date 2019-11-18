@@ -23,6 +23,7 @@
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.8.0",
     "react-facebook-login": "^4.0.1",
+    "react-google-autocomplete": "^1.1.2",
     "react-google-maps": "^9.4.5",
     "react-google-places": "^2.0.3",
     "react-input-link": "0.0.5",
