@@ -99,6 +99,7 @@ class SearchBar extends React.Component {
               className={classes.button}
               variant="contained"
               color="primary"
+              id="search-button"
             >
               Buscar
               <Search className={classes.rightIcon}>send</Search>

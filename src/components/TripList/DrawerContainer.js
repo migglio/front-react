@@ -91,7 +91,7 @@ class DrawerContainer extends React.Component {
               filterTrips={this.filterTrips}
             />
           </div>
-          <div className={classes.tripsContainer}>
+          <div className={classes.tripsContainer} id="tripContainer">
             {this.renderTrips(this.state.trips)}
           </div>
         </div>
@@ -101,7 +101,7 @@ class DrawerContainer extends React.Component {
 
   renderTrips(trips) {
     return trips.map((trip, index) => (
-      <ListElement key={index} tripData={trip} />
+      <ListElement id="trip-element" key={index} tripData={trip} />
     ));
   }
 
