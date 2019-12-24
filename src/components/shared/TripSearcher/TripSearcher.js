@@ -4,9 +4,9 @@ import { Paper } from "material-ui";
 import { withStyles } from "material-ui/styles";
 import Button from "@material-ui/core/Button";
 import Search from "@material-ui/icons/Search";
-import DateSelector from "../../DateSelector";
 import CitySearcher from "../GoogleMapAPI/CitySearcher";
 import routes, { TRIP_PATH } from "../../../constants/routes";
+import DateSelector from "../../shared/DateSelector/DateSelector";
 
 const styles = theme => ({
   root: { display: "flex", flexWrap: "wrap", justifyContent: "center" },
@@ -86,7 +86,7 @@ const TripSearcher = props => {
       </div>
       <div className={classes.container}>
         <Paper className={classes.paper2}>
-          <DateSelector callback={handleDateChange} />
+          <DateSelector onChange={handleDateChange} />
         </Paper>
       </div>
       <div className={classes.container}>

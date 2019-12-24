@@ -16,6 +16,7 @@ import MenuList from "@material-ui/core/MenuList";
 import Typography from "material-ui/Typography";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { useState } from "react";
+import Divider from "@material-ui/core/Divider";
 
 const styles = {
   root: {
@@ -36,7 +37,7 @@ const styles = {
   }
 };
 
-const ProfileMenu = props => {
+const ProfileMenu = ({ classes }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -54,7 +55,6 @@ const ProfileMenu = props => {
     Auth.deauthenticateUser();
   };
 
-  const { classes } = props;
   return (
     <div className={classes.root}>
       <Button
@@ -90,60 +90,33 @@ const ProfileMenu = props => {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList>
-                    <MenuItem
-                      component={Link}
-                      to="/Profile"
+                    <ProfileMenuItem
+                      label="Perfil"
+                      path={"/Profile"}
                       onClick={handleClose}
-                    >
-                      <AccountCircle />
-                      <Typography
-                        variant="caption"
-                        style={{ color: "#212121", paddingLeft: "1%" }}
-                      >
-                        Perfil
-                      </Typography>
-                    </MenuItem>
-                    <hr />
-                    <MenuItem
-                      component={Link}
-                      to="/BookedTrips"
+                      Icon={AccountCircle}
+                    />
+                    <Divider />
+                    <ProfileMenuItem
+                      label="Reservas"
+                      path={"/BookedTrips"}
                       onClick={handleClose}
-                    >
-                      <ViewAgenda />
-                      <Typography
-                        variant="caption"
-                        style={{ color: "#212121", paddingLeft: "1%" }}
-                      >
-                        Reservas
-                      </Typography>
-                    </MenuItem>
-                    <MenuItem
-                      component={Link}
-                      to="/TripOffers"
+                      Icon={ViewAgenda}
+                    />
+                    <ProfileMenuItem
+                      label="Viajes Publicados"
+                      path={"/TripOffers"}
                       onClick={handleClose}
-                    >
-                      <ViewCarousel />
-                      <Typography
-                        variant="caption"
-                        style={{ color: "#212121", paddingLeft: "1%" }}
-                      >
-                        Viajes Publicados
-                      </Typography>
-                    </MenuItem>
-                    <hr />
-                    <MenuItem
-                      component={Link}
-                      to="/"
+                      Icon={ViewCarousel}
+                    />
+                    <Divider />
+
+                    <ProfileMenuItem
+                      label="Salir"
+                      path={"/"}
                       onClick={handleCloseLogout}
-                    >
-                      <ExitToApp />
-                      <Typography
-                        variant="caption"
-                        style={{ color: "#212121", paddingLeft: "1%" }}
-                      >
-                        Salir
-                      </Typography>
-                    </MenuItem>
+                      Icon={ExitToApp}
+                    />
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
@@ -156,3 +129,17 @@ const ProfileMenu = props => {
 };
 
 export default withStyles(styles)(ProfileMenu);
+
+const ProfileMenuItem = ({ label, path, onClick, Icon }) => {
+  return (
+    <MenuItem component={Link} to={path} onClick={onClick}>
+      <Icon />
+      <Typography
+        variant="caption"
+        style={{ color: "#212121", paddingLeft: "1%" }}
+      >
+        {label}
+      </Typography>
+    </MenuItem>
+  );
+};

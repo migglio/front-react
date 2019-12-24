@@ -2,10 +2,16 @@ import axios from "axios";
 import url from "../../config.js";
 import React from "react";
 import { Redirect } from "react-router-dom";
-import NotificationTypes from "../views/Notifications/notificationTypes.js";
 import Auth from "../Auth/Auth.js";
 import { notifications } from "../../api/Notifications.js";
-
+import {
+  tripAccepted,
+  tripDenied,
+  userJoined,
+  userPending,
+  tripEdited,
+  tripDeleted
+} from "../../constants/notificationTypes";
 var NotificationSystem = require("react-notification-system");
 
 const moment = require("moment");
@@ -104,14 +110,14 @@ class TripSaver extends React.Component {
           notifications.postNotification(
             Auth.getUserID(),
             id,
-            NotificationTypes.tripAccepted,
+            tripAccepted,
             users
           );
         else
           notifications.postNotification(
             Auth.getUserID(),
             id,
-            NotificationTypes.tripDenied,
+            tripDenied,
             users
           );
       })
@@ -141,14 +147,14 @@ class TripSaver extends React.Component {
           notifications.postNotification(
             Auth.getUserID(),
             id,
-            NotificationTypes.userJoined,
+            userJoined,
             users
           );
         else
           notifications.postNotification(
             Auth.getUserID(),
             id,
-            NotificationTypes.userPending,
+            userPending,
             users
           );
       })
@@ -186,7 +192,7 @@ class TripSaver extends React.Component {
           notifications.postNotification(
             this.props.tripData.owner,
             id,
-            NotificationTypes.tripEdited,
+            tripEdited,
             users
           );
       })
@@ -213,7 +219,7 @@ class TripSaver extends React.Component {
           notifications.postNotification(
             this.props.tripData.owner,
             id,
-            NotificationTypes.tripDeleted,
+            tripDeleted,
             users
           );
       })

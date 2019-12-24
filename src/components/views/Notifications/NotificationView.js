@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "material-ui/Typography";
-import NotificationTypes from "./notificationTypes";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Paper } from "@material-ui/core";
 import List from "@material-ui/core/List";
@@ -9,6 +8,7 @@ import Auth from "../../Auth/Auth";
 import NotificationButtons from "./NotificationButtons";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { notifications as notificacionsApi } from "../../../api/Notifications";
+import { notificationDescriptionsManager } from "../../../constants/notificationTypes";
 
 const styles = theme => ({
   root: {
@@ -50,7 +50,7 @@ const styles = theme => ({
 
 const moment = require("moment");
 
-const NotificationView = props => {
+const NotificationView = ({ classes }) => {
   const [notifications, setNotifications] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
@@ -79,7 +79,6 @@ const NotificationView = props => {
     });
   };
 
-  const { classes } = props;
   return (
     <>
       {loaded && (
@@ -111,7 +110,7 @@ const NotificationView = props => {
                         style={{ color: "#212121", padding: "1%" }}
                       >
                         <b>{item.nickname} </b>
-                        {NotificationTypes.getNotificationText(item.type)}
+                        {notificationDescriptionsManager[item.type]}
                         <br />
                         <b>
                           {moment(item.date)

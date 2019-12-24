@@ -7,10 +7,10 @@ import Toolbar from "material-ui/Toolbar";
 import Typography from "material-ui/Typography";
 import Button from "material-ui/Button";
 import Auth from "../../Auth/Auth.js";
-import ProfileMenu from "../../views/Profile/ProfileMenu.js";
-import NotificationsHeader from "../../views/Notifications/NotificationsHeader.js";
+import ProfileMenu from "./ProfileMenu.js";
 import { IconButton } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
+import NotificationsMenu from "./NotificationsMenu.js";
 const styles = {
   root: {
     flexGrow: 1,
@@ -31,52 +31,49 @@ const styles = {
   }
 };
 
-class Header extends React.Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            {!this.props.isHome && (
-              <IconButton
-                component={Link}
-                to="/"
-                className={classes.menuButton}
-                color="inherit"
-              >
-                <HomeIcon />
-              </IconButton>
-            )}
-            <Typography variant="h6" className={classes.title}>
-              Carpooling App
-            </Typography>
-            <Typography
-              variant="title"
+const Header = ({ isHome, classes }) => {
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          {!isHome && (
+            <IconButton
+              component={Link}
+              to="/"
+              className={classes.menuButton}
               color="inherit"
-              className={classes.flex}
-            />
-            {Auth.isUserAuthenticated() ? (
-              <div style={{ display: "flex" }}>
-                <ProfileMenu />
-                <NotificationsHeader />
-              </div>
-            ) : (
-              <div>
-                <Button color="inherit" href="/login" id="login-button">
-                  Iniciar Sesión
-                </Button>
-                <Button color="inherit" href="/register">
-                  Registrarse
-                </Button>
-              </div>
-            )}
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
-  }
-}
+            >
+              <HomeIcon />
+            </IconButton>
+          )}
+          <Typography variant="h6" className={classes.title}>
+            Carpooling App
+          </Typography>
+          <Typography
+            variant="title"
+            color="inherit"
+            className={classes.flex}
+          />
+          {Auth.isUserAuthenticated() ? (
+            <div style={{ display: "flex" }}>
+              <ProfileMenu />
+              <NotificationsMenu />
+            </div>
+          ) : (
+            <div>
+              <Button color="inherit" href="/login" id="login-button">
+                Iniciar Sesión
+              </Button>
+              <Button color="inherit" href="/register">
+                Registrarse
+              </Button>
+            </div>
+          )}
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
+};
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired

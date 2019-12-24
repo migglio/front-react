@@ -10,11 +10,11 @@ import { withStyles } from "@material-ui/core/styles";
 import Notifications from "@material-ui/icons/Notifications";
 import Badge from "@material-ui/core/Badge";
 import Typography from "material-ui/Typography";
-import NotificationTypes from "./notificationTypes";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Auth from "../../Auth/Auth";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { notifications as notificationsApi } from "../../../api/Notifications";
+import { notificationDescriptionsManager } from "../../../constants/notificationTypes";
 
 const styles = theme => ({
   root: {
@@ -54,7 +54,7 @@ const moment = require("moment");
 
 let anchorEl = null;
 
-const NotificationsHeader = props => {
+const NotificationsMenu = props => {
   const [notifications, setNotifications] = useState([]);
   const [open, setOpen] = useState(false);
   const [invisible, setInvisible] = useState(false);
@@ -137,7 +137,7 @@ const NotificationsHeader = props => {
                       style={{ color: "#212121", padding: "1%" }}
                     >
                       <b>{item.nickname} </b>
-                      {NotificationTypes.getNotificationText(item.type)}
+                      {notificationDescriptionsManager[item.type]}
                       <br />
                       <b>{moment(item.date).format("LLLL")}</b>
                     </Typography>
@@ -225,4 +225,4 @@ const NotificationsHeader = props => {
   );
 };
 
-export default withStyles(styles)(NotificationsHeader);
+export default withStyles(styles)(NotificationsMenu);

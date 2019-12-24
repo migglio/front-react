@@ -3,7 +3,7 @@ import { Divider } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import SwapVerticalCircle from "@material-ui/icons/SwapVerticalCircle";
 import blue from "@material-ui/core/colors/blue";
-import DateSelector from "../../DateSelector";
+import DateSelector from "../../shared/DateSelector/DateSelector";
 import { MuiPickersUtilsProvider } from "material-ui-pickers";
 import DateFnsUtils from "material-ui-pickers/utils/date-fns-utils";
 import TextField from "@material-ui/core/TextField";
@@ -96,7 +96,7 @@ class MeetingDataStep extends Component {
         <div className={classes.dateContainer}>
           <DateSelector
             label="Trip date"
-            callback={this.updateDate}
+            onChange={this.updateDate}
             date={moment(this.props.tripData.steps[0].date)
               .locale("es")
               .format("YYYY-MM-DD")}

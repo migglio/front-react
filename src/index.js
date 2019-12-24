@@ -9,7 +9,7 @@ import "./index.css";
 import OfferARide from "./components/TripCreator/TripCreator";
 import TripsList from "./components/TripList/TripList.js";
 import DetailsView from "./components/TripDetails/DetailsView.js";
-import Profile from "./components/views/Profile/Profile";
+import Profile from "./components/views/Profile/ProfileView";
 import TripOffered from "./components/TripOffers/TripOffered";
 import ViewWaitingPassengers from "./components/ViewWaitingRequests/ViewPassengerRequest";
 import BookedTrips from "./components/BookedTrips/BookedTrips";
