@@ -140,14 +140,15 @@ class Login extends React.Component {
           <NotificationSystem ref="notificationSystem" />
           <div style={{ margin: "10%" }}>
             <TextField
+              id="nickname-text-field"
               label="Nickname"
               name="nickname"
               margin="normal"
               onChange={this.handleUserInput}
             />
             <TextField
+              id="password-text-field"
               name="password"
-              id="password-input"
               label="Password"
               type="password"
               autoComplete="current-password"
@@ -162,6 +163,7 @@ class Login extends React.Component {
               className="bttn"
               onClick={this.processForm}
               style={{ marginTop: 28 }}
+              id="login-page-button"
             >
               Login
             </Button>

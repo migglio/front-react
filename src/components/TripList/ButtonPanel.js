@@ -97,6 +97,7 @@ class ButtonPanel extends React.Component {
             }
             className={classes.button}
             variant="raised"
+            id="detalles-button"
           >
             Detalles
           </Button>
