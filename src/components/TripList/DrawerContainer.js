@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import ListElement from "./ListElement";
 import Filters from "./Filters";
 import { Paper, Typography } from "@material-ui/core";
-import SearchBar from "../Home/SearchBar";
+import TripSearcher from "../shared/TripSearcher/TripSearcher";
 const moment = require("moment");
 
 const styles = theme => ({
@@ -50,7 +50,7 @@ class DrawerContainer extends React.Component {
     console.log(this.props.data.from);
     return (
       <div>
-        <SearchBar />
+        <TripSearcher />
         <Paper
           style={{
             margin: "1%",

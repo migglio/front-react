@@ -2,9 +2,9 @@ import axios from "axios";
 import url from "../../config.js";
 import React from "react";
 import { Redirect } from "react-router-dom";
-import NotificationSaver from "../Notifications/NotificationSaver.js";
-import NotificationTypes from "../Notifications/notificationTypes.js";
+import NotificationTypes from "../views/Notifications/notificationTypes.js";
 import Auth from "../Auth/Auth.js";
+import { notifications } from "../../api/Notifications.js";
 
 var NotificationSystem = require("react-notification-system");
 
@@ -101,14 +101,14 @@ class TripSaver extends React.Component {
         const users = this.props.selected;
         console.log(users);
         if (this.props.accept)
-          NotificationSaver.addNewNotification(
+          notifications.postNotification(
             Auth.getUserID(),
             id,
             NotificationTypes.tripAccepted,
             users
           );
         else
-          NotificationSaver.addNewNotification(
+          notifications.postNotification(
             Auth.getUserID(),
             id,
             NotificationTypes.tripDenied,
@@ -138,14 +138,14 @@ class TripSaver extends React.Component {
         const users = [this.props.tripData.owner];
         //Notify to the owner of the trip
         if (this.props.tripData.reservation)
-          NotificationSaver.addNewNotification(
+          notifications.postNotification(
             Auth.getUserID(),
             id,
             NotificationTypes.userJoined,
             users
           );
         else
-          NotificationSaver.addNewNotification(
+          notifications.postNotification(
             Auth.getUserID(),
             id,
             NotificationTypes.userPending,
@@ -183,7 +183,7 @@ class TripSaver extends React.Component {
         this.props.updateSavedState(true);
         //save a notification, only if there's any user to be nofified
         if (users.length > 0)
-          NotificationSaver.addNewNotification(
+          notifications.postNotification(
             this.props.tripData.owner,
             id,
             NotificationTypes.tripEdited,
@@ -210,7 +210,7 @@ class TripSaver extends React.Component {
         this.props.updateDeleteState(false);
         //save a notification, only if there's any user to be nofified
         if (users.length > 0)
-          NotificationSaver.addNewNotification(
+          notifications.postNotification(
             this.props.tripData.owner,
             id,
             NotificationTypes.tripDeleted,

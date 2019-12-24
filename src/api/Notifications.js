@@ -1,0 +1,86 @@
+import axios from "axios";
+import url from "../config";
+import handleServerResponse from "../response";
+
+const notifications = () => {
+  return {
+    getNotifications: async data => {
+      try {
+        const response = await axios.get(
+          url.api + "notifications/notReadNotifications",
+          {
+            params: { userId: data.userId }
+          }
+        );
+        return response.data;
+      } catch (error) {
+        handleServerResponse(
+          error,
+          "An error occured when getting the notification data"
+        );
+      }
+    },
+    postNotification: async (owner, idTrip, type, users) => {
+      try {
+        const userData = {
+          owner: owner,
+          idTrip: idTrip,
+          type: type,
+          users: users
+        };
+        const response = await axios.post(
+          url.api + "/notifications/newNotification",
+          userData,
+          url.config
+        );
+        return response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    markAsRead: async (idNotification, users) => {
+      try {
+        const userData = {
+          idNotification: idNotification,
+          users: users
+        };
+        const response = await axios.post(
+          url.api + "api/notifications/" + idNotification,
+          userData,
+          url.config
+        );
+        return response;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+};
+
+export { notifications };
+
+/*
+  loadTripList() {
+    return axios
+      .get(url.api + "notifications", { params: { userId: Auth.getUserID() } })
+      .catch(error => {
+        handleServerResponse(
+          error,
+          "An error occured when getting the trips data"
+        );
+      });
+  }
+
+  //mark every notifications as read
+  markAsRead() {
+    this.state.notifications.map(notification => {
+      const users = notification.read;
+      if (users.indexOf(Auth.getUserID()) === -1) {
+        users.push(Auth.getUserID());
+        console.log(users);
+        notifications.markAsRead(notification._id, users);
+      }
+      return true;
+    });
+  }
+*/

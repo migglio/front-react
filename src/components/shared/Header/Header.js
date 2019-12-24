@@ -7,8 +7,8 @@ import Toolbar from "material-ui/Toolbar";
 import Typography from "material-ui/Typography";
 import Button from "material-ui/Button";
 import Auth from "../../Auth/Auth.js";
-import ProfileMenu from "../../Profile/ProfileMenu.js";
-import NotificationsHeader from "../../Notifications/NotificationsHeader.js";
+import ProfileMenu from "../../views/Profile/ProfileMenu.js";
+import NotificationsHeader from "../../views/Notifications/NotificationsHeader.js";
 import { IconButton } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 const styles = {
@@ -64,10 +64,10 @@ class Header extends React.Component {
             ) : (
               <div>
                 <Button color="inherit" href="/login">
-                  Login
+                  Iniciar Sesión
                 </Button>
                 <Button color="inherit" href="/register">
-                  Register
+                  Registrarse
                 </Button>
               </div>
             )}

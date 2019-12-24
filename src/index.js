@@ -4,16 +4,16 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Login from "./components/Auth/Login/Login";
 import Register from "./components/Auth/Register/Register";
 import Header from "./components/shared/Header/Header";
-import Body from "./components/Home/Body";
+import HomeView from "./components/views/Home/HomeView";
 import "./index.css";
 import OfferARide from "./components/TripCreator/TripCreator";
 import TripsList from "./components/TripList/TripList.js";
 import DetailsView from "./components/TripDetails/DetailsView.js";
-import Profile from "./components/Profile/Profile";
+import Profile from "./components/views/Profile/Profile";
 import TripOffered from "./components/TripOffers/TripOffered";
 import ViewWaitingPassengers from "./components/ViewWaitingRequests/ViewPassengerRequest";
 import BookedTrips from "./components/BookedTrips/BookedTrips";
-import NotificationView from "./components/Notifications/NotificationView";
+import NotificationView from "./components/views/Notifications/NotificationView";
 import routes, {
   TRIP_WITH_ID_PATH,
   TRIP_PATH,
@@ -25,7 +25,7 @@ render(
     <div style={{ backgroundColor: "#efefef", minHeight: "100vh" }}>
       <Header />
       <Switch>
-        <Route exact path="/" component={Body} />
+        <Route exact path="/" component={HomeView} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route

@@ -1,5 +1,4 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
+import React, { Fragment, useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
@@ -12,13 +11,10 @@ import Notifications from "@material-ui/icons/Notifications";
 import Badge from "@material-ui/core/Badge";
 import Typography from "material-ui/Typography";
 import NotificationTypes from "./notificationTypes";
-import axios from "axios";
-import handleServerResponse from "../../response";
-import url from "../../config";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Auth from "../Auth/Auth";
-import NotificationSaver from "./NotificationSaver";
+import Auth from "../../Auth/Auth";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import { notifications as notificationsApi } from "../../../api/Notifications";
 
 const styles = theme => ({
   root: {
@@ -56,73 +52,60 @@ const styles = theme => ({
 
 const moment = require("moment");
 
-class NotificationsHeader extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      notifications: [],
-      open: false,
-      invisible: false,
-      loaded: false
-    };
-  }
-  //Carga de Datos
-  componentWillMount() {
-    axios.all([this.loadTripList()]).then(
-      axios.spread(res1 => {
-        if (res1) {
-          this.setState({
-            notifications: res1.data,
-            loaded: true
-          });
-        }
-      })
-    );
-  }
+let anchorEl = null;
 
-  //load all the trips in which the user is
-  loadTripList() {
-    return axios
-      .get(url.api + "notifications/notReadNotifications", {
-        params: { userId: Auth.getUserID() }
-      })
-      .catch(error => {
-        handleServerResponse(
-          error,
-          "An error occured when getting the notification data"
-        );
-      });
-  }
+const NotificationsHeader = props => {
+  const [notifications, setNotifications] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [invisible, setInvisible] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  //Carga de Datos
+  useEffect(() => {
+    const asyncFunction = async () => {
+      const response = await notificationsApi().getNotifications(
+        Auth.getUserID()
+      );
+      setNotifications(response);
+      setLoaded(true);
+    };
+    asyncFunction();
+  }, []);
 
   //mark every notifications as read
-  markAsRead() {
-    this.state.notifications.map(notification => {
+  const markAsRead = () => {
+    notifications.map(notification => {
       const users = notification.read;
       if (users.indexOf(Auth.getUserID()) > -1) {
         users.push(Auth.getUserID());
-        NotificationSaver.markAsRead(notification._id, users);
+        notifications.markAsRead(notification._id, users);
       }
       return true;
     });
-  }
-
-  handleToggle = () => {
-    this.setState({ open: !this.state.open, invisible: true });
   };
 
-  handleClose = event => {
-    this.setState({ open: false, invisible: false });
-    if (this.anchorEl.contains(event.target)) {
+  const handleToggle = () => {
+    console.log("entra a open");
+    setOpen(!open);
+    setInvisible(true);
+  };
+
+  const handleClose = event => {
+    console.log("entra a close");
+    setOpen(false);
+    setInvisible(true);
+
+    if (anchorEl.contains(event.target)) {
       return;
     }
   };
 
-  renderNotifications() {
-    const { classes } = this.props;
+  const renderNotifications = () => {
+    const { classes } = props;
 
     return (
       <Fragment>
-        {this.state.loaded ? (
+        {loaded ? (
           <div>
             <Typography
               className={classes.root}
@@ -137,14 +120,14 @@ class NotificationsHeader extends React.Component {
             >
               Notificaciones
             </Typography>
-            <a className={classes.rightLink} href="/" onClick={this.markAsRead}>
+            <a className={classes.rightLink} href="/" onClick={markAsRead}>
               <Typography className={classes.rightLink} variant="body1">
                 Marcar todas como leidas
               </Typography>
             </a>
             <hr />
-            {this.state.notifications.length > 0 ? (
-              this.state.notifications.map(item => (
+            {notifications.length > 0 ? (
+              notifications.map(item => (
                 <div>
                   <MenuItem>
                     <AccountCircleIcon />
@@ -184,72 +167,62 @@ class NotificationsHeader extends React.Component {
         )}
       </Fragment>
     );
-  }
-
-  handleBadgeVisibility = () => {
-    this.setState(prevState => ({ invisible: !prevState.invisible }));
   };
 
-  render() {
-    const { classes } = this.props;
-    const { open } = this.state;
+  const { classes } = props;
 
-    return (
-      <div className={classes.root}>
-        <div>
-          <Button
-            className={classes.button}
-            buttonRef={node => {
-              this.anchorEl = node;
-            }}
-            aria-owns={open ? "menu-list-grow" : undefined}
-            aria-haspopup="true"
-            onClick={this.handleToggle}
-          >
-            {!this.state.invisible && this.state.notifications.length > 0 ? (
-              <Badge
-                color="error"
-                badgeContent={this.state.notifications.length}
-                className={classes.margin}
-              >
-                <Notifications />
-              </Badge>
-            ) : (
+  console.log(open);
+  return (
+    <div className={classes.root}>
+      <div>
+        <Button
+          className={classes.button}
+          buttonRef={node => {
+            anchorEl = node;
+          }}
+          aria-owns={open ? "menu-list-grow" : undefined}
+          aria-haspopup="true"
+          onClick={handleToggle}
+        >
+          {!invisible && notifications.length > 0 ? (
+            <Badge
+              color="error"
+              badgeContent={notifications.length}
+              className={classes.margin}
+            >
               <Notifications />
-            )}
-          </Button>
-          <Popper
-            open={open}
-            placement={"bottom-end"}
-            anchorEl={this.anchorEl}
-            transition
-            disablePortal
-          >
-            {({ TransitionProps, placement }) => (
-              <Grow
-                {...TransitionProps}
-                id="menu-list-grow"
-                style={{
-                  transformOrigin:
-                    placement === "bottom" ? "center top" : "center bottom"
-                }}
-              >
-                <Paper>
-                  <ClickAwayListener onClickAway={this.handleClose}>
-                    <MenuList>{this.renderNotifications()}</MenuList>
-                  </ClickAwayListener>
-                </Paper>
-              </Grow>
-            )}
-          </Popper>
-        </div>
+            </Badge>
+          ) : (
+            <Notifications />
+          )}
+        </Button>
+        <Popper
+          open={open}
+          placement={"bottom-end"}
+          anchorEl={anchorEl}
+          transition
+          disablePortal
+        >
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              id="menu-list-grow"
+              style={{
+                transformOrigin:
+                  placement === "bottom" ? "center top" : "center bottom"
+              }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList>{renderNotifications()}</MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
       </div>
-    );
-  }
-}
-
-NotificationsHeader.propTypes = {
-  classes: PropTypes.object.isRequired
+    </div>
+  );
 };
 
 export default withStyles(styles)(NotificationsHeader);

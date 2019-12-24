@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import Selector from "../selector/Selector";
 
-const CitySearcher = ({ onComplete, defaultValue }) => {
+const CitySearcher = ({ onComplete, defaultValue, placeholder }) => {
   const google = window.google;
   const service = new google.maps.places.AutocompleteService();
   const [value, setValue] = useState(defaultValue);
   const [options, setOptions] = useState([]);
 
   const handleChange = value => {
-    const types = ["(cities)"];
     setValue(value);
 
     var request = {
       input: value,
-      types,
+      types: ["(cities)"],
       componentRestrictions: { country: "ar" },
       language: "es"
     };
@@ -42,6 +41,7 @@ const CitySearcher = ({ onComplete, defaultValue }) => {
   return (
     <>
       <Selector
+        placeholder={placeholder}
         value={value}
         onChange={handleChange}
         onComplete={handleComplete}

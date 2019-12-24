@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import routes, { TRIP_PATH } from "../../constants/routes";
+import routes, { TRIP_PATH } from "../../../constants/routes";
 
 const styles = theme => ({
   Buttons: {

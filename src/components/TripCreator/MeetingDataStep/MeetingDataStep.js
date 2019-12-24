@@ -74,6 +74,7 @@ class MeetingDataStep extends Component {
       <div className={classes.root}>
         <div className={classes.searchButton}>
           <CitySearcher
+            placeholder="Desde"
             onComplete={this.updateFrom}
             defaultValue={this.props.tripData.steps[0].label}
           />
@@ -86,6 +87,7 @@ class MeetingDataStep extends Component {
         </Button>
         <div className={classes.searchButton}>
           <CitySearcher
+            placeholder="Hasta"
             onComplete={this.updateTo}
             defaultValue={this.props.tripData.steps[1].label}
           />

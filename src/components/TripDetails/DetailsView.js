@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import ButtonRequest from "./ButtonRequest.js";
 import ResumeTrip from "../TripCreator/resumeTripStep/ResumeTripStep";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import ProfileResume from "../Profile/ProfileResume";
+import ProfileResume from "../views/Profile/ProfileResume";
 import PassengerView from "./PassengerView";
 import TripSaver from "../TripSaver/TripSaver.js";
 import Auth from "../Auth/Auth.js";

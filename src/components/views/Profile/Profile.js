@@ -3,7 +3,7 @@ import Paper from "@material-ui/core/Paper";
 import { Button } from "material-ui";
 import { withStyles } from "@material-ui/core/styles";
 import ProfileResume from "./ProfileResume";
-import Auth from "../Auth/Auth";
+import Auth from "../../Auth/Auth";
 const styles = theme => ({
   heading: {
     fontSize: theme.typography.pxToRem(15)

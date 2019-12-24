@@ -1,5 +1,5 @@
 import React from "react";
-import url from "../../config";
+import url from "../../../config";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
