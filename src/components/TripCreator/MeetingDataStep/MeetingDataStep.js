@@ -1,16 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 import { Divider } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import SwapVerticalCircle from "@material-ui/icons/SwapVerticalCircle";
 import blue from "@material-ui/core/colors/blue";
 import DateSelector from "../../shared/DateSelector/DateSelector";
-import { MuiPickersUtilsProvider } from "material-ui-pickers";
-import DateFnsUtils from "material-ui-pickers/utils/date-fns-utils";
-import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
-import AccessTime from "@material-ui/icons/AccessTime";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import CitySearcher from "../../shared/GoogleMapAPI/CitySearcher";
+import { useState } from "react";
+import TimeSelector from "../../shared/timeSelector/TimeSelector";
+import { useEffect } from "react";
+import CustomButton from "../../shared/customButton/CustomButton";
 
 const styles2 = theme => ({
   root: {
@@ -34,52 +33,42 @@ const styles2 = theme => ({
   }
 });
 
-const moment = require("moment");
+const MeetingDataStep = ({ classes, onComplete }) => {
+  const [allComplete, setAllComplete] = useState(false);
 
-class MeetingDataStep extends Component {
-  constructor(props) {
-    super(props);
+  const [from, setFrom] = useState(null);
+  const [to, setTo] = useState(null);
+  const [date, setDate] = useState(null);
+  const [time, setTime] = useState(null);
 
-    this.updateDate = this.updateDate.bind(this);
-    this.updateFrom = this.updateFrom.bind(this);
-    this.updateTo = this.updateTo.bind(this);
-    this.updateTime = this.updateTime.bind(this);
-    this.changeOrder = this.changeOrder.bind(this);
-  }
-
-  //Callbacks functions
-  updateDate(date) {
-    this.props.updateDate(date);
-  }
-
-  updateFrom(fromUpdated) {
-    this.props.updateFrom(fromUpdated);
-  }
-
-  updateTo(toUpdated) {
-    this.props.updateTo(toUpdated);
-  }
-
-  updateTime = e => {
-    this.props.updateTime(e.target.value);
+  const changeOrder = () => {
+    const aux = from;
+    setFrom(to);
+    setTo(aux);
   };
 
-  changeOrder() {
-    this.props.changeOrder();
-  }
+  useEffect(() => {
+    setAllComplete(from && to && date && time);
+  }, [from, to, date, time]);
 
-  render() {
-    const { classes } = this.props;
-    return (
+  const handleNext = () => {
+    const allComplete = from && to && date && time;
+    if (onComplete && allComplete) {
+      onComplete({ from, to, date, time });
+    }
+  };
+
+  return (
+    <>
       <div className={classes.root}>
         <div className={classes.searchButton}>
           <CitySearcher
             placeholder="Desde"
-            onComplete={this.updateFrom}
-            defaultValue={this.props.tripData.steps[0].label}
+            onComplete={setFrom}
+            defaultValue={from ? from.label : null}
           />
         </div>
-        <Button onClick={this.changeOrder}>
+        <Button onClick={changeOrder}>
           <SwapVerticalCircle
             className={classes.icon}
             style={{ color: blue[900] }}
@@ -88,43 +77,26 @@ class MeetingDataStep extends Component {
         <div className={classes.searchButton}>
           <CitySearcher
             placeholder="Hasta"
-            onComplete={this.updateTo}
-            defaultValue={this.props.tripData.steps[1].label}
+            onComplete={setTo}
+            defaultValue={to ? to.label : null}
           />
         </div>
         <Divider />
         <div className={classes.dateContainer}>
-          <DateSelector
-            label="Trip date"
-            onChange={this.updateDate}
-            date={moment(this.props.tripData.steps[0].date)
-              .locale("es")
-              .format("YYYY-MM-DD")}
-          />
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <TextField
-              className={classes.dateSelector}
-              id="time"
-              label="Trip Time"
-              type="time"
-              onChange={this.updateTime}
-              value={moment(this.props.tripData.steps[0].date)
-                .locale("es")
-                .format("HH:mm")}
-              InputProps={{
-                step: 300, // 5 min
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccessTime />
-                  </InputAdornment>
-                )
-              }}
-            />
-          </MuiPickersUtilsProvider>
+          <DateSelector label="Fecha de viaje" onChange={setDate} date={date} />
+          <TimeSelector label="Hora de viaje" onChange={setTime} value={time} />
         </div>
       </div>
-    );
-  }
-}
+      <div>
+        <CustomButton label="VOLVER" disabled={true} />
+        <CustomButton
+          label="CONTINUAR"
+          onClick={handleNext}
+          disabled={!allComplete}
+        />
+      </div>
+    </>
+  );
+};
 
 export default withStyles(styles2)(MeetingDataStep);

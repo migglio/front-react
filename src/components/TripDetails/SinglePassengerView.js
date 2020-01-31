@@ -10,11 +10,11 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import UserRequest from "../UserRequestDB/UserRequest";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ValidationButtons from "../ViewWaitingRequests/ValidationButtons";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import { users } from "../../api/Users";
 
 function TabContainer({ children, dir }) {
   return (
@@ -50,14 +50,14 @@ class SinglePassengerView extends React.Component {
 
   componentWillMount() {
     for (let index = 0; index < this.props.passengers.users.length; index++)
-      UserRequest.getUser(this.props.passengers.users[index], this.addUser);
+      users.getUser(this.props.passengers.users[index], this.addUser);
 
     for (
       let index = 0;
       index < this.props.passengers.pendingUsers.length;
       index++
     )
-      UserRequest.getUser(
+      users.getUser(
         this.props.passengers.pendingUsers[index],
         this.addPendingUser
       );

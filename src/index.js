@@ -6,7 +6,7 @@ import Register from "./components/Auth/Register/Register";
 import Header from "./components/shared/Header/Header";
 import HomeView from "./components/views/Home/HomeView";
 import "./index.css";
-import OfferARide from "./components/TripCreator/TripCreator";
+import TripCreator from "./components/TripCreator/TripCreator";
 import TripsList from "./components/TripList/TripList.js";
 import DetailsView from "./components/TripDetails/DetailsView.js";
 import Profile from "./components/views/Profile/ProfileView";
@@ -30,7 +30,7 @@ render(
         <Route path="/register" component={Register} />
         <Route
           path={routes().trips[TRIP_CREATOR_PATH]}
-          component={OfferARide}
+          component={TripCreator}
         />
         <Route
           path={routes().trips[TRIP_WITH_ID_PATH] + "/:id"}

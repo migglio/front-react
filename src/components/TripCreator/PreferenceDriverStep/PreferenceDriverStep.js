@@ -1,6 +1,5 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import "../index.css";
 import FormLabel from "@material-ui/core/FormLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
