@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import MeetingDataStep from "./MeetingDataStep/MeetingDataStep.js";
 import StepWrapper from "./StepWrapper.js";
+import PreferenceDriverStep from "./PreferenceDriverStep/PreferenceDriverStep.js";
 
 let styles = {
   root: {
@@ -93,7 +94,7 @@ const PREFERENCES_STEP = "PREFERENCES_STEP";
 const stepper = [MEETING_STEP, PREFERENCES_STEP];
 
 const TripCreator = ({ classes }) => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(1);
 
   const [tripData, setTripData] = useState(tripDataDefault);
   const [loaded, setLoaded] = useState(false);
@@ -120,14 +121,36 @@ const TripCreator = ({ classes }) => {
     else return "";
   };
 
+  const handleNext = () => {
+    setActiveStep(activeStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep(activeStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+
+  const hanldeCompleteMeetingStep = props => {
+    console.log(props);
+    setActiveStep(activeStep + 1);
+  };
+
   return (
     <>
       {loaded && (
         <div className={classes.root}>
           <div className={classes.body}>
             <div className={classes.map}>
-              <StepWrapper>
-                {stepper[activeStep] === MEETING_STEP && <MeetingDataStep />}
+              <StepWrapper activeStep={activeStep}>
+                {stepper[activeStep] === MEETING_STEP && (
+                  <MeetingDataStep onComplete={hanldeCompleteMeetingStep} />
+                )}
+                {stepper[activeStep] === PREFERENCES_STEP && (
+                  <PreferenceDriverStep />
+                )}
               </StepWrapper>
               <Divider />
             </div>

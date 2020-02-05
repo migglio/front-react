@@ -31,25 +31,7 @@ const PREFERENCES_STEP = "PREFERENCES_STEP";
 
 const stepper = [MEETING_STEP, PREFERENCES_STEP];
 
-const StepWrapper = ({
-  classes,
-  children,
-  tripData,
-  activeStep,
-  setActiveStep
-}) => {
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
+const StepWrapper = ({ classes, children, tripData, activeStep }) => {
   return (
     <>
       <div className={classes.root}>
