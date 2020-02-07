@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
 import Typography from "@material-ui/core/Typography";
@@ -28,7 +28,7 @@ import {
   MATE_NO_PERMITIDO
 } from "./constants";
 
-const styles2 = theme => ({
+const styles = theme => ({
   root: {
     display: "flex",
     flexDirection: "column"
@@ -59,10 +59,6 @@ const styles2 = theme => ({
     paddingTop: "2vh",
     paddingBottom: "2vh"
   },
-  location: {
-    display: "flex",
-    flexDirection: "row"
-  },
   subtitle: {
     paddingTop: "2vh",
     paddingBottom: "2vh"
@@ -84,21 +80,12 @@ const styles2 = theme => ({
     alignItems: "center",
     paddingBottom: "2vh"
   },
-
-  input: {
-    paddingTop: "2vh",
-    paddingBottom: "2vh",
-    width: "60%"
-  },
-  inputsContainer: {
+  description: {
     display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "flex-start",
+    padding: "20px",
     width: "100%"
-  },
-  details: {
-    padding: "2vw"
   },
   icon: {
     height: 30,
@@ -106,179 +93,145 @@ const styles2 = theme => ({
   }
 });
 
-class ResumeTripStep extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      res: null,
-      userData: null,
-      userLoaded: false
-    };
-  }
+const ResumeTripStep = ({ classes, tripData, open }) => {
+  //res: null,
+  //userData: null,
+  //userLoaded: false
 
-  render() {
-    const { classes } = this.props;
+  const origen = tripData.steps && tripData.steps[0];
+  const destino = tripData.steps && tripData.steps[tripData.steps.length - 1];
 
-    const origen = this.props.tripData.steps[0];
-    const destino = this.props.tripData.steps[
-      this.props.tripData.steps.length - 1
-    ];
-
-    //const isSecondStep = origen.name && destino.name && origen.date;
-
-    return (
-      <div className={classes.root}>
-        <div className={classes.map}>
-          <ExpansionPanel defaultExpanded={this.props.open}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <div>
+  return (
+    <div className={classes.root}>
+      <div className={classes.map}>
+        <ExpansionPanel defaultExpanded={open}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <div>
+              <Typography
+                variant="body1"
+                gutterBottom
+                className={classes.mapTitle}
+              >
+                Sobre Mi Viaje
+              </Typography>
+            </div>
+          </ExpansionPanelSummary>
+          <>
+            {tripData.date && (
+              <div className={classes.dateData}>
+                <AccessTime color="primary" />
                 <Typography
-                  variant="body1"
+                  variant="title"
                   gutterBottom
-                  className={classes.mapTitle}
+                  style={{ fontWeight: 500 }}
                 >
-                  Sobre Mi Viaje
+                  {moment(tripData.date).format("LLLL")}
                 </Typography>
               </div>
-            </ExpansionPanelSummary>
-            <Fragment>
-              {origen.date && (
-                <div className={classes.dateData}>
-                  <AccessTime color="primary" />
-                  <Typography
-                    variant="title"
-                    gutterBottom
-                    style={{ fontWeight: 500 }}
-                  >
-                    {moment(origen.date).format("LLLL")}
-                  </Typography>
-                </div>
+            )}
+
+            <MyMapComponent steps={tripData.steps} />
+
+            <div className={classes.cities}>
+              {origen && destino && origen.name && destino.name && (
+                <>
+                  <ToolTipTravel label={SALIDA} value={origen.name} />
+                  <ArrowForward
+                    className={classes.icon}
+                    style={{ color: blue[500] }}
+                  />
+                  <ToolTipTravel label={DESTINO} value={destino.name} />
+                </>
               )}
+            </div>
 
-              <MyMapComponent steps={this.props.tripData.steps} />
-
-              <div className={classes.cities}>
-                {origen.name && destino.name && (
-                  <Fragment>
-                    <ToolTipTravel label={SALIDA} value={origen.name} />
-                    <ArrowForward
-                      className={classes.icon}
-                      style={{ color: blue[500] }}
-                    />
-                    <ToolTipTravel label={DESTINO} value={destino.name} />
-                  </Fragment>
+            {(tripData.car || tripData.seats || tripData.price) && (
+              <FormLabel className={classes.subtitle} component="legend">
+                Información del auto
+              </FormLabel>
+            )}
+            <div className={classes.carInformation}>
+              <div style={{ justifyContent: "center" }}>
+                {tripData.price && (
+                  <div
+                    className={classNames(
+                      classes.columnFlex1,
+                      classes.paddingTrip
+                    )}
+                  >
+                    <div>
+                      <Typography
+                        variant="headline"
+                        style={{ color: blue[800] }}
+                      >
+                        ${tripData.price}
+                      </Typography>
+                    </div>
+                    <Typography variant="caption">Por pasajero</Typography>
+                  </div>
+                )}
+                {tripData.seats && (
+                  <ToolTipTravel
+                    label={PLAZAS_DISPONIBLES}
+                    value={tripData.seats}
+                  />
+                )}
+                {tripData.car && (
+                  <ToolTipTravel label={MODELO_AUTO} value={tripData.car} />
                 )}
               </div>
+            </div>
 
-              {(this.props.tripData.car ||
-                origen.passengers.total ||
-                origen.price) && (
+            <Divider />
+
+            {(tripData.car || tripData.seats || tripData.price) && (
+              <>
                 <FormLabel className={classes.subtitle} component="legend">
-                  Información del auto
+                  Preferencias del conductor
                 </FormLabel>
-              )}
-              <div className={classes.carInformation}>
-                <div style={{ justifyContent: "center" }}>
-                  {origen.price && (
-                    <div
-                      className={classNames(
-                        classes.columnFlex1,
-                        classes.paddingTrip
-                      )}
-                    >
-                      <div>
-                        <Typography
-                          variant="headline"
-                          style={{ color: blue[800] }}
-                        >
-                          ${origen.price}
-                        </Typography>
-                      </div>
-                      <Typography variant="caption">Por pasajero</Typography>
-                    </div>
-                  )}
-                  {origen.passengers.total && (
+                <div className={classes.preferencesContainer}>
+                  <div className={classes.iconPreference}>
                     <ToolTipTravel
-                      label={PLAZAS_DISPONIBLES}
-                      value={
-                        origen.passengers.total - origen.passengers.users.length
+                      label={
+                        tripData.reservation
+                          ? RESERVA_AUTOMATICA
+                          : RESERVA_SEGURA
                       }
+                      value={tripData.reservation}
                     />
-                  )}
-                  {this.props.tripData.car && (
+                  </div>
+                  <div className={classes.iconPreference}>
                     <ToolTipTravel
-                      label={MODELO_AUTO}
-                      value={this.props.tripData.car}
+                      label={
+                        tripData.food ? COMIDA_PERMITIDA : COMIDA_NO_PERMITIDA
+                      }
+                      value={tripData.food}
                     />
-                  )}
+                  </div>
+                  <div className={classes.iconPreference}>
+                    <ToolTipTravel
+                      label={tripData.mate ? MATE_PERMITIDO : MATE_NO_PERMITIDO}
+                      value={tripData.mate}
+                    />
+                  </div>
                 </div>
-              </div>
-
-              <Divider />
-
-              {(this.props.tripData.car ||
-                origen.passengers.total ||
-                origen.price) && (
-                <Fragment>
-                  <FormLabel className={classes.subtitle} component="legend">
-                    Preferencias del conductor
-                  </FormLabel>
-                  <div className={classes.preferencesContainer}>
-                    <div className={classes.iconPreference}>
-                      <ToolTipTravel
-                        label={
-                          this.props.tripData.reservation
-                            ? RESERVA_AUTOMATICA
-                            : RESERVA_SEGURA
-                        }
-                        value={this.props.tripData.reservation}
-                      />
-                    </div>
-                    <div className={classes.iconPreference}>
-                      <ToolTipTravel
-                        label={
-                          this.props.tripData.food
-                            ? COMIDA_PERMITIDA
-                            : COMIDA_NO_PERMITIDA
-                        }
-                        value={this.props.tripData.food}
-                      />
-                    </div>
-                    <div className={classes.iconPreference}>
-                      <ToolTipTravel
-                        label={
-                          this.props.tripData.mate
-                            ? MATE_PERMITIDO
-                            : MATE_NO_PERMITIDO
-                        }
-                        value={this.props.tripData.mate}
-                      />
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }}
-                  >
-                    <Tooltip title="Descripción" placement="top">
-                      <AssignmentIcon />
-                    </Tooltip>
-                    <Typography variant="caption">
-                      {this.props.tripData.details === ""
-                        ? "El conductor no ha añadido comentarios"
-                        : this.props.tripData.details}
-                    </Typography>
-                  </div>
-                </Fragment>
-              )}
-            </Fragment>
-          </ExpansionPanel>
-        </div>
+                <div className={classes.description}>
+                  <Tooltip title="Descripción" placement="top">
+                    <AssignmentIcon />
+                  </Tooltip>
+                  <Typography variant="caption">
+                    {!tripData.details
+                      ? "El conductor no ha añadido comentarios"
+                      : tripData.details}
+                  </Typography>
+                </div>
+              </>
+            )}
+          </>
+        </ExpansionPanel>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default withStyles(styles2)(ResumeTripStep);
+export default withStyles(styles)(ResumeTripStep);

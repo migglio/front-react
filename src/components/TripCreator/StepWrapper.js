@@ -26,10 +26,8 @@ const stylesWrapper = theme => ({
 
 const steps = ["Encuentro", "Detalles", "Resumen"];
 
-const MEETING_STEP = "MEETING_STEP";
-const PREFERENCES_STEP = "PREFERENCES_STEP";
-
-const stepper = [MEETING_STEP, PREFERENCES_STEP];
+const MEETING_STEP = 0;
+const PREFERENCES_STEP = 1;
 
 const StepWrapper = ({ classes, children, tripData, activeStep }) => {
   return (
@@ -46,8 +44,7 @@ const StepWrapper = ({ classes, children, tripData, activeStep }) => {
         {children}
       </div>
 
-      {(activeStep === MEETING_STEP || activeStep === PREFERENCES_STEP) && //TODO: ACORDARNE DE ACTIVAR
-        false && <ResumeTrip tripData={tripData} />}
+      {activeStep === PREFERENCES_STEP && <ResumeTrip tripData={tripData} />}
     </>
   );
 };

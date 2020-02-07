@@ -14,7 +14,7 @@ const styles = theme => ({
 
 const errorMessage = "Número de pasajeros invalido";
 
-const SeatSelector = ({ classes, label, defaultValue }) => {
+const SeatSelector = ({ classes, label, defaultValue, onChange }) => {
   const [value, setValue] = useState(defaultValue);
   const [touch, setTouch] = useState(false);
 
@@ -25,6 +25,7 @@ const SeatSelector = ({ classes, label, defaultValue }) => {
   const handleChange = event => {
     setTouch(false);
     setValue(event.target.value);
+    if (onChange) onChange(event.target.value);
   };
 
   const showError = touch && (!value || value < 0);

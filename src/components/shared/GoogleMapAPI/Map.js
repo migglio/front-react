@@ -11,20 +11,23 @@ export default class MyMapComponent extends React.Component {
 
   createMarkersList() {
     const list = [];
-    list.push(this.props.steps[0]);
-    list.push(this.props.steps[this.props.steps.length - 1]);
+    if (this.props.steps) {
+      list.push(this.props.steps[0]);
+      list.push(this.props.steps[this.props.steps.length - 1]);
+    }
     return list;
   }
 
   createWaypointsList() {
     const list = [];
 
-    this.props.steps.forEach((step, index) => {
-      if (index !== 0 && index !== this.props.steps.length - 1) {
-        //const waypoint = new google.maps.LatLng(step.location.lat, step.location.lng)
-        list.push({ location: step.location });
-      }
-    });
+    this.props.steps &&
+      this.props.steps.forEach((step, index) => {
+        if (index !== 0 && index !== this.props.steps.length - 1) {
+          //const waypoint = new google.maps.LatLng(step.location.lat, step.location.lng)
+          list.push({ location: step.location });
+        }
+      });
 
     return list;
   }

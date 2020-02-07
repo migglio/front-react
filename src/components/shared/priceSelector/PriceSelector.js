@@ -43,7 +43,7 @@ const styles = theme => ({
 
 const errorMessage = "Precio invalido";
 
-const PriceSelector = ({ classes, label, defaultValue }) => {
+const PriceSelector = ({ classes, label, defaultValue, onChange }) => {
   const [value, setValue] = useState(defaultValue);
   const [touch, setTouch] = useState(false);
 
@@ -54,6 +54,7 @@ const PriceSelector = ({ classes, label, defaultValue }) => {
   const handleValue = event => {
     setTouch(false);
     setValue(event.target.value);
+    if (onChange) onChange(event.target.value);
   };
 
   const showError = touch && (!value || value < 0);

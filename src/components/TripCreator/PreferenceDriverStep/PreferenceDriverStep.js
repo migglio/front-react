@@ -11,8 +11,9 @@ import FoodSelector from "../../shared/foodSelector/FoodSelector";
 import MateSelector from "../../shared/mateSelector/MateSelector";
 import DetailsSelector from "../../shared/detailsSelector/DetailsSelector";
 import CustomButton from "../../shared/customButton/CustomButton";
+import { useEffect } from "react";
 
-const styles2 = theme => ({
+const styles = theme => ({
   root: {
     display: "flex",
     flexDirection: "column"
@@ -20,11 +21,6 @@ const styles2 = theme => ({
   subtitle: {
     paddingTop: "2vh",
     paddingBottom: "2vh"
-  },
-  input: {
-    paddingTop: "2vh",
-    paddingBottom: "2vh",
-    width: "60%"
   },
   inputsContainer: {
     display: "flex",
@@ -39,18 +35,45 @@ const styles2 = theme => ({
     alignItems: "center",
     justifyContent: "center",
     paddingBottom: "2vh"
-  },
-  details: {
-    padding: "2vw"
-  },
-  icon: {
-    height: 30,
-    width: 30
   }
 });
 
-const PreferenceDriverStep = ({ classes }) => {
-  const [price, setPrice] = useState(null);
+const PreferenceDriverStep = ({
+  classes,
+  tripData,
+  onComplete,
+  onBack,
+  onChange
+}) => {
+  const [allComplete, setAllComplete] = useState(false);
+
+  const [price, setPrice] = useState(tripData.price);
+  const [seats, setSeats] = useState(tripData.seats);
+  const [car, setCar] = useState(tripData.car);
+  const [reservation, setReservation] = useState(tripData.reservation);
+  const [food, setFood] = useState(tripData.food);
+  const [mate, setMate] = useState(tripData.mate);
+  const [details, setDetails] = useState(tripData.details);
+
+  useEffect(() => {
+    setAllComplete(price && seats && car);
+  }, [price, seats, car]);
+
+  const handleNext = () => {
+    if (onComplete && allComplete) {
+      onComplete({ price, seats, car, reservation, food, mate, details });
+    }
+  };
+
+  const handleBack = () => {
+    if (onBack) {
+      onBack({ price, seats, car, reservation, food, mate, details });
+    }
+  };
+
+  useEffect(() => {
+    onChange({ price, seats, car, reservation, food, mate, details });
+  }, [price, seats, car, reservation, food, mate, details]);
 
   return (
     <div className={classes.root}>
@@ -59,9 +82,17 @@ const PreferenceDriverStep = ({ classes }) => {
       </FormLabel>
 
       <div className={classes.inputsContainer}>
-        <PriceSelector label="Precio" />
-        <SeatSelector label="Pasajeros" />
-        <CarSelector label="Vehículo" />
+        <PriceSelector
+          label="Precio"
+          defaultValue={price}
+          onChange={setPrice}
+        />
+        <SeatSelector
+          label="Pasajeros"
+          defaultValue={seats}
+          onChange={setSeats}
+        />
+        <CarSelector label="Vehículo" defaultValue={car} onChange={setCar} />
       </div>
 
       <Divider />
@@ -71,31 +102,25 @@ const PreferenceDriverStep = ({ classes }) => {
       </FormLabel>
 
       <div className={classes.preferencesContainer}>
-        <ReservationSelector />
-        <FoodSelector />
-        <MateSelector />
+        <ReservationSelector value={reservation} onChange={setReservation} />
+        <FoodSelector value={food} onChange={setFood} />
+        <MateSelector value={mate} onChange={setMate} />
       </div>
 
       <Divider />
 
-      <DetailsSelector label="Detalles" />
+      <DetailsSelector label="Detalles" value={details} onChange={setDetails} />
 
       <div>
-        <CustomButton label="VOLVER" />
+        <CustomButton label="VOLVER" onClick={handleBack} />
         <CustomButton
           label="CONTINUAR"
-          //onClick={handleNext}
-          //disabled={!allComplete}
+          onClick={handleNext}
+          disabled={!allComplete}
         />
       </div>
     </div>
   );
 };
 
-export default withStyles(styles2)(PreferenceDriverStep);
-
-/*
-<div className={classes.preferencesContainer}>
-
-
-*/
+export default withStyles(styles)(PreferenceDriverStep);

@@ -14,7 +14,7 @@ const styles = theme => ({
 
 const errorMessage = "Requerido";
 
-const CarSelector = ({ classes, label, defaultValue }) => {
+const CarSelector = ({ classes, label, defaultValue, onChange }) => {
   const [value, setValue] = useState(defaultValue);
   const [touch, setTouch] = useState(false);
 
@@ -25,6 +25,7 @@ const CarSelector = ({ classes, label, defaultValue }) => {
   const handleValue = event => {
     setTouch(false);
     setValue(event.target.value);
+    if (onChange) onChange(event.target.value);
   };
 
   const showError = touch && !value;

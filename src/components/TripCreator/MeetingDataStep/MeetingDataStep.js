@@ -33,13 +33,15 @@ const styles2 = theme => ({
   }
 });
 
-const MeetingDataStep = ({ classes, onComplete }) => {
+const MeetingDataStep = ({ classes, tripData, onComplete }) => {
   const [allComplete, setAllComplete] = useState(false);
 
-  const [from, setFrom] = useState(null);
-  const [to, setTo] = useState(null);
-  const [date, setDate] = useState(null);
-  const [time, setTime] = useState(null);
+  const [from, setFrom] = useState(tripData.steps ? tripData.steps[0] : null);
+  const [to, setTo] = useState(
+    tripData.steps ? tripData.steps[tripData.steps.length - 1] : null
+  );
+  const [date, setDate] = useState(tripData.date);
+  const [time, setTime] = useState(tripData.time);
 
   const changeOrder = () => {
     const aux = from;
@@ -54,7 +56,14 @@ const MeetingDataStep = ({ classes, onComplete }) => {
   const handleNext = () => {
     const allComplete = from && to && date && time;
     if (onComplete && allComplete) {
-      onComplete({ from, to, date, time });
+      const fromSelected = {
+        ...from,
+        price: null,
+        time: null,
+        date: null,
+        passengers: { total: null, users: [], pendingUsers: [] }
+      };
+      onComplete({ from: fromSelected, to, date, time });
     }
   };
 

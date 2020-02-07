@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import MeetingDataStep from "./MeetingDataStep/MeetingDataStep.js";
 import StepWrapper from "./StepWrapper.js";
 import PreferenceDriverStep from "./PreferenceDriverStep/PreferenceDriverStep.js";
+import ResumeTripStep from "./resumeTripStep/ResumeTripStep.js";
 
 let styles = {
   root: {
@@ -90,13 +91,25 @@ const tripDataDefault = {
 
 const MEETING_STEP = "MEETING_STEP";
 const PREFERENCES_STEP = "PREFERENCES_STEP";
+const RESUME_STEP = "RESUME_STEP";
 
-const stepper = [MEETING_STEP, PREFERENCES_STEP];
+const stepper = [MEETING_STEP, PREFERENCES_STEP, RESUME_STEP];
 
 const TripCreator = ({ classes }) => {
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(0);
 
-  const [tripData, setTripData] = useState(tripDataDefault);
+  const [steps, setSteps] = useState(null);
+  const [date, setDate] = useState(null);
+  const [time, setTime] = useState(null);
+
+  const [price, setPrice] = useState(null);
+  const [seats, setSeats] = useState(null);
+  const [car, setCar] = useState(null);
+  const [reservation, setReservation] = useState(false);
+  const [food, setFood] = useState(false);
+  const [mate, setMate] = useState(false);
+  const [details, setDetails] = useState("");
+
   const [loaded, setLoaded] = useState(false);
   const [toUpdate, setToUpdate] = useState(false);
 
@@ -106,7 +119,7 @@ const TripCreator = ({ classes }) => {
   useEffect(() => {
     const asyncFunction = async id => {
       const response = await trips().getTrip(id);
-      setTripData(response);
+      //setTripData(response);
       setLoaded(true);
       setToUpdate(true);
     };
@@ -114,28 +127,50 @@ const TripCreator = ({ classes }) => {
     else setLoaded(true);
   }, [id]);
 
-  //VER SI VA ACA
-  const getError = value => {
-    if (!value) return "Field required";
-    else if (value < 1) return "It must be a positive number";
-    else return "";
+  const handleChangeActiveStep = newActiveStep => ({
+    from,
+    to,
+    date,
+    time
+  }) => {
+    if (from && to && date && time) {
+      setSteps([from, to]);
+      setDate(date);
+      setTime(time);
+    }
+
+    setActiveStep(newActiveStep);
   };
 
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
+  const handleChangePreference = ({
+    price,
+    seats,
+    car,
+    reservation,
+    food,
+    mate,
+    details
+  }) => {
+    setPrice(price);
+    setSeats(seats);
+    setCar(car);
+    setReservation(reservation);
+    setFood(food);
+    setMate(mate);
+    setDetails(details);
   };
 
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  const hanldeCompleteMeetingStep = props => {
-    console.log(props);
-    setActiveStep(activeStep + 1);
+  const tripData = {
+    steps,
+    date,
+    time,
+    price,
+    seats,
+    car,
+    reservation,
+    mate,
+    food,
+    details
   };
 
   return (
@@ -144,12 +179,24 @@ const TripCreator = ({ classes }) => {
         <div className={classes.root}>
           <div className={classes.body}>
             <div className={classes.map}>
-              <StepWrapper activeStep={activeStep}>
+              <StepWrapper tripData={tripData} activeStep={activeStep}>
                 {stepper[activeStep] === MEETING_STEP && (
-                  <MeetingDataStep onComplete={hanldeCompleteMeetingStep} />
+                  <MeetingDataStep
+                    tripData={tripData}
+                    onBack={handleChangeActiveStep(activeStep - 1)}
+                    onComplete={handleChangeActiveStep(activeStep + 1)}
+                  />
                 )}
                 {stepper[activeStep] === PREFERENCES_STEP && (
-                  <PreferenceDriverStep />
+                  <PreferenceDriverStep
+                    tripData={tripData}
+                    onBack={handleChangeActiveStep(activeStep - 1)}
+                    onChange={handleChangePreference}
+                    onComplete={handleChangeActiveStep(activeStep + 1)}
+                  />
+                )}
+                {stepper[activeStep] === RESUME_STEP && (
+                  <ResumeTripStep tripData={tripData} open />
                 )}
               </StepWrapper>
               <Divider />

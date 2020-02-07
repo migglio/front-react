@@ -93,7 +93,6 @@ const styles2 = theme => ({
 
 const ToolTipTravel = props => {
   const { classes, label, value } = props;
-  console.log(props);
 
   console.log(classes);
   return (
