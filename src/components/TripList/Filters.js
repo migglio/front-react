@@ -46,7 +46,6 @@ class Filters extends React.Component {
   render() {
     const { classes } = this.props;
 
-    console.log();
     return (
       <div className={classes.root}>
         <ExpansionPanel expanded>

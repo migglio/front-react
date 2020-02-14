@@ -11,6 +11,7 @@ import MeetingDataStep from "./MeetingDataStep/MeetingDataStep.js";
 import StepWrapper from "./StepWrapper.js";
 import PreferenceDriverStep from "./PreferenceDriverStep/PreferenceDriverStep.js";
 import ResumeTripStep from "./resumeTripStep/ResumeTripStep.js";
+import TripSaverStep from "./tripSaverStep/TripSaverStep.js";
 
 let styles = {
   root: {
@@ -56,44 +57,12 @@ let styles = {
   }
 };
 
-const moment = require("moment");
-
-//Returns a new step with default values
-const getStepEmpty = () => {
-  //init default value easily
-  return {
-    placeId: null,
-    id: null,
-    label: null,
-    value: null,
-    price: "",
-    time: "",
-    date: "",
-    passengers: { total: "", users: [], pendingUsers: [] }
-  };
-};
-
-const tripDataDefault = {
-  //TODO: owner harcoded CHANGEEE!!!!!
-  owner: Auth.getUserID(),
-  //each step should have a name, location, price and time
-  steps: [getStepEmpty(), getStepEmpty()],
-  //attributes in common both main and step trip but specially after a reservation
-  //attributes in common both main and step trip
-  date: "",
-  reservation: false,
-  food: false,
-  mate: false,
-  car: "",
-  details: "",
-  idTrip: null
-};
-
 const MEETING_STEP = "MEETING_STEP";
 const PREFERENCES_STEP = "PREFERENCES_STEP";
 const RESUME_STEP = "RESUME_STEP";
+const SAVING_STEP = "SAVING_STEP";
 
-const stepper = [MEETING_STEP, PREFERENCES_STEP, RESUME_STEP];
+const stepper = [MEETING_STEP, PREFERENCES_STEP, RESUME_STEP, SAVING_STEP];
 
 const TripCreator = ({ classes }) => {
   const [activeStep, setActiveStep] = useState(0);
@@ -111,17 +80,14 @@ const TripCreator = ({ classes }) => {
   const [details, setDetails] = useState("");
 
   const [loaded, setLoaded] = useState(false);
-  const [toUpdate, setToUpdate] = useState(false);
 
   const id = useGetUrlParam("id");
 
   //Carga de Datos
   useEffect(() => {
     const asyncFunction = async id => {
-      const response = await trips().getTrip(id);
-      //setTripData(response);
+      await trips().getTrip(id);
       setLoaded(true);
-      setToUpdate(true);
     };
     if (id) asyncFunction(id);
     else setLoaded(true);
@@ -161,6 +127,7 @@ const TripCreator = ({ classes }) => {
   };
 
   const tripData = {
+    owner: Auth.getUserID(),
     steps,
     date,
     time,
@@ -196,7 +163,16 @@ const TripCreator = ({ classes }) => {
                   />
                 )}
                 {stepper[activeStep] === RESUME_STEP && (
-                  <ResumeTripStep tripData={tripData} open />
+                  <ResumeTripStep
+                    showButton
+                    tripData={tripData}
+                    onBack={() => setActiveStep(activeStep - 1)}
+                    onSave={() => setActiveStep(activeStep + 1)}
+                    open
+                  />
+                )}
+                {stepper[activeStep] === SAVING_STEP && (
+                  <TripSaverStep tripData={tripData} />
                 )}
               </StepWrapper>
               <Divider />

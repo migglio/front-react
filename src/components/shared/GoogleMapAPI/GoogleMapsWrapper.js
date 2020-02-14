@@ -62,8 +62,6 @@ const GoogleMapsWrapper = compose(
 
         const DirectionsService = new google.maps.DirectionsService();
 
-        console.log("origin", origin, "destination", destination, this.props);
-
         DirectionsService.route(
           {
             origin: origin,

@@ -85,13 +85,11 @@ const NotificationsMenu = props => {
   };
 
   const handleToggle = () => {
-    console.log("entra a open");
     setOpen(!open);
     setInvisible(true);
   };
 
   const handleClose = event => {
-    console.log("entra a close");
     setOpen(false);
     setInvisible(true);
 

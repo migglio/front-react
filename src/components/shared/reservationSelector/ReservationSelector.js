@@ -13,11 +13,12 @@ const styles = theme => ({
   }
 });
 
-const ReservationSelector = ({ classes }) => {
+const ReservationSelector = ({ classes, onChange }) => {
   const [reservation, setReservation] = useState(false);
 
   const handleChange = () => {
     setReservation(!reservation);
+    if (onChange) onChange(!reservation);
   };
 
   const title = reservation ? "Reserva Automática" : "Reserva Segura";

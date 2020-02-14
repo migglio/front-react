@@ -32,6 +32,29 @@ const trips = () => {
             );
           });
           */
+    },
+    postTrips: async data => {
+      data.steps[0].date = data.date;
+      data.steps[0].time = data.time;
+      data.steps[0].price = data.price;
+      data.steps[0].passengers.total = data.seats;
+      const userData = {
+        owner: data.owner,
+        steps: data.steps,
+        description: data.details,
+        vehiculo: data.car,
+        automaticReservation: data.reservation,
+        food: data.food,
+        mate: data.mate
+      };
+
+      try {
+        await axios.post(url.socket + "api/trips", userData, url.config);
+        return { success: true };
+      } catch (error) {
+        console.error(error);
+        return { success: false };
+      }
     }
   };
 };

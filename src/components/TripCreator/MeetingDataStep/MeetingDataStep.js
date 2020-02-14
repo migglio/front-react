@@ -75,6 +75,7 @@ const MeetingDataStep = ({ classes, tripData, onComplete }) => {
             placeholder="Desde"
             onComplete={setFrom}
             defaultValue={from ? from.label : null}
+            label={from ? from.label : null}
           />
         </div>
         <Button onClick={changeOrder}>
@@ -88,6 +89,7 @@ const MeetingDataStep = ({ classes, tripData, onComplete }) => {
             placeholder="Hasta"
             onComplete={setTo}
             defaultValue={to ? to.label : null}
+            label={to ? to.label : null}
           />
         </div>
         <Divider />

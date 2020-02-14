@@ -27,6 +27,9 @@ import {
   MATE_PERMITIDO,
   MATE_NO_PERMITIDO
 } from "./constants";
+import CustomButton from "../../shared/customButton/CustomButton";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const styles = theme => ({
   root: {
@@ -93,25 +96,45 @@ const styles = theme => ({
   }
 });
 
-const ResumeTripStep = ({ classes, tripData, open }) => {
-  //res: null,
-  //userData: null,
-  //userLoaded: false
+const ResumeTripStep = ({
+  classes,
+  tripData,
+  showButton,
+  open,
+  onBack,
+  onSave
+}) => {
+  const [openDefault, setOpenDefault] = useState(false);
 
-  const origen = tripData.steps && tripData.steps[0];
-  const destino = tripData.steps && tripData.steps[tripData.steps.length - 1];
+  useEffect(() => {
+    setOpenDefault(open);
+  }, [open]);
+
+  const origen = tripData.steps[0];
+  const destino = tripData.steps[tripData.steps.length - 1];
+
+  const handleNext = () => {
+    if (onSave) {
+      onSave();
+    }
+  };
+
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+    }
+  };
 
   return (
     <div className={classes.root}>
       <div className={classes.map}>
-        <ExpansionPanel defaultExpanded={open}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        <ExpansionPanel expanded={openDefault}>
+          <ExpansionPanelSummary
+            onClick={() => setOpenDefault(!openDefault)}
+            expandIcon={<ExpandMoreIcon />}
+          >
             <div>
-              <Typography
-                variant="body1"
-                gutterBottom
-                className={classes.mapTitle}
-              >
+              <Typography variant="body1" className={classes.mapTitle}>
                 Sobre Mi Viaje
               </Typography>
             </div>
@@ -120,12 +143,10 @@ const ResumeTripStep = ({ classes, tripData, open }) => {
             {tripData.date && (
               <div className={classes.dateData}>
                 <AccessTime color="primary" />
-                <Typography
-                  variant="title"
-                  gutterBottom
-                  style={{ fontWeight: 500 }}
-                >
-                  {moment(tripData.date).format("LLLL")}
+                <Typography variant="title" style={{ fontWeight: 500 }}>
+                  {`${moment(tripData.date)
+                    .lang("es")
+                    .format("dddd DD MMMM YYYY")} ${tripData.time}`}
                 </Typography>
               </div>
             )}
@@ -133,7 +154,7 @@ const ResumeTripStep = ({ classes, tripData, open }) => {
             <MyMapComponent steps={tripData.steps} />
 
             <div className={classes.cities}>
-              {origen && destino && origen.name && destino.name && (
+              {origen.name && destino.name && (
                 <>
                   <ToolTipTravel label={SALIDA} value={origen.name} />
                   <ArrowForward
@@ -230,6 +251,12 @@ const ResumeTripStep = ({ classes, tripData, open }) => {
           </>
         </ExpansionPanel>
       </div>
+      {showButton && (
+        <div>
+          <CustomButton label="VOLVER" onClick={handleBack} />
+          <CustomButton label="GUARDAR" onClick={handleNext} />
+        </div>
+      )}
     </div>
   );
 };

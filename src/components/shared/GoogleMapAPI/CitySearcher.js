@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import Selector from "../selector/Selector";
+import { useEffect } from "react";
 
-const CitySearcher = ({ onComplete, defaultValue, placeholder }) => {
+const CitySearcher = ({ onComplete, defaultValue, placeholder, label }) => {
   const google = window.google;
   const service = new google.maps.places.AutocompleteService();
   const [value, setValue] = useState(defaultValue);
   const [options, setOptions] = useState([]);
+
+  useEffect(() => {
+    setValue(label);
+    console.log("see");
+  }, [onComplete, defaultValue, placeholder, label]);
 
   const handleChange = value => {
     setValue(value);

@@ -10,8 +10,6 @@ const styles = theme => ({
   }
 });
 
-const errorMessage = "Requerido";
-
 const DetailsSelector = ({ classes, label, defaultValue }) => {
   const [details, setDetails] = useState(defaultValue);
 

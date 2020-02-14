@@ -94,7 +94,6 @@ const styles2 = theme => ({
 const ToolTipTravel = props => {
   const { classes, label, value } = props;
 
-  console.log(classes);
   return (
     <div className={classes.location}>
       {label === SALIDA && (

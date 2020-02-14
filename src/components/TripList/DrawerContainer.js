@@ -106,7 +106,6 @@ class DrawerContainer extends React.Component {
   }
 
   filterTrips(value, autRes, plazasDisp) {
-    console.log(plazasDisp);
     var newTrips = this.props.trips;
     if (plazasDisp)
       newTrips = newTrips.filter(

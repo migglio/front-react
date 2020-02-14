@@ -13,11 +13,12 @@ const styles = theme => ({
   }
 });
 
-const FoodSelector = ({ classes }) => {
+const FoodSelector = ({ classes, onChange }) => {
   const [food, setFood] = useState(false);
 
   const handleChange = () => {
     setFood(!food);
+    if (onChange) onChange(!food);
   };
 
   const title = food ? "Comida Permitida" : "Comida Prohibida";

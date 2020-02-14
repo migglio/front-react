@@ -13,11 +13,12 @@ const styles = theme => ({
   }
 });
 
-const MateSelector = ({ classes }) => {
+const MateSelector = ({ classes, onChange }) => {
   const [mate, setMate] = useState(false);
 
   const handleChange = () => {
     setMate(!mate);
+    if (onChange) onChange(!mate);
   };
 
   const title = mate ? "Comida Permitida" : "Comida Prohibida";

@@ -73,7 +73,7 @@ const PreferenceDriverStep = ({
 
   useEffect(() => {
     onChange({ price, seats, car, reservation, food, mate, details });
-  }, [price, seats, car, reservation, food, mate, details]);
+  }, [onChange, price, seats, car, reservation, food, mate, details]);
 
   return (
     <div className={classes.root}>

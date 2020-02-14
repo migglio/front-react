@@ -100,8 +100,6 @@ const TripCreatorStepper = ({
 
   //Validation methods
   const validateFistStep = () => {
-    console.log(tripData);
-
     const origin = tripData.steps[0];
     const destination = tripData.steps[tripData.steps.length - 1];
 
@@ -157,8 +155,6 @@ const TripCreatorStepper = ({
   };
 
   const steps = getSteps();
-
-  console.log("trip Data", tripData);
 
   return (
     <div className={classes.root}>

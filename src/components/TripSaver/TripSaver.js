@@ -230,35 +230,6 @@ class TripSaver extends React.Component {
       });
   }
 
-  //Save a new trip into db
-  processForm(event) {
-    //Copy number of passengers and date before saving the trip
-    this.updateStepsInfo();
-    // prevent default action. in this case, action is the form submission event
-    //event.preventDefault();
-    const userData = {
-      owner: this.props.tripData.owner,
-      steps: this.props.tripData.steps,
-      description: this.props.tripData.details,
-      vehiculo: this.props.tripData.car,
-      automaticReservation: this.props.tripData.reservation,
-      food: this.props.tripData.food,
-      mate: this.props.tripData.mate
-    };
-
-    axios
-      .post(url.socket + "api/trips", userData, url.config)
-      .then(response => {
-        this.addNotification("success", this.props.success);
-        this.props.updateSavedState(true);
-      })
-      .catch(error => {
-        this.addNotification("error", this.props.error);
-        this.props.updateSavedState(false);
-        console.log(error);
-      });
-  }
-
   render() {
     return (
       <div>
