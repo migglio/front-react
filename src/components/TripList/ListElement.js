@@ -198,7 +198,7 @@ class ListElement extends React.Component {
                   <LocationOnIcon color="secondary" />
                 </Tooltip>
                 <Typography className={classes.secondaryHeading} gutterBottom>
-                  {this.props.tripData.steps[0].name}
+                  {this.props.tripData.steps[0].label}
                 </Typography>
               </div>
 
@@ -207,7 +207,7 @@ class ListElement extends React.Component {
                   <LocationOnIcon style={{ color: green[400] }} />
                 </Tooltip>
                 <Typography className={classes.secondaryHeading} gutterBottom>
-                  {this.props.tripData.steps[1].name}
+                  {this.props.tripData.steps[1].label}
                 </Typography>
               </div>
 

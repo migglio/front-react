@@ -48,27 +48,28 @@ const TripSearcher = props => {
   const { classes } = props;
 
   const updateFrom = value => {
-    setFrom(value.name);
+    console.log("update from",value)
+    setFrom(value.placeId);
   };
 
   const updateTo = value => {
-    setTo(value.name);
+    setTo(value.placeId);
   };
 
   const handleDateChange = value => {
     setDate(value);
   };
 
-  const params =
+  let params =
     "from=" + (from ? from : "") + "&to=" + (to ? to : "") + "&date=" + date;
-
+  console.log("params",params)
   return (
     <div className={classes.root}>
       <div className={classes.container}>
         <Paper className={classes.paper2}>
           <CitySearcher
             placeholder="Desde"
-            callback={updateFrom}
+            onComplete={updateFrom}
             name={from}
             steps={[{ name: to }]}
           />
@@ -78,7 +79,7 @@ const TripSearcher = props => {
         <Paper className={classes.paper2}>
           <CitySearcher
             placeholder="Hasta"
-            callback={updateTo}
+            onComplete={updateTo}
             name={to}
             steps={[{ name: from }]}
           />

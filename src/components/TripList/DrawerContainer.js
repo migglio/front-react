@@ -47,7 +47,7 @@ class DrawerContainer extends React.Component {
 
   render() {
     const { classes } = this.props;
-    console.log(this.props.data.from);
+    console.log("DATA",this.props.data);
     return (
       <div>
         <TripSearcher />
