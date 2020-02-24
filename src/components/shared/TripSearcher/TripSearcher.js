@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Paper } from "material-ui";
 import { withStyles } from "material-ui/styles";
 import Button from "@material-ui/core/Button";
@@ -44,31 +44,33 @@ const TripSearcher = props => {
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
   const [date, setDate] = useState(null);
+  let history = useHistory()
 
   const { classes } = props;
 
   const updateFrom = value => {
-    setFrom(value.name);
+    console.log("update from",value)
+    setFrom(value.placeId);
   };
 
   const updateTo = value => {
-    setTo(value.name);
+    setTo(value.placeId);
   };
 
   const handleDateChange = value => {
     setDate(value);
   };
 
-  const params =
+  let params =
     "from=" + (from ? from : "") + "&to=" + (to ? to : "") + "&date=" + date;
-
+  console.log("params",params)
   return (
     <div className={classes.root}>
       <div className={classes.container}>
         <Paper className={classes.paper2}>
           <CitySearcher
             placeholder="Desde"
-            callback={updateFrom}
+            onComplete={updateFrom}
             name={from}
             steps={[{ name: to }]}
           />
@@ -78,7 +80,7 @@ const TripSearcher = props => {
         <Paper className={classes.paper2}>
           <CitySearcher
             placeholder="Hasta"
-            callback={updateTo}
+            onComplete={updateTo}
             name={to}
             steps={[{ name: from }]}
           />
@@ -93,7 +95,7 @@ const TripSearcher = props => {
         <div className={classes.paper2}>
           <Button
             component={Link}
-            to={routes().trips[TRIP_PATH] + "?" + params}
+            onClick={()=>window.location=`/trips?${params}`}
             //disabled={!from && !to}
             className={classes.button}
             variant="contained"

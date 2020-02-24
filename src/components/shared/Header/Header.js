@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "material-ui/styles";
 import AppBar from "material-ui/AppBar";
@@ -32,6 +32,12 @@ const styles = {
 };
 
 const Header = ({ isHome, classes }) => {
+  const [loggedIn, setLoggedIn] = useState(false);
+  let location = useLocation();
+  React.useEffect(() => {
+    setLoggedIn(Auth.isUserAuthenticated());
+  }, [location]);
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -54,7 +60,7 @@ const Header = ({ isHome, classes }) => {
             color="inherit"
             className={classes.flex}
           />
-          {Auth.isUserAuthenticated() ? (
+          {loggedIn ? (
             <div style={{ display: "flex" }}>
               <ProfileMenu />
               <NotificationsMenu />

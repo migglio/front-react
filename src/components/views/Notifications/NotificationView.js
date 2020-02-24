@@ -4,7 +4,7 @@ import Typography from "material-ui/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Paper } from "@material-ui/core";
 import List from "@material-ui/core/List";
-import Auth from "../../Auth/Auth";
+//import Auth from "../../Auth/Auth";
 import NotificationButtons from "./NotificationButtons";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { notifications as notificacionsApi } from "../../../api/Notifications";
@@ -67,7 +67,7 @@ const NotificationView = ({ classes }) => {
   }, []);
 
   //mark every notifications as read
-  const markAsRead = () => {
+  /* const markAsRead = () => {
     notifications.map(notification => {
       const users = notification.read;
       if (users.indexOf(Auth.getUserID()) === -1) {
@@ -77,7 +77,7 @@ const NotificationView = ({ classes }) => {
       }
       return true;
     });
-  };
+  }; */
 
   return (
     <>
