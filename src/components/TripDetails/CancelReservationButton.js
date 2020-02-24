@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Cancel from "@material-ui/icons/Cancel";
@@ -13,28 +12,21 @@ const styles = theme => ({
 });
 
 function getType(automatic) {
-  if (automatic) return "Join to the trip";
-  return "Send Request";
+  if (automatic) return "Unirse";
+  return "Enviar Solicitud";
 }
 
-function CancelReservationButton(props) {
-  const { classes } = props;
+const CancelReservationButton = ({ classes }) => {
   return (
-    <div>
-      <Button
-        className={classes.button}
-        variant="raised"
-        onClick={props.cancelReservation}
-      >
-        <Cancel />
-        Cancelar Reserva
-      </Button>
-    </div>
+    <Button
+      className={classes.button}
+      variant="raised"
+      onClick={props.cancelReservation}
+    >
+      <Cancel />
+      Cancelar Reserva
+    </Button>
   );
-}
-
-CancelReservationButton.propTypes = {
-  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(CancelReservationButton);

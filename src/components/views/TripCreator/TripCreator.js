@@ -1,10 +1,10 @@
 import React from "react";
 import { withStyles } from "material-ui/styles";
-import Auth from "../Auth/Auth.js";
+import Auth from "../../Auth/Auth.js";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Divider } from "material-ui";
-import useGetUrlParam from "../../libs/urlParams.js";
-import { trips } from "../../api/Trips.js";
+import useGetUrlParam from "../../../libs/urlParams.js";
+import { trips } from "../../../api/Trips.js";
 import { useState } from "react";
 import { useEffect } from "react";
 import MeetingDataStep from "./MeetingDataStep/MeetingDataStep.js";
@@ -67,6 +67,8 @@ const stepper = [MEETING_STEP, PREFERENCES_STEP, RESUME_STEP, SAVING_STEP];
 const TripCreator = ({ classes }) => {
   const [activeStep, setActiveStep] = useState(0);
 
+  const [owner, setOwner] = useState(Auth.getUserID());
+
   const [steps, setSteps] = useState(null);
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
@@ -86,7 +88,21 @@ const TripCreator = ({ classes }) => {
   //Carga de Datos
   useEffect(() => {
     const asyncFunction = async id => {
-      await trips().getTrip(id);
+      const response = await trips().getTrip(id);
+      setSteps(response.steps);
+      setOwner(response.owner);
+      setDate(response.steps[0].date);
+      setTime(response.steps[0].time);
+      setPrice(response.steps[0].price);
+      setSeats(
+        response.steps[0].total - response.steps[0].passengers.users.length
+      );
+      setCar(response.car);
+      setReservation(response.automaticReservation);
+      setFood(response.food);
+      setMate(response.mate);
+      setDetails(response.description);
+
       setLoaded(true);
     };
     if (id) asyncFunction(id);
@@ -127,7 +143,7 @@ const TripCreator = ({ classes }) => {
   };
 
   const tripData = {
-    owner: Auth.getUserID(),
+    owner,
     steps,
     date,
     time,

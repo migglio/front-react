@@ -1,11 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ButtonRequest from "./ButtonRequest.js";
-import ResumeTrip from "../TripCreator/resumeTripStep/ResumeTripStep";
+import ResumeTrip from "../views/TripCreator/resumeTripStep/ResumeTripStep";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ProfileResume from "../shared/ProfileResume/ProfileResume";
 import PassengerView from "./PassengerView";
-import TripSaver from "../TripSaver/TripSaver.js";
 import Auth from "../Auth/Auth.js";
 import { withStyles } from "@material-ui/core/styles";
 import { trips } from "../../api/Trips.js";
@@ -85,35 +84,23 @@ const DetailsView = props => {
 
   let { id } = useParams();
 
+  const getTrip = async id => {
+    const response = await trips().getTrip(id);
+    setSteps(response.steps);
+    setDate(response.date);
+    setReservation(response.automaticReservation);
+    setFood(response.food);
+    setMate(response.mate);
+    setCar(response.vehiculo);
+    setDetails(response.description);
+    setOwner(response.owner);
+    setLoaded(true);
+  };
+
   //Carga de Datos
   useEffect(() => {
-    const asyncFunction = async () => {
-      const response = await trips().getTrip(id);
-      setSteps(response.steps);
-      setDate(response.date);
-      setReservation(response.automaticReservation);
-      setFood(response.food);
-      setMate(response.mate);
-      setCar(response.vehiculo);
-      setDetails(response.description);
-      setOwner(response.owner);
-      setLoaded(true);
-    };
-    asyncFunction();
-
-    //eslint-disable-next-line
-  }, []);
-
-  /*
-  const loadTripList = () => {
-    return axios.get(url.api + "trips", { params: data }).catch(error => {
-      handleServerResponse(
-        error,
-        "An error occured when getting the trips data"
-      );
-    });
-  };
-  */
+    getTrip(id);
+  }, [id]);
 
   const joinToTheTrip = () => {
     //add the id of the new User
@@ -142,8 +129,9 @@ const DetailsView = props => {
         paddingBottom: 30
       }}
     >
-      {loaded ? (
-        <Fragment>
+      {!loaded && <CircularProgress />}
+      {loaded && (
+        <>
           <div className={classes.root}>
             <div className={classes.tripContainer}>
               <div className={classes.tripColumn}>
@@ -170,21 +158,10 @@ const DetailsView = props => {
             <div className={classes.driverContainer}>
               <div className={classes.driverColumn}>
                 <ProfileResume tripData={data} />
-                <TripSaver
-                  success={
-                    "Your request has been sent. You will be redirect to home page soon"
-                  }
-                  error={"Sorry, Your request has not been sent."}
-                  update={update}
-                  tripData={data}
-                  id={id}
-                />
               </div>
             </div>
           </div>
-        </Fragment>
-      ) : (
-        <CircularProgress />
+        </>
       )}
     </div>
   );

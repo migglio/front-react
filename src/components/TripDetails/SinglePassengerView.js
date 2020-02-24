@@ -15,6 +15,8 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ValidationButtons from "../ViewWaitingRequests/ValidationButtons";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { users } from "../../api/Users";
+import { useState } from "react";
+import { useEffect } from "react";
 
 function TabContainer({ children, dir }) {
   return (
@@ -30,101 +32,113 @@ const styles = theme => ({
   }
 });
 
-class SinglePassengerView extends React.Component {
-  //constructor
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: 0,
-      request: this.props.request,
-      checked: [],
-      users: [],
-      pendingUsers: []
-    };
+const SinglePassengerView = ({
+  classes,
+  theme,
+  idTrip,
+  tripData,
+  passengers,
+  request
+}) => {
+  console.log({
+    classes,
+    theme,
+    idTrip,
+    tripData,
+    passengers,
+    request
+  });
+  const [checked, setChecked] = useState([]);
+  const [value, setValue] = useState(0);
 
-    this.addUser = this.addUser.bind(this);
-    this.addPendingUser = this.addPendingUser.bind(this);
+  const users = passengers.users;
+  const pendingUsers = passengers.pendingUsers;
 
-    this.getSelected = this.getSelected.bind(this);
-  }
+  //this method is called when a confirm or deny button is clicked
+  const getSelected = callback => {
+    callback(passengers, checked);
+  };
 
-  componentWillMount() {
-    for (let index = 0; index < this.props.passengers.users.length; index++)
-      users.getUser(this.props.passengers.users[index], this.addUser);
+  return (
+    <div className={classes.root}>
+      <AppBar position="static" color="default">
+        <Tabs
+          value={value}
+          onChange={(event, value) => setValue(value)}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          centered
+        >
+          <Tab label="Confirmados" />
+          <Tab label="Pendientes" />
+        </Tabs>
+      </AppBar>
+      <SwipeableViews
+        axis={theme && theme.direction === "rtl" ? "x-reverse" : "x"}
+        index={value}
+        onChangeIndex={setValue}
+      >
+        <TabContainer dir={theme && theme.direction}>
+          <ListUsers
+            classes={classes}
+            checked={checked}
+            setChecked={setChecked}
+            users={users}
+            value={value}
+            request={request}
+          />
+        </TabContainer>
+        <TabContainer dir={theme && theme.direction}>
+          <ListUsers
+            classes={classes}
+            checked={checked}
+            setChecked={setChecked}
+            users={pendingUsers}
+            value={value}
+            request={request}
+          />
+        </TabContainer>
+      </SwipeableViews>
+      {value === 1 && request ? (
+        <ValidationButtons
+          disabled={checked.length === 0}
+          getSelected={getSelected}
+          tripData={tripData}
+          idTrip={idTrip}
+        />
+      ) : null}
+    </div>
+  );
+};
 
-    for (
-      let index = 0;
-      index < this.props.passengers.pendingUsers.length;
-      index++
-    )
-      users.getUser(
-        this.props.passengers.pendingUsers[index],
-        this.addPendingUser
-      );
-  }
+export default withStyles(styles)(SinglePassengerView);
 
+//render a list of passengers
+const ListUsers = ({ classes, checked, setChecked, users, value, request }) => {
   //manage the checkbox
-  handleToggle = value => () => {
-    const { checked } = this.state;
+  const handleToggle = value => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
+    if (currentIndex === -1) newChecked.push(value);
+    else newChecked.splice(currentIndex, 1);
 
-    this.setState({
-      checked: newChecked
-    });
+    setChecked(newChecked);
   };
 
-  //manage tabs view
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
-
-  //manage tabs view
-  handleChangeIndex = index => {
-    this.setState({ value: index });
-  };
-
-  //callback from getting data of confirm users from db
-  addUser(user) {
-    const userList = this.state.users;
-    userList.push(user);
-    this.setState({ users: userList });
-  }
-
-  //callback from getting data of pending users from db
-  addPendingUser(user) {
-    const userList = this.state.pendingUsers;
-    userList.push(user);
-    this.setState({ pendingUsers: userList });
-  }
-
-  //this method is called when a confirm or deny button is clicked
-  getSelected(callback) {
-    callback(this.props.passengers, this.state.checked);
-  }
-
-  //render a list of passengers
-  renderUsers(users) {
-    const { classes } = this.props;
-
-    if (users.length === 0)
-      return (
+  console.log("users", users);
+  return (
+    <>
+      {users.length === 0 && (
         <Typography
           variant="subheading"
-          gutterBottom
           style={{ color: "#054752", fontWeight: 700, padding: "1%" }}
         >
           No hay ningún pasajero
         </Typography>
-      );
-    else
-      return (
+      )}
+      {users.length > 0 && (
         <div style={{ justifyContent: "center" }}>
           <List dense className={classes.root}>
             {users.map((user, index) => (
@@ -133,66 +147,19 @@ class SinglePassengerView extends React.Component {
                   <AccountCircleIcon />
                 </ListItemAvatar>
                 <ListItemText primary={user.nickname} secondary={user.mail} />
-                {this.state.value === 1 && this.state.request ? (
+                {value === 1 && request && (
                   <ListItemSecondaryAction>
                     <Checkbox
-                      onChange={this.handleToggle(index)}
-                      checked={this.state.checked.indexOf(index) !== -1}
+                      onChange={handleToggle(index)}
+                      checked={checked.indexOf(index) !== -1}
                     />
                   </ListItemSecondaryAction>
-                ) : null}
+                )}
               </ListItem>
             ))}
           </List>
         </div>
-      );
-  }
-
-  render() {
-    const { classes, theme } = this.props;
-    return (
-      <div className={classes.root}>
-        <AppBar position="static" color="default">
-          <Tabs
-            value={this.state.value}
-            onChange={this.handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="fullWidth"
-            centered
-          >
-            <Tab label="Confirmados" />
-            <Tab label="Pendientes" />
-          </Tabs>
-        </AppBar>
-        <SwipeableViews
-          axis={theme && theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={this.state.value}
-          onChangeIndex={this.handleChangeIndex}
-        >
-          <TabContainer dir={theme && theme.direction}>
-            {this.renderUsers(this.state.users)}
-          </TabContainer>
-          <TabContainer dir={theme && theme.direction}>
-            {this.renderUsers(this.state.pendingUsers)}
-          </TabContainer>
-        </SwipeableViews>
-        {this.state.value === 1 && this.state.request ? (
-          <ValidationButtons
-            disabled={this.state.checked.length === 0}
-            getSelected={this.getSelected}
-            tripData={this.props.tripData}
-            idTrip={this.props.idTrip}
-          />
-        ) : null}
-      </div>
-    );
-  }
-}
-
-SinglePassengerView.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
+      )}
+    </>
+  );
 };
-
-export default withStyles(styles)(SinglePassengerView);

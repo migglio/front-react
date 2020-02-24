@@ -8,7 +8,7 @@ import blue from "@material-ui/core/colors/blue";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import FormLabel from "@material-ui/core/FormLabel";
 import AccessTime from "@material-ui/icons/AccessTime";
-import MyMapComponent from "../../shared/GoogleMapAPI/Map";
+import MyMapComponent from "../../../shared/GoogleMapAPI/Map";
 import { Divider } from "material-ui";
 import ToolTipTravel from "./ToolTipTravel";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -27,7 +27,7 @@ import {
   MATE_PERMITIDO,
   MATE_NO_PERMITIDO
 } from "./constants";
-import CustomButton from "../../shared/customButton/CustomButton";
+import CustomButton from "../../../shared/customButton/CustomButton";
 import { useState } from "react";
 import { useEffect } from "react";
 

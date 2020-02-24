@@ -3,14 +3,14 @@ import FormLabel from "@material-ui/core/FormLabel";
 import { withStyles } from "@material-ui/core/styles";
 import { Divider } from "material-ui";
 import { useState } from "react";
-import PriceSelector from "../../shared/priceSelector/PriceSelector";
-import SeatSelector from "../../shared/seatSelector/SeatSelector";
-import CarSelector from "../../shared/carSelector/CarSelector";
-import ReservationSelector from "../../shared/reservationSelector/ReservationSelector";
-import FoodSelector from "../../shared/foodSelector/FoodSelector";
-import MateSelector from "../../shared/mateSelector/MateSelector";
-import DetailsSelector from "../../shared/detailsSelector/DetailsSelector";
-import CustomButton from "../../shared/customButton/CustomButton";
+import PriceSelector from "../../../shared/priceSelector/PriceSelector";
+import SeatSelector from "../../../shared/seatSelector/SeatSelector";
+import CarSelector from "../../../shared/carSelector/CarSelector";
+import ReservationSelector from "../../../shared/reservationSelector/ReservationSelector";
+import FoodSelector from "../../../shared/foodSelector/FoodSelector";
+import MateSelector from "../../../shared/mateSelector/MateSelector";
+import DetailsSelector from "../../../shared/detailsSelector/DetailsSelector";
+import CustomButton from "../../../shared/customButton/CustomButton";
 import { useEffect } from "react";
 
 const styles = theme => ({

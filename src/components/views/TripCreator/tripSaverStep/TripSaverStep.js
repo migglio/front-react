@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import CustomButton from "../../shared/customButton/CustomButton";
+import CustomButton from "../../../shared/customButton/CustomButton";
 import Typography from "@material-ui/core/Typography";
-import tripConfirmed from "../../../images/tripSaved.svg";
-import requestFailed from "../../../images/requestFailed.svg";
+import tripConfirmed from "../../../../images/tripSaved.svg";
+import requestFailed from "../../../../images/requestFailed.svg";
 import ContentLoader from "react-content-loader";
-import { trips } from "../../../api/Trips.js";
+import { trips } from "../../../../api/Trips";
 
 const styles = theme => ({
   root: {
@@ -36,13 +36,14 @@ const TripSaverStep = ({ classes, tripData }) => {
   const [loaded, setLoaded] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  const postTrips = async id => {
+    const response = await trips().postTrips(tripData);
+    setSuccess(response.success);
+    setLoaded(true);
+  };
+
   useEffect(() => {
-    const asyncFunction = async id => {
-      const response = await trips().postTrips(tripData);
-      setSuccess(response.success);
-      setLoaded(true);
-    };
-    asyncFunction();
+    postTrips();
     //eslint-disable-next-line
   }, []);
 

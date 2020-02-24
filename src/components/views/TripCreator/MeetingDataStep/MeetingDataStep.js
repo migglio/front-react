@@ -3,13 +3,13 @@ import { Divider } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import SwapVerticalCircle from "@material-ui/icons/SwapVerticalCircle";
 import blue from "@material-ui/core/colors/blue";
-import DateSelector from "../../shared/DateSelector/DateSelector";
+import DateSelector from "../../../shared/DateSelector/DateSelector";
 import { withStyles } from "@material-ui/core/styles";
-import CitySearcher from "../../shared/GoogleMapAPI/CitySearcher";
+import CitySearcher from "../../../shared/GoogleMapAPI/CitySearcher";
 import { useState } from "react";
-import TimeSelector from "../../shared/timeSelector/TimeSelector";
+import TimeSelector from "../../../shared/timeSelector/TimeSelector";
 import { useEffect } from "react";
-import CustomButton from "../../shared/customButton/CustomButton";
+import CustomButton from "../../../shared/customButton/CustomButton";
 
 const styles2 = theme => ({
   root: {

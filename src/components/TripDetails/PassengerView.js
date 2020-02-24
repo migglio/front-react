@@ -24,7 +24,6 @@ const PassengerView = ({ idTrip, tripData, passengers, request }) => {
       <Paper>
         <Typography
           variant="title"
-          gutterBottom
           style={{ color: "#054752", fontWeight: 700, padding: "1%" }}
         >
           Pasajeros

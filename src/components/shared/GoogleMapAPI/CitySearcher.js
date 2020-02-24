@@ -10,7 +10,6 @@ const CitySearcher = ({ onComplete, defaultValue, placeholder, label }) => {
 
   useEffect(() => {
     setValue(label);
-    console.log("see");
   }, [onComplete, defaultValue, placeholder, label]);
 
   const handleChange = value => {
