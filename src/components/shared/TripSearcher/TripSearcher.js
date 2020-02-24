@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Paper } from "material-ui";
 import { withStyles } from "material-ui/styles";
 import Button from "@material-ui/core/Button";
@@ -44,6 +44,7 @@ const TripSearcher = props => {
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
   const [date, setDate] = useState(null);
+  let history = useHistory()
 
   const { classes } = props;
 
@@ -94,7 +95,7 @@ const TripSearcher = props => {
         <div className={classes.paper2}>
           <Button
             component={Link}
-            to={routes().trips[TRIP_PATH] + "?" + params}
+            onClick={()=>window.location=`/trips?${params}`}
             //disabled={!from && !to}
             className={classes.button}
             variant="contained"
