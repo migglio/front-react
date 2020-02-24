@@ -195,6 +195,7 @@ class Register extends React.Component {
             <TextField
               label="Password"
               name="password"
+              type="password"
               margin="normal"
               value={this.state.password}
               onChange={this.handleUserInput}
