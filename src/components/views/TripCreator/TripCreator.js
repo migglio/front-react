@@ -3,7 +3,7 @@ import { withStyles } from "material-ui/styles";
 import Auth from "../../Auth/Auth.js";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Divider } from "material-ui";
-import useGetUrlParam from "../../../libs/urlParams.js";
+import { useGetPath } from "../../../libs/urlParams.js";
 import { trips } from "../../../api/Trips.js";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -83,29 +83,32 @@ const TripCreator = ({ classes }) => {
 
   const [loaded, setLoaded] = useState(false);
 
-  const id = useGetUrlParam("id");
+  const id = useGetPath(2);
+
+  const getTrip = async id => {
+    const response = await trips().getTrip(id);
+    console.log(response);
+    setSteps(response.steps);
+    setOwner(response.owner);
+    setDate(response.steps[0].date);
+    setTime(response.steps[0].time);
+    setPrice(response.steps[0].price);
+    setSeats(
+      response.steps[0].passengers.total -
+        response.steps[0].passengers.users.length
+    );
+    setCar(response.vehiculo);
+    setReservation(response.automaticReservation);
+    setFood(response.food);
+    setMate(response.mate);
+    setDetails(response.description);
+
+    setLoaded(true);
+  };
 
   //Carga de Datos
   useEffect(() => {
-    const asyncFunction = async id => {
-      const response = await trips().getTrip(id);
-      setSteps(response.steps);
-      setOwner(response.owner);
-      setDate(response.steps[0].date);
-      setTime(response.steps[0].time);
-      setPrice(response.steps[0].price);
-      setSeats(
-        response.steps[0].total - response.steps[0].passengers.users.length
-      );
-      setCar(response.car);
-      setReservation(response.automaticReservation);
-      setFood(response.food);
-      setMate(response.mate);
-      setDetails(response.description);
-
-      setLoaded(true);
-    };
-    if (id) asyncFunction(id);
+    if (id) getTrip(id);
     else setLoaded(true);
   }, [id]);
 
@@ -155,6 +158,8 @@ const TripCreator = ({ classes }) => {
     food,
     details
   };
+
+  console.log("details", details);
 
   return (
     <>

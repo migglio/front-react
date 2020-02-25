@@ -164,6 +164,7 @@ class TripSaver extends React.Component {
       });
   }
 
+  /*
   updateTrip(tripData, id) {
     // prevent default action. in this case, action is the form submission event
     //event.preventDefault();
@@ -202,6 +203,7 @@ class TripSaver extends React.Component {
         console.log(error);
       });
   }
+*/
 
   deleteTrip(id) {
     //when a trip is deleted, every passenger must be notified

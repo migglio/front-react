@@ -6,6 +6,7 @@ import tripConfirmed from "../../../../images/tripSaved.svg";
 import requestFailed from "../../../../images/requestFailed.svg";
 import ContentLoader from "react-content-loader";
 import { trips } from "../../../../api/Trips";
+import { useGetPath } from "../../../../libs/urlParams";
 
 const styles = theme => ({
   root: {
@@ -35,6 +36,7 @@ const styles = theme => ({
 const TripSaverStep = ({ classes, tripData }) => {
   const [loaded, setLoaded] = useState(false);
   const [success, setSuccess] = useState(false);
+  const id = useGetPath(2);
 
   const postTrips = async id => {
     const response = await trips().postTrips(tripData);
@@ -42,9 +44,15 @@ const TripSaverStep = ({ classes, tripData }) => {
     setLoaded(true);
   };
 
+  const putTrips = async id => {
+    const response = await trips().putTrips(id, tripData);
+    setSuccess(response.success);
+    setLoaded(true);
+  };
+
   useEffect(() => {
-    postTrips();
-    //eslint-disable-next-line
+    if (id) putTrips(id);
+    else postTrips();
   }, []);
 
   return (

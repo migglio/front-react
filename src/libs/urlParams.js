@@ -7,4 +7,11 @@ const useGetUrlParam = param => {
   return params[param];
 };
 
+const useGetPath = position => {
+  const pathname = useLocation().pathname;
+  const id = pathname.split("/")[position];
+  return id;
+};
+
 export default useGetUrlParam;
+export { useGetPath };

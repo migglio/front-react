@@ -6,7 +6,8 @@ import Button from "@material-ui/core/Button";
 import TripSaver from "../TripSaver/TripSaver";
 import routes, {
   TRIP_WITH_ID_PATH,
-  TRIP_CREATOR_PATH
+  TRIP_CREATOR_PATH,
+  TRIP_PATH
 } from "../../constants/routes";
 
 const styles2 = theme => ({
@@ -121,7 +122,7 @@ class ButtonPanel extends React.Component {
         ) : null}
         <Button
           component={Link}
-          to={TRIP_CREATOR_PATH + "/" + this.props.tripData._id}
+          to={routes().trips[TRIP_CREATOR_PATH] + "/" + this.props.tripData._id}
           className={classes.button}
           variant="raised"
         >
@@ -134,7 +135,7 @@ class ButtonPanel extends React.Component {
         >
           Borrar
         </Button>
-        <TripSaver
+        {/*        <TripSaver
           tripData={this.props.tripData}
           delete={this.state.delete}
           updateTrip={this.state.update}
@@ -142,6 +143,7 @@ class ButtonPanel extends React.Component {
           success={"Your trip has been successfully deleted"}
           error={"Sorry, Your trip has not been successfully deleted"}
         ></TripSaver>
+      */}
       </div>
     );
   }

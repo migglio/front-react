@@ -72,6 +72,7 @@ const PreferenceDriverStep = ({
   };
 
   useEffect(() => {
+    console.log("det", details);
     onChange({ price, seats, car, reservation, food, mate, details });
   }, [onChange, price, seats, car, reservation, food, mate, details]);
 

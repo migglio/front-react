@@ -18,14 +18,15 @@ const TripOffered = () => {
   const [tripsList, setTripList] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
+  const getTrips = async () => {
+    const response = await trips().getTrips(data);
+    setTripList(response);
+    setLoaded(true);
+  };
+
   //Carga de Datos
   useEffect(() => {
-    const asyncFunction = async () => {
-      const response = await trips().getTrips(data);
-      setTripList(response);
-      setLoaded(true);
-    };
-    asyncFunction();
+    getTrips();
   }, [data]);
 
   return (

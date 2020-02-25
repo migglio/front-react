@@ -10,11 +10,12 @@ const styles = theme => ({
   }
 });
 
-const DetailsSelector = ({ classes, label, defaultValue }) => {
-  const [details, setDetails] = useState(defaultValue);
+const DetailsSelector = ({ classes, label, onChange, value }) => {
+  const [details, setDetails] = useState(value);
 
   const handleChange = event => {
     setDetails(event.target.value);
+    if (onChange) onChange(event.target.value);
   };
 
   return (
