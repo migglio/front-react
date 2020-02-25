@@ -6,7 +6,7 @@ const users = () => {
     getUser: async (id, data) => {
       const response = await axios.get(url.api + "user/" + id);
 
-      return response;
+      return response.data;
     }
   };
 };
