@@ -27,7 +27,7 @@ const TripOffered = () => {
   //Carga de Datos
   useEffect(() => {
     getTrips();
-  }, [data]);
+  }, [getTrips]);
 
   return (
     <div

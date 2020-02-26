@@ -15,6 +15,7 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    width: "100%",
     padding: 16
   },
   userDataContainer: {

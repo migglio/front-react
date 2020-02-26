@@ -8,14 +8,12 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Tooltip from "@material-ui/core/Tooltip";
-import Badge from "@material-ui/core/Badge";
 import AccessTime from "@material-ui/icons/AccessTime";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import DirectionsCarIcon from "@material-ui/icons/DirectionsCar";
 import AcUnitIcon from "@material-ui/icons/AcUnit";
 import LocalCafeIcon from "@material-ui/icons/LocalCafe";
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import StarIcon from "@material-ui/icons/Star";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import FlashOnIcon from "@material-ui/icons/FlashOn";
 import blue from "@material-ui/core/colors/blue";
@@ -131,41 +129,20 @@ class ListElement extends React.Component {
                 classes.ownerUserInfo
               )}
             >
-              <Badge
-                badgeContent={
-                  this.state.userLoaded ? (
-                    this.state.userData.reviews.length
-                  ) : (
-                    <CircularProgress />
-                  )
-                }
-                color="secondary"
-              >
-                <AccountCircleIcon />
-              </Badge>
+              <div style={{ width: 40 }}>
+                <AccountCircleIcon style={{ width: 40 }} />
+              </div>
               <Typography className={classes.heading}>
                 {this.state.userLoaded ? (
-                  this.state.userData.firstname
+                  this.state.userData.nickname
                 ) : (
                   <CircularProgress />
                 )}
               </Typography>
               <div>
-                <StarIcon style={{ color: yellow[900] }} />
                 <Typography style={{ fontWeight: 600 }}>
                   {this.state.userLoaded ? (
-                    this.state.userData.reviews
-                      .reduce((p, c, i, a) => {
-                        return p + c.points / a.length;
-                      }, 0)
-                      .toFixed(1) + "/5"
-                  ) : (
-                    <CircularProgress />
-                  )}
-                </Typography>
-                <Typography variant="caption">
-                  {this.state.userLoaded ? (
-                    this.state.userData.reviews.length
+                    this.state.userData.count + " viajes publicados"
                   ) : (
                     <CircularProgress />
                   )}

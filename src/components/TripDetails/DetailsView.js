@@ -121,6 +121,8 @@ const DetailsView = props => {
 
   const { classes } = props;
 
+  console.log("ids", id);
+
   return (
     <div
       style={{
@@ -157,7 +159,7 @@ const DetailsView = props => {
             </div>
             <div className={classes.driverContainer}>
               <div className={classes.driverColumn}>
-                <ProfileResume tripData={data} />
+                <ProfileResume ownerId={owner} />
               </div>
             </div>
           </div>

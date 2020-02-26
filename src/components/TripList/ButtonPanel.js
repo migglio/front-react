@@ -3,11 +3,9 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import TripSaver from "../TripSaver/TripSaver";
 import routes, {
   TRIP_WITH_ID_PATH,
-  TRIP_CREATOR_PATH,
-  TRIP_PATH
+  TRIP_CREATOR_PATH
 } from "../../constants/routes";
 
 const styles2 = theme => ({

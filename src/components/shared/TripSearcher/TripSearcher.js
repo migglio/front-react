@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Paper } from "material-ui";
 import { withStyles } from "material-ui/styles";
 import Button from "@material-ui/core/Button";
 import Search from "@material-ui/icons/Search";
 import CitySearcher from "../GoogleMapAPI/CitySearcher";
-import routes, { TRIP_PATH } from "../../../constants/routes";
 import DateSelector from "../../shared/DateSelector/DateSelector";
 
 const styles = theme => ({
@@ -44,12 +43,11 @@ const TripSearcher = props => {
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
   const [date, setDate] = useState(null);
-  let history = useHistory()
 
   const { classes } = props;
 
   const updateFrom = value => {
-    console.log("update from",value)
+    console.log("update from", value);
     setFrom(value.placeId);
   };
 
@@ -63,7 +61,7 @@ const TripSearcher = props => {
 
   let params =
     "from=" + (from ? from : "") + "&to=" + (to ? to : "") + "&date=" + date;
-  console.log("params",params)
+  console.log("params", params);
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -95,7 +93,7 @@ const TripSearcher = props => {
         <div className={classes.paper2}>
           <Button
             component={Link}
-            onClick={()=>window.location=`/trips?${params}`}
+            onClick={() => (window.location = `/trips?${params}`)}
             //disabled={!from && !to}
             className={classes.button}
             variant="contained"

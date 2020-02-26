@@ -9,7 +9,6 @@ import {
   tripDenied,
   userJoined,
   userPending,
-  tripEdited,
   tripDeleted
 } from "../../constants/notificationTypes";
 var NotificationSystem = require("react-notification-system");
