@@ -4,35 +4,44 @@ import Typography from "material-ui/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Paper } from "@material-ui/core";
 import List from "@material-ui/core/List";
-//import Auth from "../../Auth/Auth";
 import NotificationButtons from "./NotificationButtons";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { notifications as notificacionsApi } from "../../../api/Notifications";
 import { notificationDescriptionsManager } from "../../../constants/notificationTypes";
+import Auth from "../../Auth/Auth";
+import { Divider } from "material-ui";
+import listEmpty from "../../../images/listEmpty.svg";
 
 const styles = theme => ({
   root: {
     display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 16
+  },
+  paper: {
+    display: "flex",
     flexDirection: "column",
     alignItems: "left",
-    paddingLeft: "20%",
-    paddingRight: "20%",
-    paddingTop: "2%",
-    zIndex: 4,
     minHeigth: "500px",
-    minWidth: "500px"
+    width: "96vw",
+    "@media (min-width:768px)": {
+      width: "500px"
+    }
   },
   centerLink: {
     display: "flex",
     flexDirection: "column",
-    textAlign: "center"
+    textAlign: "center",
+    alignItems: "center",
+    paddingTop: 8
   },
   rightLink: {
     display: "flex",
     flexDirection: "column",
     textAlign: "right",
     fontSize: "11px",
-    paddingRight: "2%"
+    paddingRight: "8px"
   },
   margin: {
     margin: theme.spacing.unit
@@ -45,23 +54,36 @@ const styles = theme => ({
     flexDirection: "row",
     alignItems: "center",
     marginTop: theme.spacing.unit * 2
+  },
+  imageContainer: {
+    width: "80vw",
+    "@media (min-width:768px)": {
+      width: "350px"
+    }
+  },
+  image: {
+    width: "100%"
   }
 });
 
 const moment = require("moment");
 
 const NotificationView = ({ classes }) => {
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState(null);
   const [loaded, setLoaded] = useState(false);
+
+  const getNotifications = async () => {
+    const response = await notificacionsApi().getNotifications(
+      Auth.getUserID()
+    );
+    setNotifications(response);
+    console.log("response", response);
+    setLoaded(true);
+  };
 
   //Carga de Datos
   useEffect(() => {
-    const asyncFunction = async () => {
-      const response = await notificacionsApi().getNotifications();
-      setNotifications(response.notificacions);
-      setLoaded(true);
-    };
-    asyncFunction();
+    getNotifications();
 
     //eslint-disable-next-line
   }, []);
@@ -83,7 +105,7 @@ const NotificationView = ({ classes }) => {
     <>
       {loaded && (
         <div className={classes.root}>
-          <Paper className={classes.root}>
+          <Paper className={classes.paper}>
             <Typography
               className={classes.centerLink}
               variant="subheading"
@@ -91,13 +113,11 @@ const NotificationView = ({ classes }) => {
               style={{
                 color: "#21212",
                 fontWeight: 700,
-                padding: "1%",
-                zIndex: 2
+                padding: "1%"
               }}
             >
               Notificaciones
             </Typography>
-            <hr />
             <List className={classes.root}>
               {notifications.length > 0 &&
                 notifications.map(item => (
@@ -124,6 +144,13 @@ const NotificationView = ({ classes }) => {
                   </ul>
                 ))}
               <ul>
+                <Divider />
+                <div className={classes.centerLink}>
+                  <div className={classes.imageContainer}>
+                    <img className={classes.image} alt="" src={listEmpty} />
+                  </div>
+                </div>
+
                 <Typography
                   className={classes.centerLink}
                   variant="caption"

@@ -60,16 +60,17 @@ const NotificationsMenu = props => {
   const [invisible, setInvisible] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
+  const getNotifications = async () => {
+    const response = await notificationsApi().getNotifications(
+      Auth.getUserID()
+    );
+    setNotifications(response);
+    setLoaded(true);
+  };
+
   //Carga de Datos
   useEffect(() => {
-    const asyncFunction = async () => {
-      const response = await notificationsApi().getNotifications(
-        Auth.getUserID()
-      );
-      setNotifications(response);
-      setLoaded(true);
-    };
-    asyncFunction();
+    getNotifications();
   }, []);
 
   //mark every notifications as read
@@ -169,7 +170,6 @@ const NotificationsMenu = props => {
 
   const { classes } = props;
 
-  console.log(open);
   return (
     <div className={classes.root}>
       <div>

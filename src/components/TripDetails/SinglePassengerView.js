@@ -17,6 +17,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { users } from "../../api/Users";
 import { useState } from "react";
 import { useEffect } from "react";
+import ContentLoader from "react-content-loader";
 
 function TabContainer({ children, dir }) {
   return (
@@ -40,14 +41,6 @@ const SinglePassengerView = ({
   passengers,
   request
 }) => {
-  console.log({
-    classes,
-    theme,
-    idTrip,
-    tripData,
-    passengers,
-    request
-  });
   const [checked, setChecked] = useState([]);
   const [value, setValue] = useState(0);
 
@@ -84,7 +77,7 @@ const SinglePassengerView = ({
             classes={classes}
             checked={checked}
             setChecked={setChecked}
-            users={users}
+            usersId={users}
             value={value}
             request={request}
           />
@@ -94,7 +87,7 @@ const SinglePassengerView = ({
             classes={classes}
             checked={checked}
             setChecked={setChecked}
-            users={pendingUsers}
+            usersId={pendingUsers}
             value={value}
             request={request}
           />
@@ -115,7 +108,31 @@ const SinglePassengerView = ({
 export default withStyles(styles)(SinglePassengerView);
 
 //render a list of passengers
-const ListUsers = ({ classes, checked, setChecked, users, value, request }) => {
+const ListUsers = ({
+  classes,
+  checked,
+  setChecked,
+  usersId,
+  value,
+  request
+}) => {
+  const [loaded, setLoaded] = useState(false);
+  const [users, setUsers] = useState(null);
+
+  const getUser = async id => {
+    const response = await users().getUser(id);
+    return response;
+  };
+
+  //Carga de Datos
+  useEffect(() => {
+    const users = [];
+    console.log("users", usersId);
+    usersId.map(user => users.push(getUser(user)));
+    setUsers(users);
+    setLoaded(true);
+  }, [usersId]);
+
   //manage the checkbox
   const handleToggle = value => () => {
     const currentIndex = checked.indexOf(value);
@@ -127,10 +144,31 @@ const ListUsers = ({ classes, checked, setChecked, users, value, request }) => {
     setChecked(newChecked);
   };
 
-  console.log("users", users);
   return (
     <>
-      {users.length === 0 && (
+      {!loaded && (
+        <List dense className={classes.root}>
+          <ListItem key={"loading-1"} button>
+            <ListItemAvatar>
+              <AccountCircleIcon />
+            </ListItemAvatar>
+            <ContentLoader
+              style={{
+                width: "100%",
+                height: "100%"
+              }}
+              height={20}
+              width={250}
+              speed={1}
+              primaryColor="#f7f8ff"
+              secondaryColor="#d9e8df"
+            >
+              <rect x="40" y="0" rx="8" ry="8" width="450" height="20" />
+            </ContentLoader>
+          </ListItem>
+        </List>
+      )}
+      {loaded && users.length === 0 && (
         <Typography
           variant="subheading"
           style={{ color: "#054752", fontWeight: 700, padding: "1%" }}
@@ -138,7 +176,7 @@ const ListUsers = ({ classes, checked, setChecked, users, value, request }) => {
           No hay ningún pasajero
         </Typography>
       )}
-      {users.length > 0 && (
+      {loaded && users.length > 0 && (
         <div style={{ justifyContent: "center" }}>
           <List dense className={classes.root}>
             {users.map((user, index) => (

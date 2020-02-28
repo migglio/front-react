@@ -1,9 +1,6 @@
 import React from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import StarIcon from "@material-ui/icons/Star";
-import yellow from "@material-ui/core/colors/yellow";
 import { useState } from "react";
 import { useEffect } from "react";
 import { users } from "../../../api/Users";
@@ -48,7 +45,6 @@ const ProfileResume = ({ classes, ownerId }) => {
     setMail(response.mail);
     setCountOfTrips(response.count);
 
-    console.log("response", response);
     setLoaded(true);
   };
 

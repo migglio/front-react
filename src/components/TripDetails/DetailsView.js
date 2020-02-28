@@ -64,10 +64,10 @@ const styles = theme => ({
   }
 });
 
-const DetailsView = props => {
+const DetailsView = ({ classes }) => {
   const [owner, setOwner] = useState(null);
   //each step should have a name, location, price and time
-  const [steps, setSteps] = useState([]);
+  const [steps, setSteps] = useState(null);
   //attributes in common both main and step trip
   const [date, setDate] = useState(null);
   const [reservation, setReservation] = useState(false);
@@ -118,10 +118,6 @@ const DetailsView = props => {
       steps[0].passengers.pendingUsers.indexOf(userLogged) === -1
     );
   };
-
-  const { classes } = props;
-
-  console.log("ids", id);
 
   return (
     <div
