@@ -83,7 +83,8 @@ const TabOwnTrips = ({ classes, theme, trips }) => {
           onChange={(event, value) => setValue(value)}
           indicatorColor="primary"
           textColor="primary"
-          variant="fullWidth"
+          variant="scrollable"
+          scrollButtons="auto"
           centered
         >
           <Tab label="Viajes Realizados" />

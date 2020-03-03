@@ -18,13 +18,29 @@ const styles = theme => ({
       display: "flex"
     }
   },
-  paper2: {
+  //Aseguradoras section
+  container: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
-    maxWidth: "90%",
-    color: theme.palette.text.secondary
+    justifyContent: "space-around",
+    margin: "auto",
+    padding: 20,
+    paddingTop: 80,
+    paddingBottom: 80
+  },
+  title: {
+    color: "#2f2f81",
+    fontWeight: "bold",
+    paddingBottom: 8,
+    fontSize: "2.5rem"
+  },
+  subtitle: {
+    color: "#45459c",
+    textAlign: "center",
+    fontSize: "1.6rem",
+    maxWidth: 300,
+    paddingBottom: 30
   },
   button: {
     marginTop: "20px",
@@ -48,16 +64,14 @@ const NewTripSection = props => {
       <div className={classes.imageContainer}>
         <img alt="" src={driverImage} />
       </div>
-      <div className={classes.paper2}>
-        <Typography variant="display1">¿Cansado de viajar solo?</Typography>
-        <Typography variant="display1">
-          Encuentra una compañia de viaje..
+      <div className={classes.container}>
+        <Typography variant={"h4"} className={classes.title}>
+          ¿Cansado de viajar solo?
         </Typography>
-        <div style={{ paddingTop: 20, paddingBottom: 20, maxWidth: "300px" }}>
-          <Typography variant="headline">
-            Conoce nueva gente, convierte tu viaje más divertido y económico.
-          </Typography>
-        </div>
+        <Typography variant={"h6"} className={classes.subtitle}>
+          Conoce nueva gente, convierte tu viaje más divertido y económico.
+        </Typography>
+
         <Button
           component={Link}
           to="/TripCreator"

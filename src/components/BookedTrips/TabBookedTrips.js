@@ -100,12 +100,13 @@ class TabBookedTrips extends React.Component {
             onChange={this.handleChange}
             indicatorColor="primary"
             textColor="primary"
-            variant="fullWidth"
+            variant="scrollable"
+            scrollButtons="auto"
             centered
           >
-            <Tab label="Viajes Realizados" />
-            <Tab label="Reservas Confirmadas" />
-            <Tab label="Reservas a Confirmar" />
+            <Tab label="Realizados" />
+            <Tab label="Confirmados" />
+            <Tab label="A Confirmar" />
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -114,7 +115,6 @@ class TabBookedTrips extends React.Component {
           onChangeIndex={this.handleChangeIndex}
         >
           <TabContainer dir={theme && theme.direction}>
-            {" "}
             {this.renderTrips(
               this.props.trips.users,
               "No has realizado viajes hasta el momento"

@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import SwipeableViews from "react-swipeable-views";
 import AppBar from "@material-ui/core/AppBar";
@@ -14,7 +13,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ValidationButtons from "../ViewWaitingRequests/ValidationButtons";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { users } from "../../api/Users";
 import { useState } from "react";
 import { useEffect } from "react";
 import ContentLoader from "react-content-loader";
@@ -60,7 +58,8 @@ const SinglePassengerView = ({
           onChange={(event, value) => setValue(value)}
           indicatorColor="primary"
           textColor="primary"
-          variant="fullWidth"
+          variant="scrollable"
+          scrollButtons="auto"
           centered
         >
           <Tab label="Confirmados" />

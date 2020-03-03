@@ -34,9 +34,7 @@ const BookedTrips = () => {
       style={{
         textAlign: "center",
         alignItems: "center",
-        paddingTop: "2%",
-        paddingLeft: "20%",
-        paddingRight: "20%"
+        paddingTop: "2%"
       }}
     >
       <Paper>

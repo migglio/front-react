@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import { Button } from "material-ui";
 import { withStyles } from "@material-ui/core/styles";
