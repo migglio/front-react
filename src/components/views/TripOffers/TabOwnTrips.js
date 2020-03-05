@@ -5,22 +5,14 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
-import ListElement from "../TripList/ListElement";
+import ListElement from "../../TripList/ListElement";
 import { useState } from "react";
 
 const TabContainer = ({ children, dir }) => {
-  return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
-      {children}
-    </Typography>
-  );
+  return <div dir={dir}>{children}</div>;
 };
 
-const styles = theme => ({
-  root: {
-    backgroundColor: theme.palette.background.paper
-  }
-});
+const styles = theme => ({});
 
 const TabOwnTrips = ({ classes, theme, trips }) => {
   const [value, setValue] = useState(0);
@@ -38,7 +30,6 @@ const TabOwnTrips = ({ classes, theme, trips }) => {
       return (
         <Typography
           variant="subheading"
-          gutterBottom
           style={{ color: "#054752", fontWeight: 700, padding: "1%" }}
         >
           No has realizado viajes hasta el momento

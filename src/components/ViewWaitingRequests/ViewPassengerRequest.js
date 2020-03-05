@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import PassengerView from "../TripDetails/PassengerView";
+import PassengerView from "../views/TripDetails/PassengerView";
 import { trips } from "../../api/Trips";
 
 const queryString = require("query-string");

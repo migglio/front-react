@@ -4,6 +4,8 @@ import { withStyles } from "material-ui/styles";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import driverImage from "../../../images/driver.jpg";
+import CardTravelIcon from "@material-ui/icons/CardTravel";
+import Auth from "../../Auth/Auth";
 
 const styles = theme => ({
   root: {
@@ -18,7 +20,7 @@ const styles = theme => ({
       display: "flex"
     }
   },
-  //Aseguradoras section
+  //new trip section
   container: {
     display: "flex",
     flexDirection: "column",
@@ -53,6 +55,9 @@ const styles = theme => ({
     justifyContent: "center",
     flexDirection: "row",
     position: "absolute"
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
   }
 });
 
@@ -74,12 +79,13 @@ const NewTripSection = props => {
 
         <Button
           component={Link}
-          to="/TripCreator"
+          to={Auth.getUserID() ? "/TripCreator" : "/login"}
           className={classes.button}
           variant="raised"
           color="primary"
         >
           Nuevo viaje
+          <CardTravelIcon className={classes.rightIcon} />
         </Button>
       </div>
     </div>

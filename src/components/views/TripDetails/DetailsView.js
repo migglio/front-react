@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ButtonRequest from "./ButtonRequest.js";
-import ResumeTrip from "../views/TripCreator/resumeTripStep/ResumeTripStep";
+import ResumeTrip from "../TripCreator/resumeTripStep/ResumeTripStep";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import ProfileResume from "../shared/ProfileResume/ProfileResume";
+import ProfileResume from "../../shared/ProfileResume/ProfileResume";
 import PassengerView from "./PassengerView";
-import Auth from "../Auth/Auth.js";
+import Auth from "../../Auth/Auth.js";
 import { withStyles } from "@material-ui/core/styles";
-import { trips } from "../../api/Trips.js";
+import { trips } from "../../../api/Trips.js";
 
 const styles = theme => ({
   root: {
@@ -69,7 +69,9 @@ const DetailsView = ({ classes }) => {
   //each step should have a name, location, price and time
   const [steps, setSteps] = useState(null);
   //attributes in common both main and step trip
+  const [seats, setSeats] = useState(null);
   const [date, setDate] = useState(null);
+  const [time, setTime] = useState(null);
   const [reservation, setReservation] = useState(false);
   const [food, setFood] = useState(false);
   const [mate, setMate] = useState(false);
@@ -80,14 +82,28 @@ const DetailsView = ({ classes }) => {
 
   //const id = queryString.parse(props.location.search).id;
 
-  const data = { owner, steps, date, reservation, food, mate, car, details };
+  const data = {
+    owner,
+    steps,
+    seats,
+    date,
+    time,
+    reservation,
+    food,
+    mate,
+    car,
+    details
+  };
 
   let { id } = useParams();
 
   const getTrip = async id => {
     const response = await trips().getTrip(id);
+    console.log(response);
     setSteps(response.steps);
-    setDate(response.date);
+    setDate(response.steps[0].date);
+    setTime(response.steps[0].time);
+    setSeats(response.steps[0].passengers.total);
     setReservation(response.automaticReservation);
     setFood(response.food);
     setMate(response.mate);
@@ -97,17 +113,28 @@ const DetailsView = ({ classes }) => {
     setLoaded(true);
   };
 
+  const putTrips = async id => {
+    const response = await trips().putTrips(id, data);
+    setUpdate(false);
+  };
+
   //Carga de Datos
   useEffect(() => {
     getTrip(id);
-  }, [id]);
+  }, []);
+
+  useEffect(() => {
+    if (update) putTrips(id);
+  }, [update]);
 
   const joinToTheTrip = () => {
     //add the id of the new User
-    if (reservation) steps[0].passengers.users.push(Auth.getUserID());
-    else steps[0].passengers.pendingUsers.push(Auth.getUserID());
-    setUpdate(true);
+    if (reservation) {
+      steps[0].passengers.users.push(Auth.getUserID());
+      setSeats(seats - 1);
+    } else steps[0].passengers.pendingUsers.push(Auth.getUserID());
     setSteps(steps);
+    setUpdate(true);
   };
 
   const checkPassengers = () => {
@@ -134,12 +161,7 @@ const DetailsView = ({ classes }) => {
             <div className={classes.tripContainer}>
               <div className={classes.tripColumn}>
                 <ResumeTrip tripData={data} open={true} />
-                <PassengerView
-                  tripData={data}
-                  request={false}
-                  update={update}
-                  passengers={steps[0].passengers}
-                />
+                <PassengerView tripData={data} request={false} steps={steps} />
                 {checkPassengers() && (
                   <ButtonRequest
                     past={new Date(steps[0].date) < new Date()}

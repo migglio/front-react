@@ -6,7 +6,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
-import ListElement from "../TripList/ListElement";
+import ListElement from "../../TripList/ListElement";
 
 function TabContainer({ children, dir }) {
   return (
@@ -21,11 +21,7 @@ TabContainer.propTypes = {
   dir: PropTypes.string.isRequired
 };
 
-const styles = theme => ({
-  root: {
-    backgroundColor: theme.palette.background.paper
-  }
-});
+const styles = theme => ({});
 
 class TabBookedTrips extends React.Component {
   state = {
@@ -91,6 +87,7 @@ class TabBookedTrips extends React.Component {
   }
 
   render() {
+    console.log("props", this.props);
     const { classes, theme } = this.props;
     return (
       <div className={classes.root}>
@@ -116,19 +113,19 @@ class TabBookedTrips extends React.Component {
         >
           <TabContainer dir={theme && theme.direction}>
             {this.renderTrips(
-              this.props.trips.users,
+              this.props.trips,
               "No has realizado viajes hasta el momento"
             )}
           </TabContainer>
           <TabContainer dir={theme && theme.direction}>
             {this.renderNextTrips(
-              this.props.trips.users,
+              this.props.trips.confirmed,
               "No has realizado viajes hasta el momento"
             )}
           </TabContainer>
           <TabContainer dir={theme && theme.direction}>
             {this.renderNextTrips(
-              this.props.trips.pendingUsers,
+              this.props.trips.pending,
               "No tienes reservas por confirmar"
             )}
           </TabContainer>

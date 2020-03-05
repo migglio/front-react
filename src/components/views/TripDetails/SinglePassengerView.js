@@ -11,11 +11,12 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ValidationButtons from "../ViewWaitingRequests/ValidationButtons";
+import ValidationButtons from "../../ViewWaitingRequests/ValidationButtons";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { useState } from "react";
 import { useEffect } from "react";
 import ContentLoader from "react-content-loader";
+import { users as usersApi } from "../../../api/Users";
 
 function TabContainer({ children, dir }) {
   return (
@@ -36,18 +37,25 @@ const SinglePassengerView = ({
   theme,
   idTrip,
   tripData,
-  passengers,
+  steps,
   request
 }) => {
   const [checked, setChecked] = useState([]);
   const [value, setValue] = useState(0);
 
-  const users = passengers.users;
-  const pendingUsers = passengers.pendingUsers;
+  const [users, setUsers] = useState(steps[0].passengers.users);
+  const [pendingUsers, setPendingUsers] = useState(
+    steps[0].passengers.pendingUsers
+  );
+
+  useEffect(() => {
+    setUsers(steps[0].passengers.users);
+    setPendingUsers(steps[0].passengers.pendingUsers);
+  }, [steps]);
 
   //this method is called when a confirm or deny button is clicked
   const getSelected = callback => {
-    callback(passengers, checked);
+    callback(steps[0].passengers, checked);
   };
 
   return (
@@ -76,7 +84,7 @@ const SinglePassengerView = ({
             classes={classes}
             checked={checked}
             setChecked={setChecked}
-            usersId={users}
+            userIds={users}
             value={value}
             request={request}
           />
@@ -86,7 +94,7 @@ const SinglePassengerView = ({
             classes={classes}
             checked={checked}
             setChecked={setChecked}
-            usersId={pendingUsers}
+            userIds={pendingUsers}
             value={value}
             request={request}
           />
@@ -111,26 +119,25 @@ const ListUsers = ({
   classes,
   checked,
   setChecked,
-  usersId,
+  userIds,
   value,
   request
 }) => {
-  const [loaded, setLoaded] = useState(false);
-  const [users, setUsers] = useState(null);
+  const [loaded, setLoaded] = useState(true);
 
-  const getUser = async id => {
-    const response = await users().getUser(id);
-    return response;
+  const [users, setUsers] = useState([]);
+
+  const getUsers = async users => {
+    const result = await usersApi().getUsers(users);
+    return result;
   };
 
   //Carga de Datos
-  useEffect(() => {
-    const users = [];
-    console.log("users", usersId);
-    usersId.map(user => users.push(getUser(user)));
-    setUsers(users);
+  useEffect(async () => {
+    const result = await getUsers(userIds);
     setLoaded(true);
-  }, [usersId]);
+    setUsers(result);
+  }, []);
 
   //manage the checkbox
   const handleToggle = value => () => {
@@ -142,6 +149,8 @@ const ListUsers = ({
 
     setChecked(newChecked);
   };
+
+  console.log("request", request);
 
   return (
     <>

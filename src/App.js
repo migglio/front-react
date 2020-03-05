@@ -6,11 +6,11 @@ import Header from "./components/shared/Header/Header";
 import HomeView from "./components/views/Home/HomeView";
 import TripCreator from "./components/views/TripCreator/TripCreator";
 import TripsList from "./components/TripList/TripList.js";
-import DetailsView from "./components/TripDetails/DetailsView.js";
+import DetailsView from "./components/views/TripDetails/DetailsView.js";
 import Profile from "./components/views/Profile/ProfileView";
-import TripOffered from "./components/TripOffers/TripOffered";
+import TripOffered from "./components/views/TripOffers/TripOffered";
 import ViewWaitingPassengers from "./components/ViewWaitingRequests/ViewPassengerRequest";
-import BookedTrips from "./components/BookedTrips/BookedTrips";
+import BookedTrips from "./components/views/BookedTrips/BookedTrips";
 import NotificationView from "./components/views/Notifications/NotificationView";
 import routes, {
   TRIP_WITH_ID_PATH,

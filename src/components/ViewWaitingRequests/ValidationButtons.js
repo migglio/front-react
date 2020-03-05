@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import TripSaver from "../TripSaver/TripSaver";
 
 const styles2 = theme => ({
   root: {
@@ -150,16 +149,6 @@ class ValidationButtons extends React.Component {
         >
           Rechazar
         </Button>
-        <TripSaver
-          success={"Your request has been saved"}
-          error={"Sorry, Your request has not been sent."}
-          updateSavedState={this.updateSavedState}
-          updatePendingPassengers={this.state.update}
-          selected={this.state.selected}
-          accept={this.state.accept}
-          tripData={this.state}
-          id={this.props.idTrip}
-        ></TripSaver>
       </div>
     );
   }
@@ -170,3 +159,15 @@ ValidationButtons.propTypes = {
 };
 
 export default withStyles(styles2)(ValidationButtons);
+/*
+        <TripSaver
+          success={"Your request has been saved"}
+          error={"Sorry, Your request has not been sent."}
+          updateSavedState={this.updateSavedState}
+          updatePendingPassengers={this.state.update}
+          selected={this.state.selected}
+          accept={this.state.accept}
+          tripData={this.state}
+          id={this.props.idTrip}
+        ></TripSaver>
+*/

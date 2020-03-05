@@ -144,9 +144,9 @@ const ResumeTripStep = ({
               <div className={classes.dateData}>
                 <AccessTime color="primary" />
                 <Typography variant="title" style={{ fontWeight: 500 }}>
-                  {`${moment(tripData.date)
-                    .lang("es")
-                    .format("dddd DD MMMM YYYY")} ${tripData.time}`}
+                  {`${moment(tripData.date).format("dddd DD MMMM YYYY")} ${
+                    tripData.time
+                  }`}
                 </Typography>
               </div>
             )}

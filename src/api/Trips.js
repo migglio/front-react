@@ -12,15 +12,20 @@ const trips = () => {
       return response.data;
     },
     getOwnTrip: async (id, data) => {
-      const response = await axios.get(url.api + "trips/ownTrips", {
-        params: data
-      });
+      const response = await axios.get(
+        url.api +
+          `trips/user/${id}?isOwner={true}
+      `,
+        {
+          params: data
+        }
+      );
       return response.data;
     },
-    getBookedTrip: async (id, data) => {
-      const response = await axios.get(url.api + "trips/bookedTrips", {
-        params: data
-      });
+    getBookedTrip: async id => {
+      const response = await axios.get(
+        url.api + `trips/user/${id}?isPassenger=true`
+      );
       return response.data;
       /*.then(
         (response) => (response.data) 
@@ -60,7 +65,8 @@ const trips = () => {
       data.steps[0].date = data.date;
       data.steps[0].time = data.time;
       data.steps[0].price = data.price;
-      data.steps[0].passengers.total = data.seats;
+      data.steps[0].passengers.total =
+        data.seats - data.steps[0].passengers.users.length;
       const userData = {
         owner: data.owner,
         steps: data.steps,

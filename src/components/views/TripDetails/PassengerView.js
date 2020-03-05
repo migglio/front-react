@@ -12,7 +12,7 @@ const styles = theme => ({
   }
 });
 
-const PassengerView = ({ idTrip, tripData, passengers, request }) => {
+const PassengerView = ({ idTrip, request, tripData, steps }) => {
   return (
     <div
       style={{
@@ -33,7 +33,7 @@ const PassengerView = ({ idTrip, tripData, passengers, request }) => {
         subtitle="confirmed"
         idTrip={idTrip}
         tripData={tripData}
-        passengers={passengers}
+        steps={steps}
         request={request}
       />
     </div>

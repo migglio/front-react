@@ -13,6 +13,8 @@ import PreferenceDriverStep from "./PreferenceDriverStep/PreferenceDriverStep.js
 import ResumeTripStep from "./resumeTripStep/ResumeTripStep.js";
 import TripSaverStep from "./tripSaverStep/TripSaverStep.js";
 
+const moment = require("moment");
+
 let styles = {
   root: {
     display: "flex",
@@ -70,8 +72,8 @@ const TripCreator = ({ classes }) => {
   const [owner, setOwner] = useState(Auth.getUserID());
 
   const [steps, setSteps] = useState(null);
-  const [date, setDate] = useState(null);
-  const [time, setTime] = useState(null);
+  const [date, setDate] = useState(new Date().toISOString());
+  const [time, setTime] = useState("12:00");
 
   const [price, setPrice] = useState(null);
   const [seats, setSeats] = useState(null);
@@ -84,6 +86,8 @@ const TripCreator = ({ classes }) => {
   const [loaded, setLoaded] = useState(false);
 
   const id = useGetPath(2);
+
+  console.log(date);
 
   const getTrip = async id => {
     const response = await trips().getTrip(id);
@@ -158,8 +162,6 @@ const TripCreator = ({ classes }) => {
     food,
     details
   };
-
-  console.log("details", details);
 
   return (
     <>
