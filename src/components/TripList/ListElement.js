@@ -24,6 +24,7 @@ import url from "../../config";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ButtonPanel from "./ButtonPanel";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import StarIcon from "@material-ui/icons/Star";
 
 const styles2 = theme => ({
   root: {
@@ -65,7 +66,12 @@ const styles2 = theme => ({
     padding: "1% 3% 1% 1%"
   },
   columnFlex1: {
-    "flex-grow": "1"
+    "flex-grow": "1",
+    maxWidth: 100,
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly"
   },
   columnFlex4: {
     "flex-grow": "3",
@@ -142,7 +148,9 @@ class ListElement extends React.Component {
               <div>
                 <Typography style={{ fontWeight: 600 }}>
                   {this.state.userLoaded ? (
-                    this.state.userData.count + " viajes publicados"
+                    <div style={{ alignItems: "center", display: "flex" }}>
+                      {this.state.userData.count} <StarIcon />
+                    </div>
                   ) : (
                     <CircularProgress />
                   )}
