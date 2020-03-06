@@ -2,47 +2,50 @@ import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import PassengerView from "../views/TripDetails/PassengerView";
 import { trips } from "../../api/Trips";
-
-const queryString = require("query-string");
+import { useLocation } from "react-router-dom";
+import { useGetPath } from "../../libs/urlParams";
+import queryString from "query-string";
 
 const styles = theme => ({
   root: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%"
   }
 });
 
-const ViewWaitingPassengers = ({ classes, location }) => {
-  const idTrip = queryString.parse(location.search);
+const ViewWaitingPassengers = ({ classes }) => {
+  const location = useLocation();
+
+  console.log(location.search);
+  const { id } = queryString.parse(location.search);
+
   //const [checked, setChecked] = useState([]);
-  const [steps, setSteps] = useState([]);
-  const [passengers, setPassengers] = useState([]);
-  //const [total, setTotal] = useState(0);
+  const [data, setData] = useState(null);
+  const [steps, setSteps] = useState(null);
   const [loaded, setLoaded] = useState(false);
+
+  console.log(useGetPath(1), useGetPath(0));
+  const getTrip = async id => {
+    const response = await trips().getTrip(id);
+
+    setData(response);
+    setSteps(response.steps);
+    setLoaded(true);
+  };
 
   //Carga de Datos
   useEffect(() => {
-    const asyncFunction = async () => {
-      const response = await trips().getTrip(idTrip.id);
-      setSteps(response.steps);
-      setPassengers(response.steps[0].passengers);
-      setLoaded(true);
-    };
-    asyncFunction();
-  }, [idTrip]);
+    getTrip(id);
+  }, [id]);
 
   console.log("entra");
 
   return (
-    <div style={{ display: "flex", textAlign: "center", alignItems: "center" }}>
+    <div className={classes.root}>
       {loaded ? (
-        <PassengerView
-          idTrip={idTrip.id}
-          tripData={{ steps: steps }}
-          request={true}
-          passengers={passengers}
-        />
+        <PassengerView tripData={data} request={true} steps={steps} />
       ) : null}
     </div>
   );
