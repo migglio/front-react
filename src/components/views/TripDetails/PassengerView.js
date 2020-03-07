@@ -12,7 +12,7 @@ const styles = theme => ({
   }
 });
 
-const PassengerView = ({ idTrip, request, tripData, steps }) => {
+const PassengerView = ({ request, onChange, steps }) => {
   return (
     <div
       style={{
@@ -31,8 +31,7 @@ const PassengerView = ({ idTrip, request, tripData, steps }) => {
       </Paper>
       <SinglePassengerView
         subtitle="confirmed"
-        idTrip={idTrip}
-        tripData={tripData}
+        onChange={onChange}
         steps={steps}
         request={request}
       />

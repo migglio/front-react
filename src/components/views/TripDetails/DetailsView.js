@@ -167,7 +167,7 @@ const DetailsView = ({ classes }) => {
             <div className={classes.tripContainer}>
               <div className={classes.tripColumn}>
                 <ResumeTrip tripData={data} open={true} />
-                <PassengerView seats={seats} steps={steps} request={false} />
+                <PassengerView steps={steps} request={false} />
                 {checkPassengers() && (
                   <ButtonRequest
                     past={new Date(steps[0].date) < new Date()}

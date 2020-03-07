@@ -24,14 +24,7 @@ const styles = theme => ({
   }
 });
 
-const SinglePassengerView = ({
-  classes,
-  theme,
-  idTrip,
-  tripData,
-  steps,
-  request
-}) => {
+const SinglePassengerView = ({ classes, theme, onChange, steps, request }) => {
   const [checked, setChecked] = useState([]);
   const [value, setValue] = useState(0);
   const [loaded, setLoaded] = useState(false);
@@ -62,9 +55,29 @@ const SinglePassengerView = ({
     //eslint-disable-next-line
   }, [steps]);
 
-  //this method is called when a confirm or deny button is clicked
-  const getSelected = callback => {
-    //callback(passengers, checked);
+  //method called when the confirm button is clicked
+  const confirmPassengers = () => {
+    const passengers = steps[0].passengers;
+    const users = passengers.pendingUsers.filter((user, index) => {
+      if (checked.includes(index)) return user;
+      return false;
+    });
+    passengers.pendingUsers = passengers.pendingUsers.filter((user, index) => {
+      if (!checked.includes(index)) return user;
+      return false;
+    });
+    passengers.users = passengers.users.concat(users);
+    if (onChange) onChange(steps);
+  };
+
+  //method called when the deny button is clicked
+  const denyPassengers = () => {
+    const passengers = steps[0].passengers;
+    passengers.pendingUsers = passengers.pendingUsers.filter((user, index) => {
+      if (!checked.includes(index)) return user;
+      return false;
+    });
+    if (onChange) onChange(steps);
   };
 
   return (
@@ -114,7 +127,10 @@ const SinglePassengerView = ({
       {value === 1 && request ? (
         <ValidationButtons
           disabled={checked.length === 0}
-          getSelected={getSelected}
+          confirmPassengers={confirmPassengers}
+          denyPassengers={denyPassengers}
+          onChange={onChange}
+          steps={steps}
         />
       ) : null}
     </div>

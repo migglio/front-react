@@ -18,11 +18,10 @@ const styles = theme => ({
 const ViewWaitingPassengers = ({ classes }) => {
   const location = useLocation();
 
-  console.log(location.search);
   const { id } = queryString.parse(location.search);
 
   //const [checked, setChecked] = useState([]);
-  const [data, setData] = useState(null);
+  //const [data, setData] = useState(null);
   const [steps, setSteps] = useState(null);
   const [loaded, setLoaded] = useState(false);
 
@@ -30,7 +29,6 @@ const ViewWaitingPassengers = ({ classes }) => {
   const getTrip = async id => {
     const response = await trips().getTrip(id);
 
-    setData(response);
     setSteps(response.steps);
     setLoaded(true);
   };
@@ -40,12 +38,20 @@ const ViewWaitingPassengers = ({ classes }) => {
     getTrip(id);
   }, [id]);
 
-  console.log("entra");
+  const handleStepsChange = steps => {
+    console.log("entra steps change", steps);
+    setSteps({ ...steps });
+    //TODO: ACTUALIZAR DB
+  };
 
   return (
     <div className={classes.root}>
       {loaded ? (
-        <PassengerView tripData={data} request={true} steps={steps} />
+        <PassengerView
+          onChange={handleStepsChange}
+          request={true}
+          steps={steps}
+        />
       ) : null}
     </div>
   );
