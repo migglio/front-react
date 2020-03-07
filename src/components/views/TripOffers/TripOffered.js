@@ -41,7 +41,8 @@ const TripOffered = ({ classes }) => {
   //Carga de Datos
   useEffect(() => {
     if (!loaded) getTrips();
-  }, [getTrips]);
+    //eslint-disable-next-line
+  }, [loaded]);
 
   return (
     <div className={classes.root}>

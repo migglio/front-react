@@ -18,14 +18,6 @@ import { useEffect } from "react";
 import ContentLoader from "react-content-loader";
 import { users as usersApi } from "../../../api/Users";
 
-function TabContainer({ children, dir }) {
-  return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
-      {children}
-    </Typography>
-  );
-}
-
 const styles = theme => ({
   root: {
     backgroundColor: theme.palette.background.paper
@@ -42,20 +34,37 @@ const SinglePassengerView = ({
 }) => {
   const [checked, setChecked] = useState([]);
   const [value, setValue] = useState(0);
+  const [loaded, setLoaded] = useState(false);
 
   const [users, setUsers] = useState(steps[0].passengers.users);
   const [pendingUsers, setPendingUsers] = useState(
     steps[0].passengers.pendingUsers
   );
 
+  const getUsers = async users => {
+    const result = await usersApi().getUsers(users);
+    return result;
+  };
+
+  const getUsersPendingAndConfirmed = async passengers => {
+    const users = await getUsers(steps[0].passengers.users);
+    const pending = await getUsers(steps[0].passengers.pendingUsers);
+
+    setUsers(users);
+    setPendingUsers(pending);
+  };
+
   useEffect(() => {
-    setUsers(steps[0].passengers.users);
-    setPendingUsers(steps[0].passengers.pendingUsers);
+    setLoaded(false);
+    getUsersPendingAndConfirmed(steps[0].passengers);
+    setLoaded(true);
+
+    //eslint-disable-next-line
   }, [steps]);
 
   //this method is called when a confirm or deny button is clicked
   const getSelected = callback => {
-    callback(steps[0].passengers, checked);
+    //callback(passengers, checked);
   };
 
   return (
@@ -79,33 +88,33 @@ const SinglePassengerView = ({
         index={value}
         onChangeIndex={setValue}
       >
-        <TabContainer dir={theme && theme.direction}>
-          <ListUsers
-            classes={classes}
-            checked={checked}
-            setChecked={setChecked}
-            userIds={users}
-            value={value}
-            request={request}
-          />
-        </TabContainer>
-        <TabContainer dir={theme && theme.direction}>
-          <ListUsers
-            classes={classes}
-            checked={checked}
-            setChecked={setChecked}
-            userIds={pendingUsers}
-            value={value}
-            request={request}
-          />
-        </TabContainer>
+        <ListUsers
+          index={0}
+          dir={theme && theme.direction}
+          classes={classes}
+          checked={checked}
+          setChecked={setChecked}
+          users={users ? users : []}
+          value={value}
+          request={request}
+          isLoading={!loaded}
+        />
+        <ListUsers
+          index={1}
+          dir={theme && theme.direction}
+          classes={classes}
+          checked={checked}
+          setChecked={setChecked}
+          users={pendingUsers ? pendingUsers : []}
+          value={value}
+          request={request}
+          isLoading={!loaded}
+        />
       </SwipeableViews>
       {value === 1 && request ? (
         <ValidationButtons
           disabled={checked.length === 0}
           getSelected={getSelected}
-          tripData={tripData}
-          idTrip={idTrip}
         />
       ) : null}
     </div>
@@ -116,29 +125,16 @@ export default withStyles(styles)(SinglePassengerView);
 
 //render a list of passengers
 const ListUsers = ({
+  index,
+  dir,
   classes,
   checked,
   setChecked,
-  userIds,
+  users,
   value,
-  request
+  request,
+  isLoading
 }) => {
-  const [loaded, setLoaded] = useState(true);
-
-  const [users, setUsers] = useState([]);
-
-  const getUsers = async users => {
-    const result = await usersApi().getUsers(users);
-    return result;
-  };
-
-  //Carga de Datos
-  useEffect(async () => {
-    const result = await getUsers(userIds);
-    setLoaded(true);
-    setUsers(result);
-  }, []);
-
   //manage the checkbox
   const handleToggle = value => () => {
     const currentIndex = checked.indexOf(value);
@@ -150,11 +146,9 @@ const ListUsers = ({
     setChecked(newChecked);
   };
 
-  console.log("request", request);
-
   return (
-    <>
-      {!loaded && (
+    <div dir={dir} style={{ padding: 8 * 3 }}>
+      {isLoading && (
         <List dense className={classes.root}>
           <ListItem key={"loading-1"} button>
             <ListItemAvatar>
@@ -176,7 +170,7 @@ const ListUsers = ({
           </ListItem>
         </List>
       )}
-      {loaded && users.length === 0 && (
+      {!isLoading && users && users.length === 0 && (
         <Typography
           variant="subheading"
           style={{ color: "#054752", fontWeight: 700, padding: "1%" }}
@@ -184,7 +178,7 @@ const ListUsers = ({
           No hay ningún pasajero
         </Typography>
       )}
-      {loaded && users.length > 0 && (
+      {!isLoading && users && users.length > 0 && (
         <div style={{ justifyContent: "center" }}>
           <List dense className={classes.root}>
             {users.map((user, index) => (
@@ -206,6 +200,6 @@ const ListUsers = ({
           </List>
         </div>
       )}
-    </>
+    </div>
   );
 };

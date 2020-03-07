@@ -15,8 +15,6 @@ const styles = theme => ({
 const DateSelector = ({ date, onChange, classes }) => {
   const [value, setValue] = useState(date);
 
-  console.log("vlaue", value);
-
   const handleDateChange = event => {
     setValue(event.target.value);
     if (onChange) onChange(event.target.value);

@@ -51,6 +51,7 @@ const ProfileResume = ({ classes, ownerId }) => {
   //Carga de Datos
   useEffect(() => {
     getUser(ownerId);
+    //eslint-disable-next-line
   }, []);
 
   return (

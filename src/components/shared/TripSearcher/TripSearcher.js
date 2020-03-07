@@ -47,7 +47,6 @@ const TripSearcher = props => {
   const { classes } = props;
 
   const updateFrom = value => {
-    console.log("update from", value);
     setFrom(value.placeId);
   };
 
@@ -61,7 +60,6 @@ const TripSearcher = props => {
 
   let params =
     "from=" + (from ? from : "") + "&to=" + (to ? to : "") + "&date=" + date;
-  console.log("params", params);
   return (
     <div className={classes.root}>
       <div className={classes.container}>

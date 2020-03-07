@@ -52,7 +52,6 @@ const PublicRoutes = () => {
 };
 
 const App = () => {
-  console.log("anda", theme);
   return (
     <>
       <CssBaseline />

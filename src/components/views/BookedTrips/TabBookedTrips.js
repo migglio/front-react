@@ -87,7 +87,6 @@ class TabBookedTrips extends React.Component {
   }
 
   render() {
-    console.log("props", this.props);
     const { classes, theme } = this.props;
     return (
       <div className={classes.root}>

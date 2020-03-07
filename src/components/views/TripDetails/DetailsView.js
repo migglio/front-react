@@ -99,7 +99,6 @@ const DetailsView = ({ classes }) => {
 
   const getTrip = async id => {
     const response = await trips().getTrip(id);
-    console.log(response);
     setSteps(response.steps);
     setDate(response.steps[0].date);
     setTime(response.steps[0].time);
@@ -114,26 +113,33 @@ const DetailsView = ({ classes }) => {
   };
 
   const putTrips = async id => {
-    const response = await trips().putTrips(id, data);
+    await trips().putTrips(id, data);
     setUpdate(false);
   };
 
   //Carga de Datos
   useEffect(() => {
     getTrip(id);
+
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     if (update) putTrips(id);
+    //eslint-disable-next-line
   }, [update]);
 
   const joinToTheTrip = () => {
     //add the id of the new User
+    let users = steps[0].passengers.users;
+    let pendingUsers = steps[0].passengers.pendingUsers;
     if (reservation) {
-      steps[0].passengers.users.push(Auth.getUserID());
+      users.push(Auth.getUserID());
       setSeats(seats - 1);
-    } else steps[0].passengers.pendingUsers.push(Auth.getUserID());
-    setSteps(steps);
+    } else pendingUsers.push(Auth.getUserID());
+
+    const newSteps = steps.slice();
+    setSteps(newSteps);
     setUpdate(true);
   };
 
@@ -161,7 +167,7 @@ const DetailsView = ({ classes }) => {
             <div className={classes.tripContainer}>
               <div className={classes.tripColumn}>
                 <ResumeTrip tripData={data} open={true} />
-                <PassengerView tripData={data} request={false} steps={steps} />
+                <PassengerView seats={seats} steps={steps} request={false} />
                 {checkPassengers() && (
                   <ButtonRequest
                     past={new Date(steps[0].date) < new Date()}

@@ -72,7 +72,7 @@ const TripCreator = ({ classes }) => {
   const [owner, setOwner] = useState(Auth.getUserID());
 
   const [steps, setSteps] = useState(null);
-  const [date, setDate] = useState(new Date().toISOString());
+  const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [time, setTime] = useState("12:00");
 
   const [price, setPrice] = useState(null);
@@ -87,11 +87,8 @@ const TripCreator = ({ classes }) => {
 
   const id = useGetPath(2);
 
-  console.log(date);
-
   const getTrip = async id => {
     const response = await trips().getTrip(id);
-    console.log(response);
     setSteps(response.steps);
     setOwner(response.owner);
     setDate(response.steps[0].date);
