@@ -84,6 +84,15 @@ const trips = () => {
         console.error(error);
         return { success: false };
       }
+    },
+    deleteTrip: async id => {
+      try {
+        await axios.delete(url.api + "trips/" + id);
+        return { success: true };
+      } catch (error) {
+        console.error(error);
+        return { success: false };
+      }
     }
   };
 };

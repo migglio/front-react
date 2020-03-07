@@ -3,7 +3,6 @@ import { withStyles } from "@material-ui/core/styles";
 import PassengerView from "../views/TripDetails/PassengerView";
 import { trips } from "../../api/Trips";
 import { useLocation } from "react-router-dom";
-import { useGetPath } from "../../libs/urlParams";
 import queryString from "query-string";
 
 const styles = theme => ({
@@ -20,15 +19,13 @@ const ViewWaitingPassengers = ({ classes }) => {
 
   const { id } = queryString.parse(location.search);
 
-  //const [checked, setChecked] = useState([]);
-  //const [data, setData] = useState(null);
+  const [data, setData] = useState(null);
   const [steps, setSteps] = useState(null);
   const [loaded, setLoaded] = useState(false);
 
-  console.log(useGetPath(1), useGetPath(0));
   const getTrip = async id => {
     const response = await trips().getTrip(id);
-
+    setData(response);
     setSteps(response.steps);
     setLoaded(true);
   };
@@ -38,10 +35,16 @@ const ViewWaitingPassengers = ({ classes }) => {
     getTrip(id);
   }, [id]);
 
+  const putTrips = async (id, data) => {
+    console.log("data", data);
+    await trips().putTrips(id, data);
+    setLoaded(true);
+  };
+
   const handleStepsChange = steps => {
-    console.log("entra steps change", steps);
     setSteps({ ...steps });
-    //TODO: ACTUALIZAR DB
+    data.steps = steps;
+    putTrips(id, data);
   };
 
   return (

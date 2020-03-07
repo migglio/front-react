@@ -6,31 +6,24 @@ import Paper from "@material-ui/core/Paper";
 
 const styles = theme => ({
   root: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper
-  }
+    textAlign: "center",
+    alignItems: "center",
+    paddingTop: "2%",
+    maxWidth: "550px",
+    width: "100%"
+  },
+  title: { color: "#054752", fontWeight: 700, padding: "1%" }
 });
 
-const PassengerView = ({ request, onChange, steps }) => {
+const PassengerView = ({ classes, request, onChange, steps }) => {
   return (
-    <div
-      style={{
-        textAlign: "center",
-        alignItems: "center",
-        paddingTop: "2%"
-      }}
-    >
+    <div className={classes.root}>
       <Paper>
-        <Typography
-          variant="title"
-          style={{ color: "#054752", fontWeight: 700, padding: "1%" }}
-        >
+        <Typography variant="title" className={classes.title}>
           Pasajeros
         </Typography>
       </Paper>
       <SinglePassengerView
-        subtitle="confirmed"
         onChange={onChange}
         steps={steps}
         request={request}

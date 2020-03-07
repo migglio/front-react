@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import routes, {
   TRIP_WITH_ID_PATH,
   TRIP_CREATOR_PATH
 } from "../../constants/routes";
+import { trips } from "../../api/Trips";
 
 const styles2 = theme => ({
   root: {
@@ -62,101 +62,54 @@ const styles2 = theme => ({
   }
 });
 
-class ButtonPanel extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      newTrips: this.props.newTrips,
-      delete: false
-    };
+const ButtonPanel = ({ classes, tripData, newTrips }) => {
+  const handleDeleteById = async () => {
+    await trips().deleteTrip(tripData._id);
+  };
 
-    this.deleteById = this.deleteById.bind(this);
-    this.updateDeleteState = this.updateDeleteState.bind(this);
-  }
-
-  deleteById() {
-    this.setState({ delete: true });
-  }
-
-  updateDeleteState(value) {
-    this.setState({ delete: value });
-  }
-
-  renderButtons(type) {
-    const { classes } = this.props;
-
-    if (this.state.newTrips) return this.renderNewTrips();
-    else
-      return (
-        <div style={{ display: "flex", alignItems: "center" }}>
+  console.log("new trip", newTrips);
+  return (
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <Button
+        component={Link}
+        to={routes().trips[TRIP_WITH_ID_PATH] + "/" + tripData._id}
+        className={classes.button}
+        variant="raised"
+        id="detalles-button"
+      >
+        Detalles
+      </Button>
+      {newTrips && !tripData.reservation && (
+        <Button
+          href={"ViewWaitingPassengers?id=" + tripData._id}
+          tripData={tripData}
+          className={classes.button}
+          variant="raised"
+        >
+          Solicitudes
+        </Button>
+      )}
+      {newTrips && (
+        <>
           <Button
             component={Link}
-            to={
-              routes().trips[TRIP_WITH_ID_PATH] + "/" + this.props.tripData._id
-            }
+            to={routes().trips[TRIP_CREATOR_PATH] + "/" + tripData._id}
             className={classes.button}
             variant="raised"
-            id="detalles-button"
           >
-            Detalles
+            Editar
           </Button>
-        </div>
-      );
-  }
-
-  renderNewTrips() {
-    const { classes } = this.props;
-    return (
-      <div style={{ display: "flex", alignItems: "center" }}>
-        {!this.props.tripData.reservation ? (
           <Button
-            href={"ViewWaitingPassengers?id=" + this.props.tripData._id}
-            tripData={this.props.tripData}
+            onClick={handleDeleteById}
             className={classes.button}
             variant="raised"
           >
-            Solicitudes
+            Borrar
           </Button>
-        ) : null}
-        <Button
-          component={Link}
-          to={routes().trips[TRIP_CREATOR_PATH] + "/" + this.props.tripData._id}
-          className={classes.button}
-          variant="raised"
-        >
-          Editar
-        </Button>
-        <Button
-          onClick={this.deleteById}
-          className={classes.button}
-          variant="raised"
-        >
-          Borrar
-        </Button>
-        {/*        <TripSaver
-          tripData={this.props.tripData}
-          delete={this.state.delete}
-          updateTrip={this.state.update}
-          updateDeleteState={this.updateDeleteState}
-          success={"Your trip has been successfully deleted"}
-          error={"Sorry, Your trip has not been successfully deleted"}
-        ></TripSaver>
-      */}
-      </div>
-    );
-  }
-
-  render() {
-    return (
-      <div style={{ display: "flex", alignItems: "center" }}>
-        {this.renderButtons(true)}
-      </div>
-    );
-  }
-}
-
-ButtonPanel.propTypes = {
-  classes: PropTypes.object.isRequired
+        </>
+      )}
+    </div>
+  );
 };
 
 export default withStyles(styles2)(ButtonPanel);
