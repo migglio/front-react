@@ -7,7 +7,7 @@ it("Loggs in", function() {
     .type("demo");
   cy.get("#password-text-field")
     .click()
-    .type("demo1234");
+    .type("demo123");
   cy.get("#login-page-button").click();
   cy.wait(5000);
   cy.url().should("include", "");
