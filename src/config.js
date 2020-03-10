@@ -1,6 +1,6 @@
 import Auth from "./components/Auth/Auth.js";
 
-const localhost = true;
+const localhost = false;
 
 const config = localhost
   ? {
