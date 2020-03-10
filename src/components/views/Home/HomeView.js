@@ -3,6 +3,7 @@ import { withStyles } from "material-ui/styles";
 import RegisterNewTrip from "./NewTripSection";
 import Background from "../../../images/driver-woman.jpeg";
 import TripSearcher from "../../shared/TripSearcher/TripSearcher";
+import Footer from "../../shared/footer/Footer";
 
 const styles = theme => ({
   root: {
@@ -27,6 +28,7 @@ const HomeView = props => {
         </div>
       </div>
       <RegisterNewTrip />
+      <Footer />
     </>
   );
 };

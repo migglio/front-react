@@ -4,6 +4,8 @@ import PassengerView from "../views/TripDetails/PassengerView";
 import { trips } from "../../api/Trips";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
+import { notifications } from "../../api/Notifications";
+import Auth from "../Auth/Auth";
 
 const styles = theme => ({
   root: {
@@ -41,10 +43,17 @@ const ViewWaitingPassengers = ({ classes }) => {
     setLoaded(true);
   };
 
-  const handleStepsChange = steps => {
+  const postNotification = async (owner, idTrip, type, users) => {
+    await notifications().postNotification(owner, idTrip, type, users);
+    setLoaded(true);
+  };
+
+  const handleStepsChange = (steps, users, notificationType) => {
     setSteps({ ...steps });
     data.steps = steps;
     putTrips(id, data);
+    postNotification(Auth.getUserID(), id, notificationType, users);
+    console.log("notification", Auth.getUserID(), id, notificationType, users);
   };
 
   return (

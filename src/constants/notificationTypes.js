@@ -11,7 +11,7 @@ export const userJoined = 5;
 //type descriptions
 //to passengers
 export const tripEditedDescription =
-  "ha modificado un viaje en el que te encuentras registrado. ¡Confirma que aún estas interesado en viajar!";
+  "ha modificado un viaje en el que te encuentras registrado";
 export const tripDeletedDescription =
   "ha eliminado un viaje en el que te encuentras registrado";
 export const tripAcceptedDescription =

@@ -6,7 +6,9 @@ import routes, {
   TRIP_WITH_ID_PATH,
   TRIP_CREATOR_PATH
 } from "../../constants/routes";
-import { trips } from "../../api/Trips";
+import Auth from "../Auth/Auth";
+import { tripDeleted } from "../../constants/notificationTypes";
+import { notifications } from "../../api/Notifications";
 
 const styles2 = theme => ({
   root: {
@@ -63,11 +65,21 @@ const styles2 = theme => ({
 });
 
 const ButtonPanel = ({ classes, tripData, newTrips }) => {
-  const handleDeleteById = async () => {
-    await trips().deleteTrip(tripData._id);
+  const postNotification = async (owner, idTrip, type, users) => {
+    await notifications().postNotification(owner, idTrip, type, users);
   };
 
-  console.log("new trip", newTrips);
+  const handleDeleteById = async () => {
+    //await trips().deleteTrip(tripData._id);
+    console.log(tripData);
+    const users =
+      tripData.steps[0].passengers.users.concat[
+        tripData.steps[0].passengers.pendingUsers
+      ];
+    console.log(users);
+    postNotification(Auth.getUserID(), tripData._id, tripDeleted, users);
+  };
+
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       <Button

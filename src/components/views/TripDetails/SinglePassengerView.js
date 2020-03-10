@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import ContentLoader from "react-content-loader";
 import { users as usersApi } from "../../../api/Users";
+import { tripAccepted } from "../../../constants/notificationTypes";
 
 const styles = theme => ({
   root: {
@@ -67,7 +68,7 @@ const SinglePassengerView = ({ classes, theme, onChange, steps, request }) => {
       return false;
     });
     passengers.users = passengers.users.concat(users);
-    if (onChange) onChange(steps);
+    if (onChange) onChange(steps, users, tripAccepted);
   };
 
   //method called when the deny button is clicked
@@ -77,7 +78,11 @@ const SinglePassengerView = ({ classes, theme, onChange, steps, request }) => {
       if (!checked.includes(index)) return user;
       return false;
     });
-    if (onChange) onChange(steps);
+    const users = passengers.pendingUsers.filter((user, index) => {
+      if (checked.includes(index)) return user;
+      return false;
+    });
+    if (onChange) onChange(steps, users, tripAccepted);
   };
 
   return (

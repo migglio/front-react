@@ -55,13 +55,14 @@ const moment = require("moment");
 let anchorEl = null;
 
 const NotificationsMenu = props => {
+  const userLogged = Auth.getUserID();
   const [notifications, setNotifications] = useState([]);
   const [open, setOpen] = useState(false);
   const [invisible, setInvisible] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   const getNotifications = async () => {
-    const response = await notificationsApi().getNotifications(
+    const response = await notificationsApi().getNotificationsNotRead(
       Auth.getUserID()
     );
     setNotifications(response);
@@ -70,8 +71,8 @@ const NotificationsMenu = props => {
 
   //Carga de Datos
   useEffect(() => {
-    getNotifications();
-  }, []);
+    if (userLogged) getNotifications();
+  }, [userLogged]);
 
   //mark every notifications as read
   const markAsRead = () => {
@@ -109,7 +110,6 @@ const NotificationsMenu = props => {
             <Typography
               className={classes.root}
               variant="body1"
-              gutterBottom
               style={{
                 alignItems: "left",
                 color: "#21212",
@@ -135,7 +135,7 @@ const NotificationsMenu = props => {
                       variant="caption"
                       style={{ color: "#212121", padding: "1%" }}
                     >
-                      <b>{item.nickname} </b>
+                      <b>{item.owner.nickname.toUpperCase()} </b>
                       {notificationDescriptionsManager[item.type]}
                       <br />
                       <b>{moment(item.date).format("LLLL")}</b>

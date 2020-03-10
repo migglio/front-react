@@ -8,6 +8,11 @@ import PassengerView from "./PassengerView";
 import Auth from "../../Auth/Auth.js";
 import { withStyles } from "@material-ui/core/styles";
 import { trips } from "../../../api/Trips.js";
+import {
+  userJoined,
+  userPending
+} from "../../../constants/notificationTypes.js";
+import { notifications } from "../../../api/Notifications.js";
 
 const styles = theme => ({
   root: {
@@ -117,6 +122,11 @@ const DetailsView = ({ classes }) => {
     setUpdate(false);
   };
 
+  const postNotification = async (owner, idTrip, type, users) => {
+    await notifications().postNotification(owner, idTrip, type, users);
+    setLoaded(true);
+  };
+
   //Carga de Datos
   useEffect(() => {
     getTrip(id);
@@ -125,7 +135,11 @@ const DetailsView = ({ classes }) => {
   }, []);
 
   useEffect(() => {
-    if (update) putTrips(id);
+    const notificationType = reservation ? userJoined : userPending;
+    if (update) {
+      putTrips(id);
+      postNotification(Auth.getUserID(), id, notificationType, [owner]);
+    }
     //eslint-disable-next-line
   }, [update]);
 

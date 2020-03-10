@@ -4,7 +4,6 @@ import Typography from "material-ui/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Paper } from "@material-ui/core";
 import List from "@material-ui/core/List";
-import NotificationButtons from "./NotificationButtons";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { notifications as notificacionsApi } from "../../../api/Notifications";
 import { notificationDescriptionsManager } from "../../../constants/notificationTypes";
@@ -15,6 +14,7 @@ import listEmpty from "../../../images/listEmpty.svg";
 const styles = theme => ({
   root: {
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     padding: 16
@@ -109,7 +109,6 @@ const NotificationView = ({ classes }) => {
             <Typography
               className={classes.centerLink}
               variant="subheading"
-              gutterBottom
               style={{
                 color: "#21212",
                 fontWeight: 700,
@@ -118,48 +117,51 @@ const NotificationView = ({ classes }) => {
             >
               Notificaciones
             </Typography>
+            <Divider />
             <List className={classes.root}>
               {notifications.length > 0 &&
                 notifications.map(item => (
-                  <ul>
-                    <div className={classes.row}>
-                      <AccountCircleIcon />
+                  <div style={{ width: "100%" }}>
+                    <ul style={{ padding: "0px" }}>
+                      <div className={classes.row}>
+                        <AccountCircleIcon />
 
-                      <Typography
-                        variant="caption"
-                        style={{ color: "#212121", padding: "1%" }}
-                      >
-                        <b>{item.nickname} </b>
-                        {notificationDescriptionsManager[item.type]}
-                        <br />
-                        <b>
-                          {moment(item.date)
-                            .locale("es")
-                            .format("LLLL")}
-                        </b>
-                      </Typography>
-                      <NotificationButtons notification={item} />
-                    </div>
-                    <hr />
-                  </ul>
-                ))}
-              <ul>
-                <Divider />
-                <div className={classes.centerLink}>
-                  <div className={classes.imageContainer}>
-                    <img className={classes.image} alt="" src={listEmpty} />
+                        <Typography
+                          variant="caption"
+                          style={{ color: "#212121", padding: "1%" }}
+                        >
+                          <b>{item.owner.nickname.toUpperCase()} </b>
+                          {notificationDescriptionsManager[item.type]}
+                          <br />
+                          <b>
+                            {moment(item.date)
+                              .locale("es")
+                              .format("LLLL")}
+                          </b>
+                        </Typography>
+                      </div>
+                      <hr />
+                    </ul>
                   </div>
-                </div>
+                ))}
+              {notifications.length === 0 && (
+                <ul>
+                  <Divider />
+                  <div className={classes.centerLink}>
+                    <div className={classes.imageContainer}>
+                      <img className={classes.image} alt="" src={listEmpty} />
+                    </div>
+                  </div>
 
-                <Typography
-                  className={classes.centerLink}
-                  variant="caption"
-                  gutterBottom
-                  style={{ color: "#21212", fontWeight: 700, padding: "1%" }}
-                >
-                  No tienes mas notificaciones
-                </Typography>
-              </ul>
+                  <Typography
+                    className={classes.centerLink}
+                    variant="caption"
+                    style={{ color: "#21212", fontWeight: 700, padding: "1%" }}
+                  >
+                    No tienes mas notificaciones
+                  </Typography>
+                </ul>
+              )}
             </List>
           </Paper>
         </div>

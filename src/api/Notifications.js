@@ -4,13 +4,23 @@ import handleServerResponse from "../response";
 
 const notifications = () => {
   return {
-    getNotifications: async data => {
+    getNotifications: async id => {
       try {
         const response = await axios.get(
-          url.api + "notifications/notReadNotifications",
-          {
-            params: { userId: data.userId }
-          }
+          url.api + `notifications/user/${id}?notRead=false`
+        );
+        return response.data;
+      } catch (error) {
+        handleServerResponse(
+          error,
+          "An error occured when getting the notification data"
+        );
+      }
+    },
+    getNotificationsNotRead: async id => {
+      try {
+        const response = await axios.get(
+          url.api + `notifications/user/${id}?notRead=true`
         );
         return response.data;
       } catch (error) {
@@ -29,7 +39,7 @@ const notifications = () => {
           users: users
         };
         const response = await axios.post(
-          url.api + "/notifications/newNotification",
+          url.api + "/notifications",
           userData,
           url.config
         );

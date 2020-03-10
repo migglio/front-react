@@ -7,6 +7,9 @@ import requestFailed from "../../../../images/requestFailed.svg";
 import ContentLoader from "react-content-loader";
 import { trips } from "../../../../api/Trips";
 import { useGetPath } from "../../../../libs/urlParams";
+import Auth from "../../../Auth/Auth";
+import { tripEdited } from "../../../../constants/notificationTypes";
+import { notifications } from "../../../../api/Notifications";
 
 const styles = theme => ({
   root: {
@@ -50,9 +53,20 @@ const TripSaverStep = ({ classes, tripData }) => {
     setLoaded(true);
   };
 
+  const postNotification = async (owner, idTrip, type, users) => {
+    await notifications().postNotification(owner, idTrip, type, users);
+    setLoaded(true);
+  };
+
   useEffect(() => {
-    if (id) putTrips(id);
-    else postTrips();
+    if (id) {
+      const users =
+        tripData.steps[0].passengers.users.concat[
+          tripData.tripData.steps[0].passengers.pendingUsers
+        ];
+      putTrips(id);
+      postNotification(Auth.getUserID(), id, tripEdited, users);
+    } else postTrips();
     //eslint-disable-next-line
   }, []);
 
