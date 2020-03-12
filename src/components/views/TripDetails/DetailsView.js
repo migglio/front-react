@@ -77,6 +77,7 @@ const DetailsView = ({ classes }) => {
   const [seats, setSeats] = useState(null);
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
+  const [price, setPrice] = useState(null);
   const [reservation, setReservation] = useState(false);
   const [food, setFood] = useState(false);
   const [mate, setMate] = useState(false);
@@ -92,6 +93,7 @@ const DetailsView = ({ classes }) => {
     steps,
     seats,
     date,
+    price,
     time,
     reservation,
     food,
@@ -107,6 +109,7 @@ const DetailsView = ({ classes }) => {
     setSteps(response.steps);
     setDate(response.steps[0].date);
     setTime(response.steps[0].time);
+    setPrice(response.steps[0].price);
     setSeats(response.steps[0].passengers.total);
     setReservation(response.automaticReservation);
     setFood(response.food);

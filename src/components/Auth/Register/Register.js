@@ -7,11 +7,23 @@ import { ListGroupItem } from "react-bootstrap";
 import axios from "axios";
 import url from "../../../config";
 import TextField from "@material-ui/core/TextField";
-import { Paper, Typography } from "@material-ui/core";
+import { Paper, Typography, withStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
 const NotificationSystem = require("react-notification-system");
 
+const styles = theme => ({
+  paper: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    padding: 1,
+    marginTop: 15,
+    width: "90%",
+    "@media (min-width:1366px)": {
+      width: "25%"
+    }
+  }
+});
 class Register extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -127,16 +139,9 @@ class Register extends React.Component {
   }
 
   render() {
+    const classes = this.props.classes;
     return (
-      <Paper
-        style={{
-          width: "25%",
-          marginLeft: "auto",
-          marginRight: "auto",
-          padding: 1,
-          marginTop: 15
-        }}
-      >
+      <Paper className={classes.paper}>
         <form className="demoForm" onSubmit={this.handleSubmit}>
           {this.state.redirect}
           <NotificationSystem ref="notificationSystem" />
@@ -290,4 +295,4 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+export default withStyles(styles)(Register);

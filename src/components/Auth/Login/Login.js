@@ -1,4 +1,5 @@
 import React from "react";
+import { withStyles } from "@material-ui/core";
 import "./Form.css";
 import Auth from "../Auth.js";
 import { Redirect } from "react-router-dom";
@@ -10,6 +11,19 @@ import Button from "@material-ui/core/Button";
 import { Paper } from "@material-ui/core";
 
 const NotificationSystem = require("react-notification-system");
+
+const styles = theme => ({
+  paper: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    padding: 1,
+    marginTop: 15,
+    width: "90%",
+    "@media (min-width:1366px)": {
+      width: "25%"
+    }
+  }
+});
 
 class Login extends React.Component {
   constructor(props) {
@@ -115,16 +129,10 @@ class Login extends React.Component {
   }
 
   render() {
+    const classes = this.props.classes;
+
     return (
-      <Paper
-        style={{
-          width: "25%",
-          marginLeft: "auto",
-          marginRight: "auto",
-          padding: 1,
-          marginTop: 15
-        }}
-      >
+      <Paper className={classes.paper}>
         <div
           style={{
             textAlign: "center",
@@ -272,4 +280,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default withStyles(styles)(Login);

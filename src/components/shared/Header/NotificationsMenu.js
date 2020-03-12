@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
@@ -15,6 +15,7 @@ import Auth from "../../Auth/Auth";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { notifications as notificationsApi } from "../../../api/Notifications";
 import { notificationDescriptionsManager } from "../../../constants/notificationTypes";
+import { Divider } from "material-ui";
 
 const styles = theme => ({
   root: {
@@ -23,6 +24,18 @@ const styles = theme => ({
     alignItems: "left",
     justifyContent: "center",
     zIndex: 2
+  },
+  notificationsSize: {
+    maxWidth: "90vw",
+    maxHeight: "80vh",
+    width: "400px",
+    overflow: "auto"
+  },
+  title: {
+    alignItems: "left",
+    color: "#21212",
+    fontWeight: 700,
+    padding: "1%"
   },
   button: { color: "#fff" },
   centerLink: {
@@ -104,19 +117,10 @@ const NotificationsMenu = props => {
     const { classes } = props;
 
     return (
-      <Fragment>
+      <div className={classes.notificationsSize}>
         {loaded ? (
-          <div>
-            <Typography
-              className={classes.root}
-              variant="body1"
-              style={{
-                alignItems: "left",
-                color: "#21212",
-                fontWeight: 700,
-                padding: "1%"
-              }}
-            >
+          <>
+            <Typography className={classes.title} variant="body1">
               Notificaciones
             </Typography>
             <a className={classes.rightLink} href="/" onClick={markAsRead}>
@@ -124,7 +128,8 @@ const NotificationsMenu = props => {
                 Marcar todas como leidas
               </Typography>
             </a>
-            <hr />
+            <Divider />
+
             {notifications.length > 0 ? (
               notifications.map(item => (
                 <div>
@@ -133,7 +138,10 @@ const NotificationsMenu = props => {
 
                     <Typography
                       variant="caption"
-                      style={{ color: "#212121", padding: "1%" }}
+                      style={{
+                        color: "#212121",
+                        padding: "1%"
+                      }}
                     >
                       <b>{item.owner.nickname.toUpperCase()} </b>
                       {notificationDescriptionsManager[item.type]}
@@ -141,7 +149,7 @@ const NotificationsMenu = props => {
                       <b>{moment(item.date).format("LLLL")}</b>
                     </Typography>
                   </MenuItem>
-                  <hr />
+                  <Divider />
                 </div>
               ))
             ) : (
@@ -149,22 +157,21 @@ const NotificationsMenu = props => {
                 <Typography
                   className={classes.centerLink}
                   variant="subheading"
-                  gutterBottom
                   style={{ color: "#21212", fontWeight: 700, padding: "1%" }}
                 >
                   No tienes nuevas notificaciones
                 </Typography>
-                <hr />
+                <Divider />
               </div>
             )}
             <a className={classes.centerLink} href="/NotificationView">
               Ver todas
             </a>
-          </div>
+          </>
         ) : (
           <CircularProgress />
         )}
-      </Fragment>
+      </div>
     );
   };
 
@@ -172,53 +179,51 @@ const NotificationsMenu = props => {
 
   return (
     <div className={classes.root}>
-      <div>
-        <Button
-          className={classes.button}
-          buttonRef={node => {
-            anchorEl = node;
-          }}
-          aria-owns={open ? "menu-list-grow" : undefined}
-          aria-haspopup="true"
-          onClick={handleToggle}
-        >
-          {!invisible && notifications.length > 0 ? (
-            <Badge
-              color="error"
-              badgeContent={notifications.length}
-              className={classes.margin}
-            >
-              <Notifications />
-            </Badge>
-          ) : (
+      <Button
+        className={classes.button}
+        buttonRef={node => {
+          anchorEl = node;
+        }}
+        aria-owns={open ? "menu-list-grow" : undefined}
+        aria-haspopup="true"
+        onClick={handleToggle}
+      >
+        {!invisible && notifications.length > 0 ? (
+          <Badge
+            color="error"
+            badgeContent={notifications.length}
+            className={classes.margin}
+          >
             <Notifications />
-          )}
-        </Button>
-        <Popper
-          open={open}
-          placement={"bottom-end"}
-          anchorEl={anchorEl}
-          transition
-          disablePortal
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              id="menu-list-grow"
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList>{renderNotifications()}</MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-      </div>
+          </Badge>
+        ) : (
+          <Notifications />
+        )}
+      </Button>
+      <Popper
+        open={open}
+        placement={"bottom-end"}
+        anchorEl={anchorEl}
+        transition
+        disablePortal
+      >
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            id="menu-list-grow"
+            style={{
+              transformOrigin:
+                placement === "bottom" ? "center top" : "center bottom"
+            }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList>{renderNotifications()}</MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
     </div>
   );
 };

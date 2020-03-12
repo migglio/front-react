@@ -27,6 +27,7 @@ const ViewWaitingPassengers = ({ classes }) => {
 
   const getTrip = async id => {
     const response = await trips().getTrip(id);
+    console.log(response);
     setData(response);
     setSteps(response.steps);
     setLoaded(true);
@@ -49,8 +50,10 @@ const ViewWaitingPassengers = ({ classes }) => {
   };
 
   const handleStepsChange = (steps, users, notificationType) => {
+    console.log(steps);
     setSteps({ ...steps });
     data.steps = steps;
+    console.log("sent", data, steps);
     putTrips(id, data);
     postNotification(Auth.getUserID(), id, notificationType, users);
     console.log("notification", Auth.getUserID(), id, notificationType, users);
