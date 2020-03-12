@@ -36,7 +36,7 @@ class Filters extends React.Component {
       max: this.props.max,
       min: 0,
       automaticRes: false,
-      plazasDisp: false
+      plazasDisp: true
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeAutomaticRes = this.handleChangeAutomaticRes.bind(this);

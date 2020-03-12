@@ -152,7 +152,6 @@ const DetailsView = ({ classes }) => {
     let pendingUsers = steps[0].passengers.pendingUsers;
     if (reservation) {
       users.push(Auth.getUserID());
-      setSeats(seats - 1);
     } else pendingUsers.push(Auth.getUserID());
 
     const newSteps = steps.slice();

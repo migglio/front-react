@@ -94,10 +94,7 @@ const TripCreator = ({ classes }) => {
     setDate(response.steps[0].date);
     setTime(response.steps[0].time);
     setPrice(response.steps[0].price);
-    setSeats(
-      response.steps[0].passengers.total -
-        response.steps[0].passengers.users.length
-    );
+    setSeats(response.steps[0].passengers.total);
     setCar(response.vehiculo);
     setReservation(response.automaticReservation);
     setFood(response.food);

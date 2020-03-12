@@ -69,7 +69,7 @@ const styles = theme => ({
 const moment = require("moment");
 
 const NotificationView = ({ classes }) => {
-  const [notifications, setNotifications] = useState(null);
+  const [notifications, setNotifications] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
   const getNotifications = async () => {
@@ -87,7 +87,7 @@ const NotificationView = ({ classes }) => {
       const users = notification.read;
       if (users.includes(Auth.getUserID())) {
         users.push(Auth.getUserID());
-        notifications().putNotification(notification._id, users);
+        notificacionsApi().putNotification(notification._id, users);
       }
       return true;
     });

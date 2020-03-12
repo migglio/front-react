@@ -47,7 +47,6 @@ class DrawerContainer extends React.Component {
 
   render() {
     const { classes } = this.props;
-    console.log("DATA", this.props.data);
     return (
       <div>
         <TripSearcher />
@@ -75,28 +74,28 @@ class DrawerContainer extends React.Component {
               : " "}
           </Typography>
         </Paper>
-        {this.state.trips.length > 0 && (
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <div className={classes.root}>
-              <Filters
-                trips={this.state.trips}
-                max={Math.max.apply(
-                  null,
-                  this.props.trips.map(item => item.steps[0].price)
-                )}
-                min={Math.min.apply(
-                  null,
-                  this.props.trips.map(item => item.steps[0].price)
-                )}
-                value={this.state.value}
-                filterTrips={this.filterTrips}
-              />
-            </div>
+        <div style={{ display: "flex", justifyContent: "left" }}>
+          <div className={classes.root}>
+            <Filters
+              trips={this.state.trips}
+              max={Math.max.apply(
+                null,
+                this.props.trips.map(item => item.steps[0].price)
+              )}
+              min={Math.min.apply(
+                null,
+                this.props.trips.map(item => item.steps[0].price)
+              )}
+              value={this.state.value}
+              filterTrips={this.filterTrips}
+            />
+          </div>
+          {this.state.trips.length > 0 && (
             <div className={classes.tripsContainer} id="tripContainer">
               {this.renderTrips(this.state.trips)}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     );
   }
@@ -117,7 +116,6 @@ class DrawerContainer extends React.Component {
           0
       );
     if (autRes) {
-      console.log(newTrips);
       this.setState({
         trips: newTrips.filter(
           trip =>

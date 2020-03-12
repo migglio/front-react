@@ -119,13 +119,7 @@ class ListElement extends React.Component {
 
     return (
       <div className={classes.root} id={`tripCard-${this.props.key}`}>
-        <ExpansionPanel
-          disabled={
-            this.props.tripData.steps[0].passengers.total -
-              this.props.tripData.steps[0].passengers.users.length <
-            1
-          }
-        >
+        <ExpansionPanel>
           <ExpansionPanelSummary>
             <div
               className={classNames(

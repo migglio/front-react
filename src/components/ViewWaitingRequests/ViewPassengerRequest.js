@@ -27,6 +27,7 @@ const ViewWaitingPassengers = ({ classes }) => {
 
   const getTrip = async id => {
     const response = await trips().getTrip(id);
+    response.price = response.steps[0].price;
     console.log(response);
     setData(response);
     setSteps(response.steps);
@@ -40,7 +41,7 @@ const ViewWaitingPassengers = ({ classes }) => {
 
   const putTrips = async (id, data) => {
     console.log("data", data);
-    await trips().putTrips(id, data);
+    //await trips().putTrips(id, data);
     setLoaded(true);
   };
 
