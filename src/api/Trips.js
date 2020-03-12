@@ -14,7 +14,7 @@ const trips = () => {
     getOwnTrip: async (id, data) => {
       const response = await axios.get(
         url.api +
-          `trips/user/${id}?isOwner={true}
+          `trips/user/${id}?isOwner=true
       `,
         {
           params: data
