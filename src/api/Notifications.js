@@ -6,9 +6,7 @@ const notifications = () => {
   return {
     getNotifications: async id => {
       try {
-        const response = await axios.get(
-          url.api + `notifications/user/${id}?notRead=false`
-        );
+        const response = await axios.get(url.api + `notifications/user/${id}`);
         return response.data;
       } catch (error) {
         handleServerResponse(
@@ -48,11 +46,11 @@ const notifications = () => {
         console.log(error);
       }
     },
-    markAsRead: async (idNotification, users) => {
+    putNotification: async (idNotification, users) => {
       try {
         const userData = {
           idNotification: idNotification,
-          users: users
+          read: users
         };
         const response = await axios.post(
           url.api + "api/notifications/" + idNotification,

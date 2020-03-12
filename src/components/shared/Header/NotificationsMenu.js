@@ -88,12 +88,12 @@ const NotificationsMenu = props => {
   }, [userLogged]);
 
   //mark every notifications as read
-  const markAsRead = () => {
+  const markNotificationsAsRead = () => {
     notifications.map(notification => {
       const users = notification.read;
-      if (users.indexOf(Auth.getUserID()) > -1) {
+      if (users.includes(Auth.getUserID())) {
         users.push(Auth.getUserID());
-        notifications.markAsRead(notification._id, users);
+        notifications().putNotification(notification._id, users);
       }
       return true;
     });
@@ -123,7 +123,11 @@ const NotificationsMenu = props => {
             <Typography className={classes.title} variant="body1">
               Notificaciones
             </Typography>
-            <a className={classes.rightLink} href="/" onClick={markAsRead}>
+            <a
+              className={classes.rightLink}
+              href="/"
+              onClick={markNotificationsAsRead}
+            >
               <Typography className={classes.rightLink} variant="body1">
                 Marcar todas como leidas
               </Typography>
@@ -157,7 +161,7 @@ const NotificationsMenu = props => {
                 <Typography
                   className={classes.centerLink}
                   variant="subheading"
-                  style={{ color: "#21212", fontWeight: 700, padding: "1%" }}
+                  style={{ color: "#21212", fontWeight: 700, padding: "8px" }}
                 >
                   No tienes nuevas notificaciones
                 </Typography>

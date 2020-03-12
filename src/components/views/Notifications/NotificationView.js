@@ -53,7 +53,7 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing.unit
   },
   imageContainer: {
     width: "80vw",
@@ -81,25 +81,24 @@ const NotificationView = ({ classes }) => {
     setLoaded(true);
   };
 
-  //Carga de Datos
-  useEffect(() => {
-    getNotifications();
-
-    //eslint-disable-next-line
-  }, []);
-
   //mark every notifications as read
-  /* const markAsRead = () => {
+  const markNotificationsAsRead = () => {
     notifications.map(notification => {
       const users = notification.read;
-      if (users.indexOf(Auth.getUserID()) === -1) {
+      if (users.includes(Auth.getUserID())) {
         users.push(Auth.getUserID());
-        console.log(users);
-        notifications.markAsRead(notification._id, users);
+        notifications().putNotification(notification._id, users);
       }
       return true;
     });
-  }; */
+  };
+
+  //Carga de Datos y actualiza notificaciones
+  useEffect(() => {
+    getNotifications();
+    markNotificationsAsRead();
+    //eslint-disable-next-line
+  }, []);
 
   return (
     <>
@@ -118,7 +117,7 @@ const NotificationView = ({ classes }) => {
               Notificaciones
             </Typography>
             <Divider />
-            <List className={classes.root}>
+            <List>
               {notifications.length > 0 &&
                 notifications.map(item => (
                   <div style={{ width: "100%" }}>
