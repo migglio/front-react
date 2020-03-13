@@ -43,6 +43,7 @@ const MeetingDataStep = ({ classes, tripData, onComplete }) => {
   const [date, setDate] = useState(tripData.date);
   const [time, setTime] = useState(tripData.time);
 
+  console.log(tripData.date, "datae");
   const changeOrder = () => {
     const aux = from;
     setFrom(to);

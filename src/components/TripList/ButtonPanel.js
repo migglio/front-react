@@ -9,6 +9,7 @@ import routes, {
 import Auth from "../Auth/Auth";
 import { tripDeleted } from "../../constants/notificationTypes";
 import { notifications } from "../../api/Notifications";
+import { trips } from "../../api/Trips";
 
 const styles2 = theme => ({
   root: {
@@ -70,7 +71,7 @@ const ButtonPanel = ({ classes, tripData, newTrips }) => {
   };
 
   const handleDeleteById = async () => {
-    //await trips().deleteTrip(tripData._id);
+    await trips().deleteTrip(tripData._id);
     console.log(tripData);
     const users =
       tripData.steps[0].passengers.users.concat[

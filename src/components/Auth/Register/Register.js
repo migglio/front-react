@@ -19,9 +19,7 @@ const styles = theme => ({
     padding: 1,
     marginTop: 15,
     width: "90%",
-    "@media (min-width:1366px)": {
-      width: "25%"
-    }
+    maxWidth: 600
   }
 });
 class Register extends React.Component {

@@ -9,7 +9,6 @@ const styles = theme => ({
     textAlign: "center",
     alignItems: "center",
     paddingTop: "2%",
-    maxWidth: "550px",
     width: "100%"
   },
   title: { color: "#054752", fontWeight: 700, padding: "1%" }

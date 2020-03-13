@@ -65,8 +65,6 @@ const trips = () => {
       data.steps[0].date = data.date;
       data.steps[0].time = data.time;
       data.steps[0].price = data.price;
-      data.steps[0].passengers.total =
-        data.seats - data.steps[0].passengers.users.length;
       const userData = {
         owner: data.owner,
         steps: data.steps,

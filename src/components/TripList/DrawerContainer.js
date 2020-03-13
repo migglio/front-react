@@ -74,7 +74,7 @@ class DrawerContainer extends React.Component {
               : " "}
           </Typography>
         </Paper>
-        <div style={{ display: "flex", justifyContent: "left" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <div className={classes.root}>
             <Filters
               trips={this.state.trips}

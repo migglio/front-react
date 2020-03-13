@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import DateRange from "@material-ui/icons/DateRange";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { withStyles } from "@material-ui/core/styles";
+const moment = require("moment");
 
 const styles = theme => ({
   dateSelector: {
@@ -13,7 +14,9 @@ const styles = theme => ({
 });
 
 const DateSelector = ({ date, onChange, classes }) => {
-  const [value, setValue] = useState(date);
+  const [value, setValue] = useState(
+    date ? moment(date).format("YYYY-MM-DD") : null
+  );
 
   const handleDateChange = event => {
     setValue(event.target.value);

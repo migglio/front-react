@@ -63,11 +63,13 @@ const ViewWaitingPassengers = ({ classes }) => {
   return (
     <div className={classes.root}>
       {loaded ? (
-        <PassengerView
-          onChange={handleStepsChange}
-          request={true}
-          steps={steps}
-        />
+        <div style={{ width: 550 }}>
+          <PassengerView
+            onChange={handleStepsChange}
+            request={true}
+            steps={steps}
+          />
+        </div>
       ) : null}
     </div>
   );
