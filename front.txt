@@ -1,0 +1,144 @@
+│               
+└───front-end
+    │   ├──cypress.json
+    │   ├──Jenkinsfile
+    │   ├──package.json
+    │   
+    ├───cypress
+    │   │
+    │   └───integration
+    │      └───tests
+    │             ├── login.js
+    │             └─search_trip.js
+    │           
+    ├───public
+    │       ├──favicon.ico
+    │       ├──index.html
+    │       ├──manifest.json
+    │       └──road.ico
+    │       
+    └───src
+		│ ├──App.css
+        │ ├──App.js
+        │ ├──config.js
+        │ ├──index.js
+        │ ├──logo.svg
+        │   
+        ├───api
+        │    ...
+        │    ├──Users.js
+        │       
+        ├───components
+        │   ├───Auth
+        │   │   │   Auth.js
+        │   │   │   DropboxAuth.js
+        │   │   │   
+        │   │   ├───Login
+        │   │   │       Form.css
+        │   │   │       FormErrors.js
+        │   │   │       Login.js
+        │   │   │       
+        │   │   └───Register
+        │   │           ...
+        │   │           
+        │   ├───shared
+        │   │   ├───carSelector
+        │   │   │       CarSelector.js
+        │   │   │          
+        │   │   ├───foodSelector
+        │   │   │       FoodSelector.js
+        │   │   │       
+        │   │   ├───footer
+        │   │   │       Footer.js
+        │   │   │       
+        │   │   ├───GoogleMapAPI
+        │   │   │       CitySearcher.js
+        │   │   │       GoogleMapsWrapper.js
+        │   │   │       Map.js     
+        │   │   │       
+        │   │   ├───mateSelector
+        │   │   │       MateSelector.js
+        │   │   │       
+        │   │   ├───priceSelector
+        │   │   │       PriceSelector.js   
+        │   │   │       
+        │   │   ├───seatSelector
+        │   │   │       SeatSelector.js
+        │   │   │       
+        │   │   ├───selector
+        │   │   │       Selector.js
+        │   │   │       
+        │   │   ├───timeSelector
+        │   │   │       TimeSelector.js
+        │   │   │       
+        │   │   └───TripSearcher
+        │   │           TripSearcher.js
+        │   │           
+        │   ├───TripList
+        │   │       ...
+        │   │       DrawerContainer.js
+        │   │       TripList.js
+        │   │       
+        │   ├───views
+        │   │   ├───BookedTrips
+        │   │   │       BookedTrips.js
+        │   │   │       TabBookedTrips.js
+        │   │   │       
+        │   │   ├───Home
+        │   │   │       ...
+        │   │   │       
+        │   │   ├───Notifications
+        │   │   │       NotificationView.js
+        │   │   │       
+        │   │   ├───Profile
+        │   │   │       ProfileView.js
+        │   │   │       
+        │   │   ├───TripCreator
+        │   │   │   │   StepWrapper.js
+        │   │   │   │   TripCreator.js
+        │   │   │   │   TripCreatorStepper.js
+        │   │   │   │   
+        │   │   │   ├───MeetingDataStep
+        │   │   │   │       
+        │   │   │   ├───PreferenceDriverStep
+        │   │   │   │       
+        │   │   │   ├───resumeTripStep
+        │   │   │   │       ...
+        │   │   │   │       ResumeTripStep.js
+        │   │   │   │       
+        │   │   │   └───tripSaverStep
+        │   │   │           TripSaverStep.js
+        │   │   │           
+        │   │   ├───TripDetails
+        │   │   │       ...
+        │   │   │       PassengerView.js
+        │   │   │       SinglePassengerView.js
+        │   │   │       
+        │   │   └───TripOffers
+        │   │           TabOwnTrips.js
+        │   │           TripOffered.js
+        │   │           
+        │   └───ViewWaitingRequests
+        │           ValidationButtons.js
+        │           ViewPassengerRequest.js
+        │           
+        ├───constants
+        │       notificationTypes.js
+        │       routes.js
+        │       
+        ├───css
+        │       theme.js
+        │       
+        ├───images
+        │       driver-woman.jpeg
+        │       driver.jpg
+        │       listEmpty.svg
+        │       mate.svg
+        │       profile.svg
+        │       requestFailed.svg
+        │       tripSaved.svg
+        │       unicen.png
+        │       
+        └───libs
+                urlParams.js
+                
