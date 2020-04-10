@@ -4,25 +4,24 @@ import ListElement from "./ListElement";
 import Filters from "./Filters";
 import { Paper, Typography } from "@material-ui/core";
 import TripSearcher from "../shared/TripSearcher/TripSearcher";
-const moment = require("moment");
-
-const styles = theme => ({
+import { dateWrittenFormat } from "../../libs/dateFormatter";
+const styles = (theme) => ({
   root: {
     display: "flex",
     "@media (max-width:768px)": {
-      display: "none"
-    }
+      display: "none",
+    },
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1
+    zIndex: theme.zIndex.drawer + 1,
   },
   tripsContainer: {},
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit,
-    minWidth: 0 // So the Typography noWrap works
-  }
+    minWidth: 0, // So the Typography noWrap works
+  },
 });
 
 class DrawerContainer extends React.Component {
@@ -34,13 +33,13 @@ class DrawerContainer extends React.Component {
       value: {
         min: Math.min.apply(
           null,
-          this.props.trips.map(item => item.steps[0].price)
+          this.props.trips.map((item) => item.steps[0].price)
         ),
         max: Math.max.apply(
           null,
-          this.props.trips.map(item => item.steps[0].price)
-        )
-      }
+          this.props.trips.map((item) => item.steps[0].price)
+        ),
+      },
     };
     this.filterTrips = this.filterTrips.bind(this);
   }
@@ -55,7 +54,7 @@ class DrawerContainer extends React.Component {
             margin: "1%",
             width: "75%",
             marginRight: "auto",
-            marginLeft: "auto"
+            marginLeft: "auto",
           }}
           elevation={4}
         >
@@ -64,13 +63,14 @@ class DrawerContainer extends React.Component {
             gutterBottom
             style={{ color: "#054752", fontWeight: 700, padding: "1%" }}
           >
-            {this.state.trips.length} viajes disponibles
+            {this.state.trips.length}
+            {this.state.trips.length === 1
+              ? " viaje disponible"
+              : " viajes disponibles"}
             {this.props.data.from === undefined
               ? ` desde ${this.props.data.from} hasta ${
                   this.props.data.to
-                } el ${moment(this.props.date)
-                  .locale("es")
-                  .format("LL")}`
+                } el ${dateWrittenFormat(this.props.date)}`
               : " "}
           </Typography>
         </Paper>
@@ -80,11 +80,11 @@ class DrawerContainer extends React.Component {
               trips={this.state.trips}
               max={Math.max.apply(
                 null,
-                this.props.trips.map(item => item.steps[0].price)
+                this.props.trips.map((item) => item.steps[0].price)
               )}
               min={Math.min.apply(
                 null,
-                this.props.trips.map(item => item.steps[0].price)
+                this.props.trips.map((item) => item.steps[0].price)
               )}
               value={this.state.value}
               filterTrips={this.filterTrips}
@@ -110,7 +110,7 @@ class DrawerContainer extends React.Component {
     var newTrips = this.props.trips;
     if (plazasDisp)
       newTrips = newTrips.filter(
-        trip =>
+        (trip) =>
           trip.steps[0].passengers.total -
             trip.steps[0].passengers.users.length >
           0
@@ -118,18 +118,18 @@ class DrawerContainer extends React.Component {
     if (autRes) {
       this.setState({
         trips: newTrips.filter(
-          trip =>
+          (trip) =>
             trip.steps[0].price >= value.min &&
             trip.steps[0].price <= value.max &&
             trip.automaticReservation === autRes
-        )
+        ),
       });
     } else
       this.setState({
         trips: newTrips.filter(
-          trip =>
+          (trip) =>
             trip.steps[0].price >= value.min && trip.steps[0].price <= value.max
-        )
+        ),
       });
   }
 }

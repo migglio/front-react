@@ -5,9 +5,10 @@ const trips = () => {
   return {
     getTrip: async (id, data) => {
       const response = await axios.get(url.api + "trips/" + id);
+      console.log("response", response.data);
       return response.data;
     },
-    getTrips: async data => {
+    getTrips: async (data) => {
       const response = await axios.get(url.api + "trips");
       return response.data;
     },
@@ -17,12 +18,12 @@ const trips = () => {
           `trips/user/${id}?isOwner=true
       `,
         {
-          params: data
+          params: data,
         }
       );
       return response.data;
     },
-    getBookedTrip: async id => {
+    getBookedTrip: async (id) => {
       const response = await axios.get(
         url.api + `trips/user/${id}?isPassenger=true`
       );
@@ -38,7 +39,7 @@ const trips = () => {
           });
           */
     },
-    postTrips: async data => {
+    postTrips: async (data) => {
       data.steps[0].date = data.date;
       data.steps[0].time = data.time;
       data.steps[0].price = data.price;
@@ -50,7 +51,7 @@ const trips = () => {
         vehiculo: data.car,
         automaticReservation: data.reservation,
         food: data.food,
-        mate: data.mate
+        mate: data.mate,
       };
 
       try {
@@ -62,9 +63,11 @@ const trips = () => {
       }
     },
     putTrips: async (id, data) => {
+      console.log("date", data.date);
       data.steps[0].date = data.date;
       data.steps[0].time = data.time;
       data.steps[0].price = data.price;
+      data.steps[0].passengers.total = data.seats;
       const userData = {
         owner: data.owner,
         steps: data.steps,
@@ -72,7 +75,7 @@ const trips = () => {
         vehiculo: data.car,
         automaticReservation: data.reservation,
         food: data.food,
-        mate: data.mate
+        mate: data.mate,
       };
 
       try {
@@ -83,7 +86,7 @@ const trips = () => {
         return { success: false };
       }
     },
-    deleteTrip: async id => {
+    deleteTrip: async (id) => {
       try {
         await axios.delete(url.api + "trips/" + id);
         return { success: true };
@@ -91,7 +94,7 @@ const trips = () => {
         console.error(error);
         return { success: false };
       }
-    }
+    },
   };
 };
 

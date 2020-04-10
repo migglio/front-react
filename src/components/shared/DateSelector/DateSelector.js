@@ -5,20 +5,19 @@ import TextField from "@material-ui/core/TextField";
 import DateRange from "@material-ui/icons/DateRange";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { withStyles } from "@material-ui/core/styles";
-const moment = require("moment");
 
-const styles = theme => ({
+const styles = (theme) => ({
   dateSelector: {
-    width: "100%"
-  }
+    width: "100%",
+  },
 });
 
 const DateSelector = ({ date, onChange, classes }) => {
   const [value, setValue] = useState(
-    date ? moment(date).format("YYYY-MM-DD") : null
+    date ? new Date(date).toISOString().substring(0, 10) : null
   );
 
-  const handleDateChange = event => {
+  const handleDateChange = (event) => {
     setValue(event.target.value);
     if (onChange) onChange(event.target.value);
   };
@@ -37,7 +36,7 @@ const DateSelector = ({ date, onChange, classes }) => {
             <InputAdornment position="start">
               <DateRange />
             </InputAdornment>
-          )
+          ),
         }}
       />
     </MuiPickersUtilsProvider>

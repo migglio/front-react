@@ -16,26 +16,27 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { notifications as notificationsApi } from "../../../api/Notifications";
 import { notificationDescriptionsManager } from "../../../constants/notificationTypes";
 import { Divider } from "material-ui";
+import { extensiveFormat } from "../../../libs/dateFormatter";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
     alignItems: "left",
     justifyContent: "center",
-    zIndex: 2
+    zIndex: 2,
   },
   notificationsSize: {
     maxWidth: "90vw",
     maxHeight: "80vh",
     width: "400px",
-    overflow: "auto"
+    overflow: "auto",
   },
   title: {
     alignItems: "left",
     color: "#21212",
     fontWeight: 700,
-    padding: "1%"
+    padding: "1%",
   },
   button: { color: "#fff" },
   centerLink: {
@@ -43,31 +44,29 @@ const styles = theme => ({
     flexDirection: "column",
     textAlign: "center",
     fontSize: "12px",
-    padding: "2%"
+    padding: "2%",
   },
   rightLink: {
     display: "flex",
     flexDirection: "column",
     textAlign: "right",
     fontSize: "11px",
-    paddingRight: "2%"
+    paddingRight: "2%",
   },
   margin: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   divider: {
-    width: "100%"
+    width: "100%",
   },
   row: {
-    marginTop: theme.spacing.unit * 2
-  }
+    marginTop: theme.spacing.unit * 2,
+  },
 });
-
-const moment = require("moment");
 
 let anchorEl = null;
 
-const NotificationsMenu = props => {
+const NotificationsMenu = (props) => {
   const userLogged = Auth.getUserID();
   const [notifications, setNotifications] = useState([]);
   const [open, setOpen] = useState(false);
@@ -89,7 +88,7 @@ const NotificationsMenu = props => {
 
   //mark every notifications as read
   const markNotificationsAsRead = () => {
-    notifications.map(notification => {
+    notifications.map((notification) => {
       const users = notification.read;
       if (users.includes(Auth.getUserID())) {
         users.push(Auth.getUserID());
@@ -104,7 +103,7 @@ const NotificationsMenu = props => {
     setInvisible(true);
   };
 
-  const handleClose = event => {
+  const handleClose = (event) => {
     setOpen(false);
     setInvisible(true);
 
@@ -135,7 +134,7 @@ const NotificationsMenu = props => {
             <Divider />
 
             {notifications.length > 0 ? (
-              notifications.map(item => (
+              notifications.map((item) => (
                 <div>
                   <MenuItem>
                     <AccountCircleIcon />
@@ -144,13 +143,13 @@ const NotificationsMenu = props => {
                       variant="caption"
                       style={{
                         color: "#212121",
-                        padding: "1%"
+                        padding: "1%",
                       }}
                     >
                       <b>{item.owner.nickname.toUpperCase()} </b>
                       {notificationDescriptionsManager[item.type]}
                       <br />
-                      <b>{moment(item.date).format("LLLL")}</b>
+                      <b> {`${extensiveFormat(item.date)}`}</b>
                     </Typography>
                   </MenuItem>
                   <Divider />
@@ -185,7 +184,7 @@ const NotificationsMenu = props => {
     <div className={classes.root}>
       <Button
         className={classes.button}
-        buttonRef={node => {
+        buttonRef={(node) => {
           anchorEl = node;
         }}
         aria-owns={open ? "menu-list-grow" : undefined}
@@ -217,7 +216,7 @@ const NotificationsMenu = props => {
             id="menu-list-grow"
             style={{
               transformOrigin:
-                placement === "bottom" ? "center top" : "center bottom"
+                placement === "bottom" ? "center top" : "center bottom",
             }}
           >
             <Paper>

@@ -11,26 +11,26 @@ import TimeSelector from "../../../shared/timeSelector/TimeSelector";
 import { useEffect } from "react";
 import CustomButton from "../../../shared/customButton/CustomButton";
 
-const styles2 = theme => ({
+const styles2 = (theme) => ({
   root: {
-    padding: 20
+    padding: 20,
   },
   searchButton: {
-    paddingBottom: "2vh"
+    paddingBottom: "2vh",
   },
   icon: {
     height: 30,
-    width: 30
+    width: 30,
   },
   dateContainer: {
     display: "flex",
     paddingTop: "3vh",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   dateSelector: {
     paddingBottom: "3vh",
-    width: "100%"
-  }
+    width: "100%",
+  },
 });
 
 const MeetingDataStep = ({ classes, tripData, onComplete }) => {
@@ -62,7 +62,7 @@ const MeetingDataStep = ({ classes, tripData, onComplete }) => {
         price: null,
         time: null,
         date: null,
-        passengers: { total: null, users: [], pendingUsers: [] }
+        passengers: { total: null, users: [], pendingUsers: [] },
       };
       onComplete({ from: fromSelected, to, date, time });
     }

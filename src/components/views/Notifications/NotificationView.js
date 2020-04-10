@@ -10,14 +10,15 @@ import { notificationDescriptionsManager } from "../../../constants/notification
 import Auth from "../../Auth/Auth";
 import { Divider } from "material-ui";
 import listEmpty from "../../../images/listEmpty.svg";
+import { extensiveFormat } from "../../../libs/dateFormatter";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    padding: 16
+    padding: 16,
   },
   paper: {
     display: "flex",
@@ -26,47 +27,45 @@ const styles = theme => ({
     minHeigth: "500px",
     width: "96vw",
     "@media (min-width:768px)": {
-      width: "500px"
-    }
+      width: "500px",
+    },
   },
   centerLink: {
     display: "flex",
     flexDirection: "column",
     textAlign: "center",
     alignItems: "center",
-    paddingTop: 8
+    paddingTop: 8,
   },
   rightLink: {
     display: "flex",
     flexDirection: "column",
     textAlign: "right",
     fontSize: "11px",
-    paddingRight: "8px"
+    paddingRight: "8px",
   },
   margin: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   divider: {
-    width: "100%"
+    width: "100%",
   },
   row: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: theme.spacing.unit
+    marginTop: theme.spacing.unit,
   },
   imageContainer: {
     width: "80vw",
     "@media (min-width:768px)": {
-      width: "350px"
-    }
+      width: "350px",
+    },
   },
   image: {
-    width: "100%"
-  }
+    width: "100%",
+  },
 });
-
-const moment = require("moment");
 
 const NotificationView = ({ classes }) => {
   const [notifications, setNotifications] = useState([]);
@@ -83,7 +82,7 @@ const NotificationView = ({ classes }) => {
 
   //mark every notifications as read
   const markNotificationsAsRead = () => {
-    notifications.map(notification => {
+    notifications.map((notification) => {
       const users = notification.read;
       if (users.includes(Auth.getUserID())) {
         users.push(Auth.getUserID());
@@ -111,7 +110,7 @@ const NotificationView = ({ classes }) => {
               style={{
                 color: "#21212",
                 fontWeight: 700,
-                padding: "1%"
+                padding: "1%",
               }}
             >
               Notificaciones
@@ -119,7 +118,7 @@ const NotificationView = ({ classes }) => {
             <Divider />
             <List>
               {notifications.length > 0 &&
-                notifications.map(item => (
+                notifications.map((item) => (
                   <div style={{ width: "100%" }}>
                     <ul style={{ padding: "0px" }}>
                       <div className={classes.row}>
@@ -132,11 +131,7 @@ const NotificationView = ({ classes }) => {
                           <b>{item.owner.nickname.toUpperCase()} </b>
                           {notificationDescriptionsManager[item.type]}
                           <br />
-                          <b>
-                            {moment(item.date)
-                              .locale("es")
-                              .format("LLLL")}
-                          </b>
+                          <b>{extensiveFormat(item.date)}</b>
                         </Typography>
                       </div>
                       <hr />

@@ -14,7 +14,6 @@ import ToolTipTravel from "./ToolTipTravel";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import moment from "moment";
 import {
   SALIDA,
   DESTINO,
@@ -25,16 +24,17 @@ import {
   COMIDA_PERMITIDA,
   COMIDA_NO_PERMITIDA,
   MATE_PERMITIDO,
-  MATE_NO_PERMITIDO
+  MATE_NO_PERMITIDO,
 } from "./constants";
 import CustomButton from "../../../shared/customButton/CustomButton";
 import { useState } from "react";
 import { useEffect } from "react";
+import { extensiveFormat } from "../../../../libs/dateFormatter";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   dateData: {
     display: "flex",
@@ -42,58 +42,58 @@ const styles = theme => ({
     paddingBottom: "2vh",
     flexDirection: "row",
     justifyContent: "center",
-    textAlign: "center"
+    textAlign: "center",
   },
   mapTitle: {
     color: "#616161",
     textAlign: "center",
     fontWeight: 700,
-    padding: "1%"
+    padding: "1%",
   },
   map: {
     display: "flex",
     flexDirection: "column",
     paddingTop: "2vh",
-    paddingBottom: "2vh"
+    paddingBottom: "2vh",
   },
   cities: {
     display: "flex",
     flexDirection: "row",
     paddingTop: "2vh",
-    paddingBottom: "2vh"
+    paddingBottom: "2vh",
   },
   subtitle: {
     paddingTop: "2vh",
-    paddingBottom: "2vh"
+    paddingBottom: "2vh",
   },
   preferencesContainer: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingBottom: "2vh"
+    paddingBottom: "2vh",
   },
   iconPreference: {
     paddingLeft: "2vw",
-    paddingRight: "2vw"
+    paddingRight: "2vw",
   },
   carInformation: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    paddingBottom: "2vh"
+    paddingBottom: "2vh",
   },
   description: {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
     padding: "20px",
-    width: "100%"
+    width: "100%",
   },
   icon: {
     height: 30,
-    width: 30
-  }
+    width: 30,
+  },
 });
 
 const ResumeTripStep = ({
@@ -102,7 +102,7 @@ const ResumeTripStep = ({
   showButton,
   open,
   onBack,
-  onSave
+  onSave,
 }) => {
   const [openDefault, setOpenDefault] = useState(false);
 
@@ -125,6 +125,8 @@ const ResumeTripStep = ({
     }
   };
 
+  console.log("detail", extensiveFormat(tripData.date));
+
   return (
     <div className={classes.root}>
       <div className={classes.map}>
@@ -144,9 +146,7 @@ const ResumeTripStep = ({
               <div className={classes.dateData}>
                 <AccessTime color="primary" />
                 <Typography variant="title" style={{ fontWeight: 500 }}>
-                  {`${moment(tripData.date).format("dddd DD MMMM YYYY")} ${
-                    tripData.time
-                  }`}
+                  {`${extensiveFormat(tripData.date)}, ${tripData.time} HS`}
                 </Typography>
               </div>
             )}

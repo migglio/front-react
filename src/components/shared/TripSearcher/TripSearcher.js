@@ -7,7 +7,7 @@ import Search from "@material-ui/icons/Search";
 import CitySearcher from "../GoogleMapAPI/CitySearcher";
 import DateSelector from "../../shared/DateSelector/DateSelector";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: { display: "flex", flexWrap: "wrap", justifyContent: "center" },
 
   paper2: {
@@ -19,42 +19,42 @@ const styles = theme => ({
     display: "flex",
     width: 250,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   container: { padding: 16 },
   button: {
     display: "flex",
     borderRadius: 50,
     margin: theme.spacing.unit,
-    width: "200px"
+    width: "200px",
   },
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing.unit,
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit
+    marginLeft: theme.spacing.unit,
   },
   iconSmall: {
-    fontSize: 20
-  }
+    fontSize: 20,
+  },
 });
 
-const TripSearcher = props => {
+const TripSearcher = (props) => {
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
   const [date, setDate] = useState(null);
 
   const { classes } = props;
 
-  const updateFrom = value => {
+  const updateFrom = (value) => {
     setFrom(value.placeId);
   };
 
-  const updateTo = value => {
+  const updateTo = (value) => {
     setTo(value.placeId);
   };
 
-  const handleDateChange = value => {
+  const handleDateChange = (value) => {
     setDate(value);
   };
 

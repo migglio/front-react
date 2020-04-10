@@ -11,13 +11,13 @@ import Auth from "../../../Auth/Auth";
 import { tripEdited } from "../../../../constants/notificationTypes";
 import { notifications } from "../../../../api/Notifications";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    width: "100%"
+    width: "100%",
   },
   title: {
     fontFamily: "Nunito",
@@ -29,11 +29,11 @@ const styles = theme => ({
     letterSpacing: "normal",
     textAlign: "center",
     color: "#616161",
-    padding: "1%"
+    padding: "1%",
   },
   customButtonContainer: { width: "80%" },
   imageContainer: { width: "300px", padding: "20px" },
-  image: { width: "100%" }
+  image: { width: "100%" },
 });
 
 const TripSaverStep = ({ classes, tripData }) => {
@@ -41,13 +41,13 @@ const TripSaverStep = ({ classes, tripData }) => {
   const [success, setSuccess] = useState(false);
   const id = useGetPath(2);
 
-  const postTrips = async id => {
+  const postTrips = async (id) => {
     const response = await trips().postTrips(tripData);
     setSuccess(response.success);
     setLoaded(true);
   };
 
-  const putTrips = async id => {
+  const putTrips = async (id) => {
     const response = await trips().putTrips(id, tripData);
     setSuccess(response.success);
     setLoaded(true);
@@ -60,10 +60,8 @@ const TripSaverStep = ({ classes, tripData }) => {
 
   useEffect(() => {
     if (id) {
-      const users =
-        tripData.steps[0].passengers.users.concat[
-          tripData.tripData.steps[0].passengers.pendingUsers
-        ];
+      const passengers = tripData.steps[0].passengers;
+      const users = passengers.users.concat[passengers.pendingUsers];
       putTrips(id);
       postNotification(Auth.getUserID(), id, tripEdited, users);
     } else postTrips();
@@ -78,13 +76,13 @@ const TripSaverStep = ({ classes, tripData }) => {
             style={{
               padding: "20px",
               width: "100%",
-              height: "100%"
+              height: "100%",
             }}
           >
             <ContentLoader
               style={{
                 width: "100%",
-                height: "100%"
+                height: "100%",
               }}
               height={540}
               width={500}

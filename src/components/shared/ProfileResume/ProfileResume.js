@@ -7,30 +7,30 @@ import { users } from "../../../api/Users";
 import profile from "../../../images/profile.svg";
 import ContentLoader from "react-content-loader";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    padding: 16
+    padding: 16,
   },
   userDataContainer: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    width: "100%"
+    width: "100%",
   },
   imageContainer: {
     width: "80%",
     "@media (min-width:768px)": {
-      width: "350px"
-    }
+      width: "350px",
+    },
   },
   image: {
-    width: "100%"
-  }
+    width: "100%",
+  },
 });
 
 const ProfileResume = ({ classes, ownerId }) => {
@@ -39,7 +39,7 @@ const ProfileResume = ({ classes, ownerId }) => {
   const [countOfTrips, setCountOfTrips] = useState(null);
   const [loaded, setLoaded] = useState(false);
 
-  const getUser = async id => {
+  const getUser = async (id) => {
     const response = await users().getUser(id);
     setNickname(response.nickname);
     setMail(response.mail);
@@ -62,13 +62,13 @@ const ProfileResume = ({ classes, ownerId }) => {
             style={{
               padding: "20px",
               width: "100%",
-              height: "100%"
+              height: "100%",
             }}
           >
             <ContentLoader
               style={{
                 width: "100%",
-                height: "100%"
+                height: "100%",
               }}
               height={540}
               width={500}
@@ -101,7 +101,9 @@ const ProfileResume = ({ classes, ownerId }) => {
           </Typography>
 
           <Typography variant="caption">
-            {countOfTrips} viajes publicados historicamente
+            {countOfTrips === 1
+              ? `${countOfTrips} viaje publicado historicamente`
+              : `${countOfTrips} viajes publicados historicamente`}
           </Typography>
           <div className={classes.imageContainer}>
             <img className={classes.image} alt="" src={profile} />

@@ -13,19 +13,17 @@ import PreferenceDriverStep from "./PreferenceDriverStep/PreferenceDriverStep.js
 import ResumeTripStep from "./resumeTripStep/ResumeTripStep.js";
 import TripSaverStep from "./tripSaverStep/TripSaverStep.js";
 
-const moment = require("moment");
-
 let styles = {
   root: {
     display: "flex",
     flexDirection: "column",
     flexWrap: "wrap",
     alignItems: "strech",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   title: {
     color: "#616161",
-    padding: 20
+    padding: 20,
   },
   body: {
     display: "flex",
@@ -34,7 +32,7 @@ let styles = {
     paddingTop: "5vh",
     paddingLeft: "1vw",
     paddingRight: "1vw",
-    paddingBottom: "5vh"
+    paddingBottom: "5vh",
   },
   map: {
     maxWidth: 600,
@@ -45,18 +43,18 @@ let styles = {
     border: 1,
     borderColor: "#616161",
     borderStyle: "solid",
-    borderRadius: "8px"
+    borderRadius: "8px",
   },
   mapTitle: {
     color: "#616161",
     textAlign: "center",
     fontWeight: 700,
-    padding: "1%"
+    padding: "1%",
   },
   icon: {
     height: 30,
-    width: 30
-  }
+    width: 30,
+  },
 };
 
 const MEETING_STEP = "MEETING_STEP";
@@ -72,7 +70,7 @@ const TripCreator = ({ classes }) => {
   const [owner, setOwner] = useState(Auth.getUserID());
 
   const [steps, setSteps] = useState(null);
-  const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+  const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
   const [time, setTime] = useState("12:00");
 
   const [price, setPrice] = useState(null);
@@ -87,7 +85,7 @@ const TripCreator = ({ classes }) => {
 
   const id = useGetPath(2);
 
-  const getTrip = async id => {
+  const getTrip = async (id) => {
     const response = await trips().getTrip(id);
     setSteps(response.steps);
     setOwner(response.owner);
@@ -110,11 +108,11 @@ const TripCreator = ({ classes }) => {
     else setLoaded(true);
   }, [id]);
 
-  const handleChangeActiveStep = newActiveStep => ({
+  const handleChangeActiveStep = (newActiveStep) => ({
     from,
     to,
     date,
-    time
+    time,
   }) => {
     if (from && to && date && time) {
       setSteps([from, to]);
@@ -132,7 +130,7 @@ const TripCreator = ({ classes }) => {
     reservation,
     food,
     mate,
-    details
+    details,
   }) => {
     setPrice(price);
     setSeats(seats);
@@ -154,7 +152,7 @@ const TripCreator = ({ classes }) => {
     reservation,
     mate,
     food,
-    details
+    details,
   };
 
   return (

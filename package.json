@@ -17,7 +17,6 @@
     "material-ui-pickers": "^1.0.0-rc.10",
     "material-ui-search-bar": "^1.0.0-beta.4",
     "material-ui-time-picker": "^1.0.0",
-    "moment": "^2.22.2",
     "query-string": "^6.1.0",
     "react": "^16.9.0",
     "react-bootstrap": "^0.32.1",

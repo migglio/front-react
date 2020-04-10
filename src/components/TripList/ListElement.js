@@ -25,45 +25,46 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import ButtonPanel from "./ButtonPanel";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import StarIcon from "@material-ui/icons/Star";
+import { extensiveFormat } from "../../libs/dateFormatter";
 
-const styles2 = theme => ({
+const styles2 = (theme) => ({
   root: {
-    padding: "1%"
+    padding: "1%",
   },
   heading: {
-    fontSize: theme.typography.pxToRem(15)
+    fontSize: theme.typography.pxToRem(15),
   },
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
   },
   icon: {
     height: 25,
-    width: 25
+    width: 25,
   },
   details: {
     padding: "1%",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   column: {
-    flexBasis: "33.33%"
+    flexBasis: "33.33%",
   },
   helper: {
     borderLeft: `2px solid ${theme.palette.divider}`,
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`
+    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
   },
   link: {
     color: theme.palette.primary.main,
     textDecoration: "none",
     "&:hover": {
-      textDecoration: "underline"
-    }
+      textDecoration: "underline",
+    },
   },
   separator: {
-    borderRight: `2px solid ${theme.palette.divider}`
+    borderRight: `2px solid ${theme.palette.divider}`,
   },
   paddingTrip: {
-    padding: "1% 3% 1% 1%"
+    padding: "1% 3% 1% 1%",
   },
   columnFlex1: {
     "flex-grow": "1",
@@ -71,26 +72,24 @@ const styles2 = theme => ({
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-evenly"
+    justifyContent: "space-evenly",
   },
   columnFlex4: {
     "flex-grow": "3",
     "text-align": "left",
-    marginLeft: "2%"
+    marginLeft: "2%",
   },
   button: {
     background: "#EB1B00",
     color: "white",
-    marginRight: "3%"
+    marginRight: "3%",
   },
   ownerUserInfo: {
     "@media (max-width:768px)": {
-      display: "none"
-    }
-  }
+      display: "none",
+    },
+  },
 });
-
-const moment = require("moment");
 
 class ListElement extends React.Component {
   constructor(props) {
@@ -98,17 +97,17 @@ class ListElement extends React.Component {
     this.state = {
       res: null,
       userData: null,
-      userLoaded: false
+      userLoaded: false,
     };
   }
 
   componentWillMount() {
     if (this.props.tripData.owner) {
       Axios.get(url.api + "user/" + this.props.tripData.owner)
-        .then(response => {
+        .then((response) => {
           this.setState({ userData: response.data, userLoaded: true }); //Check response.local
         })
-        .catch(function(error) {
+        .catch(function (error) {
           alert(error);
         });
     }
@@ -166,9 +165,9 @@ class ListElement extends React.Component {
                   gutterBottom
                   style={{ fontWeight: 500 }}
                 >
-                  {moment(this.props.tripData.steps[0].date)
-                    .locale("es")
-                    .format("LLLL")}
+                  {`${extensiveFormat(this.props.tripData.steps[0].date)}, ${
+                    this.props.tripData.steps[0].time
+                  } HS`}
                 </Typography>
               </div>
 
@@ -274,7 +273,7 @@ class ListElement extends React.Component {
 }
 
 ListElement.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles2)(ListElement);

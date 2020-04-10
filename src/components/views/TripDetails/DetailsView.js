@@ -10,15 +10,15 @@ import { withStyles } from "@material-ui/core/styles";
 import { trips } from "../../../api/Trips.js";
 import {
   userJoined,
-  userPending
+  userPending,
 } from "../../../constants/notificationTypes.js";
 import { notifications } from "../../../api/Notifications.js";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     display: "flex",
     justifyContent: "space-between",
-    margin: "4%"
+    margin: "4%",
   },
   tripContainer: {
     display: "flex",
@@ -30,8 +30,8 @@ const styles = theme => ({
     borderRadius: "8px",
     maxWidth: "98%",
     "@media (min-width:768px)": {
-      width: "45%"
-    }
+      width: "45%",
+    },
   },
   driverContainer: {
     backgroundColor: "#fff",
@@ -46,27 +46,27 @@ const styles = theme => ({
       display: "flex",
       overflow: "auto",
       width: "45%",
-      maxHeight: "50vh"
-    }
+      maxHeight: "50vh",
+    },
   },
   tripColumn: {
     display: "flex",
     flexDirection: "column",
-    width: "100%"
+    width: "100%",
   },
   map: {
     display: "none",
     "@media (min-width:768px)": {
-      display: "block"
-    }
+      display: "block",
+    },
   },
   driverColumn: {
     display: "none",
     width: "100%",
     "@media (min-width:768px)": {
-      display: "flex"
-    }
-  }
+      display: "flex",
+    },
+  },
 });
 
 const DetailsView = ({ classes }) => {
@@ -99,13 +99,14 @@ const DetailsView = ({ classes }) => {
     food,
     mate,
     car,
-    details
+    details,
   };
 
   let { id } = useParams();
 
-  const getTrip = async id => {
+  const getTrip = async (id) => {
     const response = await trips().getTrip(id);
+    console.log("response.steps[0].date", response.steps[0].date);
     setSteps(response.steps);
     setDate(response.steps[0].date);
     setTime(response.steps[0].time);
@@ -120,7 +121,7 @@ const DetailsView = ({ classes }) => {
     setLoaded(true);
   };
 
-  const putTrips = async id => {
+  const putTrips = async (id) => {
     await trips().putTrips(id, data);
     setUpdate(false);
   };
@@ -173,7 +174,7 @@ const DetailsView = ({ classes }) => {
       style={{
         textAlign: "center",
         "background-color": "#efefef",
-        paddingBottom: 30
+        paddingBottom: 30,
       }}
     >
       {!loaded && <CircularProgress />}
