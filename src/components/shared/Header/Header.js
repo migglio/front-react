@@ -16,19 +16,19 @@ const styles = {
     flexGrow: 1,
     width: "100%",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   buttonHome: {
     alignItems: "center",
-    color: "#fff"
+    color: "#fff",
   },
   flex: {
-    flex: 1
+    flex: 1,
   },
   menuButton: {
     marginLeft: -12,
-    marginRight: 20
-  }
+    marginRight: 20,
+  },
 };
 
 const Header = ({ isHome, classes }) => {
@@ -53,7 +53,7 @@ const Header = ({ isHome, classes }) => {
             </IconButton>
           )}
           <Typography variant="h6" className={classes.title}>
-            Carpooling App
+            Carpooling App (DEV)
           </Typography>
           <Typography
             variant="title"
@@ -82,7 +82,7 @@ const Header = ({ isHome, classes }) => {
 };
 
 Header.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Header);
